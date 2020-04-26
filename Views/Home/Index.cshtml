@@ -2,6 +2,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var books = ViewBag.Book;
+    var BookDis = ViewBag.BookDis;
 }
 <div class="d-flex flex-wrap">
     <div class="slideshow-background">
@@ -161,12 +162,12 @@
                 <div class="tab-content" style="margin-top:50px">
                     <div id="bestseller" class="tab-pane active">
                         <div class="slide-bestseller owl-carousel">
-                        @foreach (var item in books)
+                        @foreach (var item in BookDis)
                         {
                             <div class="item">
                                 <div class="productbest-wrap">
                                     <span class="on-sale">
-                                        20%
+                                        @item.numberDiscount
                                     </span>
                                     <div class="product-img">
                                         <a href="#">
@@ -198,7 +199,8 @@
                                         </h4>
                                         <div class="price">
                                             <span>@item.priceBook$</span>
-                                            <span>77$</span>
+                                            <span>@item.priceBook - 
+                                                (@item.priceBook * @item.numberDiscount)/100 $</span>
                                         </div>
                                     </div>
                                 </div>

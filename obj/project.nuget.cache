@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+6pytjBAwG+V3CwOAnLHnD1IUlJBGvDV+mBhai9+gI4FfrJa30ZDzoN1oSoMs3EJBFlrzCQ6alwZpx7rh6NyUw==",
+  "dgSpecHash": "l33Mruf/YK7s9doDwNYwU72oNjNpi7eA0u5scQHFb4OpRzeXecdbxkfOyVWHccENVjH/tdPy0FaZZhxzPBWzHQ==",
   "success": true,
-  "projectFilePath": "D:\\năm3\\Kì 2\\Xây dựng HTTT trên các framework\\frame\\frame.csproj",
+  "projectFilePath": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hoaia\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\hoaia\\.nuget\\packages\\google.protobuf\\3.6.1\\google.protobuf.3.6.1.nupkg.sha512",

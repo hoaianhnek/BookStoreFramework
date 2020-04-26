@@ -140,8 +140,8 @@ namespace frame.Data
                             idDiscount= reader["id_Discount"].ToString(),
                             nameDiscount = reader["name_Discount"].ToString(),
                             quantityDis = int.Parse(reader["quantity_Discount"].ToString()),
-                            dateStart = reader["date_start"].ToString(),
-                            dateEnd = reader["date_end"].ToString(),
+                            dateStart = DateTime.Parse(reader["date_start"].ToString()),
+                            dateEnd = DateTime.Parse(reader["date_end"].ToString()),
                             numberDiscount = int.Parse(reader["number_Discount"].ToString())
                         });
                     }

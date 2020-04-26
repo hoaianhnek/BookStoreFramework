@@ -32,9 +32,26 @@ namespace frame.Controllers
 
             List<Book> books = context.GetAllBook();
             List<Category> categories = context.GetAllCategory();
-
+            List<Discount> discounts = context.GetAllDiscount();
+            //giờ hiện tại
+            var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //sách khuyến mãi
+            //1 nhỏ hơn 2 => <0
+            var bookdis = from b in books 
+                        join d in discounts on b.idDiscount equals d.idDiscount
+                        where DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
+                        && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0
+                        select new BookSeller(){
+                            idBook = b.idBook,
+                            nameBook = b.nameBook,
+                            imgBook = b.imgBook,
+                            priceBook = b.priceBook,
+                            numberDiscount = d.numberDiscount
+                        };
+                       
             ViewBag.Book = books;
             ViewBag.Category = categories;
+            ViewBag.BookDis = bookdis;
             return View();
         }
         public IActionResult DetailProduct(string id) {

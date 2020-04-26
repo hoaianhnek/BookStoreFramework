@@ -5780,11 +5780,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\năm3\\Kì 2\\Xây dựng HTTT trên các framework\\frame\\frame.csproj",
+      "projectUniqueName": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj",
       "projectName": "frame",
-      "projectPath": "D:\\năm3\\Kì 2\\Xây dựng HTTT trên các framework\\frame\\frame.csproj",
+      "projectPath": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj",
       "packagesPath": "C:\\Users\\hoaia\\.nuget\\packages\\",
-      "outputPath": "D:\\năm3\\Kì 2\\Xây dựng HTTT trên các framework\\frame\\obj\\",
+      "outputPath": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hoaia\\AppData\\Roaming\\NuGet\\NuGet.Config",
