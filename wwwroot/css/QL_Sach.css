@@ -1,0 +1,11 @@
+﻿body {
+}
+
+.x_panel {
+    position: absolute;
+    left: 50%;
+}
+
+.page-title .title_left h3 {
+    margin-left: 400px;
+}

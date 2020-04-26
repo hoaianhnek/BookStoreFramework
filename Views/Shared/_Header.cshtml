@@ -1,0 +1,110 @@
+@{
+    List<Category> book = ViewBag.Category;
+}
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 text-left">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>KTX khu B - ĐH quốc gia TPHCM</span>
+                <i class="fas fa-mobile"></i>
+                <span>0-376-206-***</span>
+                <i class="fas fa-envelope"></i>
+                <span>17520257@gm.uit.edu.vn</span>
+            </div>
+            <div class="col-sm-6 text-right">
+                <ul class="nav justify-content-end">
+                    <li class="topbar-login">
+                        <a class="" href="Home/MyAccount">
+                            <span>Login</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="" href="#">
+                            <span>Help</span>
+                        </a>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<header class="header-wrapper">
+    <div class="header">
+        <div class="container">
+            <div class="container-inner d-flex flex-wrap">
+                <div class="logo-wrapper col-sm-3">
+                    <div class="logo-inside">
+                        <a href="~/Home">
+                            <span>SkyBook</span>
+                        </a>
+                    </div>
+                    
+                </div>
+                <div class="col-sm-6 search-wrapper">
+                    <div class="search-inside">
+                        <form>
+                            <div class="form-input">
+                                <input  type="search" class="search" placeholder="Search Products...">
+                                <button class="button" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-3 cart-wrapper">
+                    <ul class="nav justify-content-end mr-3">
+                        <li class="dropdown">
+                            <a href="#" id="cart-header" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-shopping-basket"></i>
+                                <span id="lengcart" class="badge badge-danger"></span>
+                            </a>
+                            <div class="dropdown-menu cart-list">
+                                <h2>Cart</h2>
+                                <div id='cartne'>
+                                    <div class="total-minicart d-flex justify-content-between">
+                                        <strong>Subtotal:</strong>
+                                        <span>$95.00</span>
+                                    </div>
+                                    <div class="view-minicart">
+                                        <a href="#">View Cart</a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="menu-header sticky-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <nav class="main-navigation">
+                    <ul class="menu-primary">
+                        <li class="">
+                            <a href="~/Home">
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        @foreach (var item in book)
+                        {
+                        <li class="">
+                            <a href="#">
+                                <span>@item.nameCategory</span>
+                            </a>
+                        </li>
+                        }
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

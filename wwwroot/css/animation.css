@@ -1,0 +1,79 @@
+@keyframes xuathien1 {
+    from {
+        opacity: 0;
+        transform: rotate(180deg) scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+@keyframes xuathien2text {
+    from {
+        opacity: 0;
+        transform: translateX(-400px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+@keyframes xuathien2img {
+    from {
+        opacity: 0;
+        transform: scale(0) rotate(180deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+@keyframes xuathiencuoi {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* slide2 */
+@keyframes xuathienfirst {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes xuathiencuoi1 {
+    from {
+        opacity: 0;
+        transform: translateX(-200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes xuathiencuoi2 {
+    from {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes xuathiencuoi3 {
+    from {
+        opacity: 0;
+        transform: translateX(200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,90 @@
+@{
+    ViewData["Title"] = "Check out";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="ads-grid py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+            <span>T</span>hông tin tài khoản</h3>
+        <!-- //tittle heading -->
+        <div class="row">
+            <!-- product right -->
+            <div class="col-lg-3 mt-lg-0 mt-4 p-lg-0">
+                <div class="side-bar p-sm-4 p-3">
+                    <div class="search-hotel border-bottom py-2">
+                        <h3 class="agileits-sear-head mb-3">Tài khoản của</h3>
+                        <span>Huỳnh Công Đạt</span>
+                        <div class="left-side py-2">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-user"></i>
+                                    <a href="Information"><span class="span">Thông tin tài khoản</span></a>
+                                </li>
+                                <li>
+                                    <i class="far fa-address-book"></i>
+                                    <a href="InformationMyself"><span class="span">Quản lý đơn hàng</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- //product right -->
+            </div>
+            <!-- product left -->
+            <div class="agileinfo-ads-display col-lg-9">
+                <div class="wrapper">
+                    <!-- first section -->
+                    <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
+                        <div class="row">
+                            <div class="checkout-right">
+                                <form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+                                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                                        <div class="information-wrapper">
+                                            <div class="first-row">
+                                                <label class="input-label">Họ tên</label>
+                                                <div class="controls form-group w-100">
+                                                    <input class="billing-address-name form-control" type="text" name="name" maxlength="128" placeholder="Full Name" required="">
+                                                </div>
+                                                <label class="input-label">Số điện thoại</label>
+                                                <div class="w3_agileits_card_number_grids">
+                                                    <div class="w3_agileits_card_number_grid_left form-group">
+                                                        <div class="controls w-100">
+                                                            <input type="text" class="form-control" placeholder="Mobile Number" name="number" required="">
+                                                        </div>
+                                                    </div>
+                                                    <label class="input-label">Email</label>
+                                                    <div class="w3_agileits_card_number_grid_right form-group">
+                                                        <div class="controls w-100">
+                                                            <input type="text" class="form-control" placeholder="Email" name="landmark" required="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <label class="input-label">City</label>
+                                                <div class="controls form-group w-100">
+                                                    <input type="text" class="form-control" placeholder="Town/City" name="city" required="">
+                                                </div>
+                                                <label class="input-label">Address</label>
+                                                <div class="controls form-group w-100">
+                                                    <select class="option-w3ls">
+                                                        <option>Select Address type</option>
+                                                        <option>Office</option>
+                                                        <option>Home</option>
+                                                        <option>Commercial</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <button class="submit check_out btn">Cập nhật</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //first section -->
+                </div>
+            </div>
+            <!-- //product left -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- jquery -->
+    @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" 
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/fontawesome-all.css">
+    <!-- carousel -->
+    <script src="~/js/Book.js"></script>
+    <script src="~/js/ShoppingCart.js"></script>
+    <script src="~/carousel/owl.carousel.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="~/css/header.css">
+    <link rel="stylesheet" href="~/css/home.css">
+    <link rel="stylesheet" href="~/css/animation.css">
+    <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/myAccount.css">
+    <link rel="stylesheet" href="~/css/product-detail.css">
+    <link rel="stylesheet" href="~/css/style.css"/>
+    <!-- carousel -->
+    <link href="~/carousel/owl.carousel.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/carousel/owl.theme.default.min.css">
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <!-- web fonts -->
+	<link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	    rel="stylesheet">
+</head>
+<body>
+    <div class="website-wrapper",ViewBag.Category>
+        @* @Html.Partial("_Header") *@
+        <partial name="_Header" />
+        <!-- slideshow -->
+        @RenderBody()
+        <partial name="_Footer" />
+    </div>
+    <div class="back-to-top">
+        <button class="btn btn-primary">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+</body>
+</html>
