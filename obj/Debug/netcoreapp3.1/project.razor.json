@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj",
+  "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\frame.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -20521,118 +20521,158 @@
   "RootNamespace": "frame",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\Index.cshtml",
-      "TargetPath": "Views\\Admin\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\DetailProduct.cshtml",
-      "TargetPath": "Views\\Home\\DetailProduct.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Shared\\Error.cshtml",
-      "TargetPath": "Views\\Shared\\Error.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\OrderManagement.cshtml",
-      "TargetPath": "Views\\Admin\\OrderManagement.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\EmployeeManagement.cshtml",
-      "TargetPath": "Views\\Admin\\EmployeeManagement.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\MyAccount.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\MyAccount.cshtml",
       "TargetPath": "Views\\Home\\MyAccount.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Shared\\_Footer.cshtml",
-      "TargetPath": "Views\\Shared\\_Footer.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\CreateAuthor.cshtml",
+      "TargetPath": "Views\\Admin\\CreateAuthor.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\_ViewStart.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\EditAuthor.cshtml",
+      "TargetPath": "Views\\Admin\\EditAuthor.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\InformationMyself.cshtml",
-      "TargetPath": "Views\\Home\\InformationMyself.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\Index.cshtml",
+      "TargetPath": "Views\\Admin\\Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\SharedAdmin\\_Layout.cshtml",
-      "TargetPath": "Views\\SharedAdmin\\_Layout.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Shared\\Error.cshtml",
+      "TargetPath": "Views\\Shared\\Error.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Shared\\_Layout.cshtml",
-      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Shared\\_Footer.cshtml",
+      "TargetPath": "Views\\Shared\\_Footer.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Shared\\_Header.cshtml",
-      "TargetPath": "Views\\Shared\\_Header.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\CreateCategory.cshtml",
+      "TargetPath": "Views\\Admin\\CreateCategory.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\Index.cshtml",
-      "TargetPath": "Views\\Home\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\CustomerManagement.cshtml",
-      "TargetPath": "Views\\Admin\\CustomerManagement.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\Information.cshtml",
-      "TargetPath": "Views\\Home\\Information.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\_ViewImports.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\ProductCategory.cshtml",
-      "TargetPath": "Views\\Home\\ProductCategory.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\InformationMyself.cshtml",
+      "TargetPath": "Views\\Home\\InformationMyself.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\AccountManagement.cshtml",
-      "TargetPath": "Views\\Admin\\AccountManagement.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\CheckOut.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\SharedAdmin\\_Layout.cshtml",
+      "TargetPath": "Views\\SharedAdmin\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\AuthorManagement.cshtml",
+      "TargetPath": "Views\\Admin\\AuthorManagement.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\Index.cshtml",
+      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\CheckOut.cshtml",
       "TargetPath": "Views\\Home\\CheckOut.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\BookManagement.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\DeleteCategory.cshtml",
+      "TargetPath": "Views\\Admin\\DeleteCategory.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\SearchProduct.cshtml",
+      "TargetPath": "Views\\Home\\SearchProduct.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\CategoryManagement.cshtml",
+      "TargetPath": "Views\\Admin\\CategoryManagement.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\EditSupplier.cshtml",
+      "TargetPath": "Views\\Admin\\EditSupplier.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\Privacy.cshtml",
+      "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\SupplierManagement.cshtml",
+      "TargetPath": "Views\\Admin\\SupplierManagement.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Shared\\_Layout.cshtml",
+      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\BookManagement.cshtml",
       "TargetPath": "Views\\Admin\\BookManagement.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\SearchProduct.cshtml",
-      "TargetPath": "Views\\Home\\SearchProduct.cshtml",
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\DeleteAuthor.cshtml",
+      "TargetPath": "Views\\Admin\\DeleteAuthor.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\DeleteSupplier.cshtml",
+      "TargetPath": "Views\\Admin\\DeleteSupplier.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Shared\\_Header.cshtml",
+      "TargetPath": "Views\\Shared\\_Header.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\Information.cshtml",
+      "TargetPath": "Views\\Home\\Information.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\EditCategory.cshtml",
+      "TargetPath": "Views\\Admin\\EditCategory.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Admin\\CreateSupplier.cshtml",
+      "TargetPath": "Views\\Admin\\CreateSupplier.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\DetailProduct.cshtml",
+      "TargetPath": "Views\\Home\\DetailProduct.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\Views\\Home\\ProductCategory.cshtml",
+      "TargetPath": "Views\\Home\\ProductCategory.cshtml",
       "FileKind": "mvc"
     }
   ],

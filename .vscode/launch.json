@@ -6,7 +6,7 @@
    "configurations": [
         {
             "name": ".NET Core Launch (web)",
-            "type": "coreclr",
+           // "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.

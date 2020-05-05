@@ -1,0 +1,49 @@
+.form-horizontal {
+    margin-left: 500px;
+}
+
+.btn {
+    border-radius: 1px;
+    margin-top: 10px;
+    color:#57849c;;
+    border: double;
+}
+.back
+{
+    margin-left: 450px;
+}
+
+
+.khungSup 
+    {
+        position: absolute;
+        width: 40%;
+        left: 30%;
+        height: 400px;
+        background-color: white;
+    }
+.khungAut
+    {
+        position: absolute;
+        width: 40%;
+        left: 30%;
+        height: 350px;
+        background-color: white;
+    }
+
+.khungCate
+{
+    position: absolute;
+    width: 30%;
+    left: 30%;
+    height: 250px;
+    background-color: white;
+}
+.CreateContent 
+    {
+        margin-left: 70px;
+    }
+.create
+{
+    margin-left:40px;
+}

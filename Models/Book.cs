@@ -1,13 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using MySql.Data.Common;
+using frame.Models;
+using System.Data.Common;
+using frame.Data;
 using System.Data;
+using System;
+
 namespace frame.Models
 {
-    public class Book
+    public class Book 
     {
-        public string idBook { get; set;}
-        
+        public string idBook { get; set;}        
         public string nameBook { get; set;}
         public string imgBook { get; set;}
         public string desBook { get; set;}

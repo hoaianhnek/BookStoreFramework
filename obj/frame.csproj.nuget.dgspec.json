@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj": {}
+    "C:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\frame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj": {
+    "C:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\frame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj",
+        "projectUniqueName": "C:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\frame.csproj",
         "projectName": "frame",
-        "projectPath": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\frame.csproj",
-        "packagesPath": "C:\\Users\\hoaia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\obj\\",
+        "projectPath": "C:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\frame.csproj",
+        "packagesPath": "C:\\Users\\QuachPhuong\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\QuachPhuong\\Documents\\GitHub\\frame\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hoaia\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\QuachPhuong\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

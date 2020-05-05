@@ -1,0 +1,55 @@
+@model frame.Models.Supplier
+@{
+    ViewBag.Title = "DeleteSupplier";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+
+<h3>Are you sure want to delete this?</h3>
+<div>
+        @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+ 
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "SupplierManagement")
+        </div>
+    }
+    <h4>Delete Supplier</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idSupplier)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.idSupplier)
+        </dd>
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.nameSupplier)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.nameSupplier)
+        </dd>
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.addressSupplier)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.addressSupplier)
+        </dd>
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.phoneSupplier)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.phoneSupplier)
+        </dd>
+ 
+    </dl>
+ 
+
+</div>

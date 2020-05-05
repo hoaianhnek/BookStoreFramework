@@ -5,6 +5,7 @@
     left: 50%;
 }
 
-.page-title .title_left h3 {
+.page-title .title_left h4 {
     margin-left: 400px;
+    width: max-content;
 }

@@ -1,0 +1,55 @@
+@model frame.Models.Author
+@{
+    ViewBag.Title = "DeleteAuthor";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+
+<h3>Are you sure want to delete this?</h3>
+<div>
+        @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+ 
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "AuthorManagement")
+        </div>
+    }
+    <h4>Delete Author</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.idAuthor)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.idAuthor)
+        </dd>
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.nameAuthor)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.nameAuthor)
+        </dd>
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.imgAuthor)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.imgAuthor)
+        </dd>
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.describeAuthor)
+        </dt>
+ 
+        <dd>
+            @Html.DisplayFor(model => model.describeAuthor)
+        </dd>
+ 
+    </dl>
+ 
+
+</div>
