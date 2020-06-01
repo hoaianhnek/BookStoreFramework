@@ -1,0 +1,155 @@
+@{
+    ViewBag.Title = "Create Book";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>BOOK MANAGEMENT</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Add Book</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row"> 
+                            <div class="form-group col-md-2">
+                                <label class="font-weight-bold">ID Book</label>
+                                <input type="text" class="form-control" value="@ViewBag.id" disabled>
+                                <input type="hidden" value="@ViewBag.id" name="idBook"/>
+                            </div> 
+                            <div class="form-group col-md-5">
+                                <div class="form-group col-md-5">
+                                    <label class="font-weight-bold">Image Front</label>
+                                    <input type="file" style = "width:117px"class="form-control hinhanhsach border-0" required=""name="imgBook" id="imageTruoc">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <img src="" id = "show-mattruoc" width="auto"
+                                    height="90px">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <div class="form-group col-md-5">
+                                    <label class="font-weight-bold">Image Back</label>
+                                    <input type="file" style = "width:117px" class="form-control hinhanhsach border-0" required=""name="imgBackBook" id="imageSau">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <img src="" id = "show-sau" width="auto"
+                                    height="90px">
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-bold">Name Book</label>
+                                <input type="text" class="form-control"required="" pattern="^[A-Za-z0-9-\s]*" title="Name should without accents" name="nameBook" placeholder="Enter name book">
+                            </div>   
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-bold">Price</label>
+                                <input type="number"pattern="[+][0-9]" min='1'class="form-control"required="" name="priceBook" placeholder="Enter price book">
+                            </div>   
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-bold">Quantity</label>
+                                <input type="number"pattern="[+][0-9]" class="form-control"required="" name="amountBook" placeholder="Enter quantity book">
+                            </div>   
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Category</label>
+                                <select class="form-control m-bot15" name="idCategory">
+                                    <option value="">--Choose a Category--</option>
+                                    @foreach (var item in ViewBag.categories)
+                                    {
+                                        <option value="@item.idCategory">@item.nameCategory</option>
+                                    }
+                                </select>
+                                <div class="text-danger">@TempData["ErrorCategory"]</div>
+                            </div>   
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Author</label>
+                                <select class="form-control m-bot15" name="idAuthor">
+                                    <option value="">--Choose a Author--</option>
+                                    @foreach (var item in ViewBag.authors)
+                                    {
+                                        <option value="@item.idAuthor">@item.nameAuthor</option>
+                                    }
+                                </select>
+                                <div class="text-danger">@TempData["ErrorAuthor"]</div>
+                            </div>   
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-form-label font-weight-bold des">Describe</label>
+                                        <textarea class="form-control des" required=""rows="3" name="desBook" style="width:100%" pattern="^[A-Za-z0-9-\s]*" title="Describe should without accents"></textarea>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-form-label font-weight-bold des">Summary</label>
+                                        <textarea class="form-control des" required=""rows="3" name="summaryBook" style="width:100%" pattern="^[A-Za-z0-9-\s]*" title="Summary should without accents"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold">Published Year</label>
+                                        <input type="number"pattern="[+][0-9]" min='1' class="form-control"required="" name="publishingYear" placeholder="Enter published year">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold">Page Count</label>
+                                        <input type="number"pattern="[+][0-9]" min='1'class="form-control"required="" name="pageCount" placeholder="Enter page count">
+                                    </div> 
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold">Publisher</label>
+                                        <input type="text" class="form-control"required="" pattern="^[A-Za-z0-9-\s]*" title="Publisher should without accents" name="publisherBook" placeholder="Enter publisher">
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4 mt-5 pl-5">
+                                <a href="../../Admin/BookManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
+                                <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function readURLTruoc(input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                $('#show-mattruoc').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#imageTruoc').change(function(){
+        readURLTruoc(this);
+    });
+    function readURLSau(input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                $('#show-sau').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#imageSau').change(function(){
+        readURLSau(this);
+    });
+</script>

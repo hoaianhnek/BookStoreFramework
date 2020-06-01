@@ -1,0 +1,145 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    float tt = 0;
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>ENTRY MANAGEMENT</h4>
+            </div>
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex;">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Entry</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Create New", "CreateEntry")
+                    </p>
+                    @if(TempData["StatusUpdate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdate"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreate"]
+                    </div>
+                    }
+                    @if(TempData["StatusDelete"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDelete"]
+                    </div>
+                    }
+                    <div class="x_content">
+                        <table class="table table-striped b-t b-light">
+                            <thead>
+                                <tr>
+                                    <th data-breakpoints="xs" scope="col">ID</th>
+                                    <th>Name Supplier</th>
+                                    <th>Address</th>
+                                    <th>Date Entry</th>
+                                    <th>Details Product</th>
+                                    <th>SubTotal</th>
+                                    <th>Status</th>
+                                    <th scope="col">Manipulation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.entry)
+                                {
+                                    <tr>
+                                        <td scope="row">@item.idEntry</td>
+                                        
+                                        @foreach (var s in ViewBag.supplier)
+                                        {
+                                            if(s.idSupplier == item.idSupplier) {
+                                                <td><span class="text-ellipsis">@s.nameSupplier</span></td>
+                                                <td><span class="text-ellipsis">@s.addressSupplier</span></td>
+                                            }
+                                        }
+                                        <td><span class="text-ellipsis">@item.dateEntry.ToString("dd/MM/yyyy")</span></td>
+                                        <td>
+                                            <table width="auto" border="0">
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Quantity</td>
+                                                    <td>Price</td>
+                                                </tr>
+                                                @foreach (var d in ViewBag.detail)
+                                                {
+                                                    if(d.idEntry == item.idEntry) {
+                                                    <tr>
+                                                        <td>
+                                                            @foreach (var b in ViewBag.books)
+                                                            {
+                                                                if(b.idBook == d.idBook) {
+                                                                    @b.nameBook
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>@d.quantityEntry</td>
+                                                        <td>
+                                                            <span>@d.priceEntry$</span>
+                                                        </td>
+                                                    </tr>
+                                                    tt += d.quantityEntry*d.priceEntry;
+                                                    }
+                                                }
+                                                
+                                            </table>
+                                        </td>
+                                        <td>@tt$</td>
+                                        <td>@item.status</td>
+                                        @if(item.status == "Delivered") {
+                                        <td><a class="btn float-right InvoiceEntrydis" disabled>Invoice</a></td>
+                                        } else {
+                                        <td>
+                                            <a class="btn float-right InvoiceEntry" data-id="@item.idEntry">Invoice</a>
+                                            <p class="actionAdmin">
+                                                <a href="/Admin/DeleteEntry/@item.idEntry" class="btnSubmit">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                |
+                                                <a href="/Admin/EditEntry/@item.idEntry">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </p>
+                                        </td>
+                                        }   
+                                    </tr>    
+                                    tt = 0; 
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>

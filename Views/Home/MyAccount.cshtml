@@ -1,10 +1,16 @@
- <div class="content clearfix">
+@model frame.Models.User
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Error = ViewBag.Error;
+}
+<div class="content clearfix">
     <div class="page-header">
         <div class="container">
             <h1>My Account</h1>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="home.html">Home</a>
+                    <a href="~/Home">Home</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>My Account</strong>
@@ -14,51 +20,85 @@
     </div>
     <div class="page-content">
         <div class="container">
+            <div class="text-danger">@Error</div>
             <div class="page-content-wrapper row">
+                
                 <div class="col-6">
                     <h2>Login</h2>
-                    <form action="" class="login-form">
-                        <div>
-                            <label for="username">Username or email address
-                                <span>*</span>
-                            </label>
-                            <input type="text" name="username" id="username">
-                        </div>
-                        <div>
-                            <label for="username">Password
-                                <span>*</span>
-                            </label>
-                            <input type="text" name="username" id="username">
-                        </div>
-                        <div>
-                            <input type="submit" value="login"class="submit-login">
-                            <label>
-                                <input type="checkbox" style="margin-right: 5px;">Remember me
-                            </label>
-                        </div>
-                    </form>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div>
+                        <label for="username">Username or email address
+                            <span>*</span>
+                        </label>
+                        <input type="email" name="email" id="username" placeholder="a@gmail.com">
+                        @Html.ValidationMessageFor(model => model.email,"",new {@class = "text-danger"})
+                    </div>
+                    <div>
+                        <label for="username">Password
+                            <span>*</span>
+                        </label>
+                        <input type="password" name="password" id="passwordlg" placeholder="1234">
+                        @Html.ValidationMessageFor(model => model.password,"",new {@class = "text-danger"})
+                    </div>
+                    <div>
+                        <input type="submit" value="login"class="submit-login" name="submit">
+                        <label>
+                            <input type="checkbox" style="margin-right: 5px;">Remember me
+                        </label>
+                    </div>
+                    }
+                    
                 </div>
+                
                 <div class="col-6">
                     <h2>Register</h2>
-                    <form action="" class="login-form">
+                    
+                    @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div>
-                            <label for="username">Email address
+                            <label for="email">Email address
                                 <span>*</span>
                             </label>
-                            <input type="text" name="username" id="username">
+                            <input type="email" name="email" id="email" onchange="ValidateEmail()" placeholder="a@gmail.com">
+                            @Html.ValidationMessageFor(model => model.email,"",new {@class = "text-danger"})
+                            <div id="errorEmail" class = "text-danger"></div>
                         </div>
                         <div>
-                            <label for="username">Password
+                            <label for="password">Password
                                 <span>*</span>
                             </label>
-                            <input type="text" name="username" id="username">
+                            <input type="password" name="password" id="password" placeholder="1234">
+                            @Html.ValidationMessageFor(model => model.password,"",new {@class = "text-danger"})
                         </div>
                         <div>
                             <input type="submit" value="Register"class="submit-login">
                         </div>
-                    </form>
+                }
                 </div>
+               
+                
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function ValidateEmail() {
+        var email1 = $("#email").val();
+        $.ajax({
+            method:"POST",
+            url:"../../../Home/ValidateEmailId/",
+            data: {email:email1}
+        }).done(function(msg) {
+            if(msg == 1) {
+                $("#errorEmail").html("Error: Email đã tồn tại");
+            } else {
+                $("#errorEmail").html("Error: Email hợp lệ");
+            }
+        })
+    }
+</script>

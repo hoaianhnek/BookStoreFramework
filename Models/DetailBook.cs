@@ -17,5 +17,6 @@ namespace frame.Models
         public int pageCount { get;set;}
         public int publishingYear { get;set;}
         public string publisherBook { get;set;}
+        public int numberDis { get; set;}
     }
 }

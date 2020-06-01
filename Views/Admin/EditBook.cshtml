@@ -1,0 +1,167 @@
+@{
+    ViewBag.Title = "EditCategory";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var Category = ViewBag.Category;
+    var book = ViewBag.books;
+}
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>BOOK MANAGEMENT</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Edit Book</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row"> 
+                            <div class="form-group col-md-2">
+                                <label class="font-weight-bold">ID Book</label>
+                                <input type="text" class="form-control" value="@book.idBook" disabled>
+                                <input type="hidden" value="@book.idBook" name="idBook"/>
+                            </div> 
+                            <div class="form-group col-md-5">
+                                <div class="form-group col-md-5">
+                                    <label class="font-weight-bold">Image Front</label>
+                                    <input type="file" style = "width:117px"class="form-control hinhanhsach border-0"name="imgBook" id="imageTruoc">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <img src="../../images/@book.imgBook" id = "show-mattruoc" width="auto"
+                                    height="90px">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <div class="form-group col-md-5">
+                                    <label class="font-weight-bold">Image Back</label>
+                                    <input type="file" style = "width:117px" class="form-control hinhanhsach border-0" name="imgBackBook" id="imageSau">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <img src="../../images/@book.imgBackBook" id = "show-sau" width="auto"
+                                    height="90px">
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-bold">Name Book</label>
+                                <input type="text" class="form-control" pattern="^[A-Za-z0-9-\s]*" title="Name should without accents"value="@book.nameBook"required="" name="nameBook" placeholder="Nhập tên sách">
+                            </div>   
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-bold">Price</label>
+                                <input type="number"pattern="[+][0-9]" value="@book.priceBook"min='1'class="form-control"required="" name="priceBook" placeholder="Nhập giá sách">
+                            </div>   
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-bold">Quantity</label>
+                                <input type="number"pattern="[+][0-9]" value="@book.amountBook"class="form-control"required="" name="amountBook" placeholder="Nhập số lượng">
+                            </div>   
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Category</label>
+                                <select class="form-control m-bot15" name="idCategory">
+                                    @foreach (var item in ViewBag.categories )
+                                    {
+                                        if(item.idCategory == book.idCategory) {
+                                            <option value="@item.idCategory">@item.nameCategory</option>
+                                        } else {
+                                            <option value="@item.idCategory">@item.nameCategory</option>
+                                        }
+                                    }
+                                    
+                                   
+                                </select>
+                                <div class="text-danger">@TempData["ErrorCategory"]</div>
+                            </div>   
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Author</label>
+                                <select class="form-control m-bot15" name="idAuthor">
+                                    @foreach (var item in ViewBag.authors)
+                                    {
+                                       if(item.idAuthor == book.idAuthor) {
+                                           <option value="@item.idAuthor">@item.nameAuthor</option>
+                                       } else {
+                                           <option value="@item.idAuthor">@item.nameAuthor</option>
+                                       }
+                                    }
+                                    
+                                    
+                                </select>
+                                <div class="text-danger">@TempData["ErrorAuthor"]</div>
+                            </div>   
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-form-label font-weight-bold des">Descripe</label>
+                                        <textarea class="form-control des" required=""rows="3" pattern="^[A-Za-z0-9-\s]*" title="Describe should without accents" name="desBook" style="width:100%">@book.desBook</textarea>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-form-label font-weight-bold des">Summary</label>
+                                        <textarea class="form-control des" required=""rows="3" pattern="^[A-Za-z0-9-\s]*" title="Summary should without accents"name="summaryBook" style="width:100%">@book.summaryBook</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold">Published Year</label>
+                                        <input type="number"pattern="[+][0-9]" min='1'value="@book.publishingYear" class="form-control"required="" name="publishingYear" placeholder="Nhập tên tác giả">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold">Page Count</label>
+                                        <input type="number"pattern="[+][0-9]" min='1'value="@book.pageCount"class="form-control"required="" name="pageCount" placeholder="Nhập tên tác giả">
+                                    </div> 
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold">Publisher</label>
+                                        <input type="text" class="form-control"value="@book.publisherBook" pattern="^[A-Za-z0-9-\s]*" title="Publisher should without accents"required="" name="publisherBook" placeholder="Nhập tên tác giả">
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4 mt-5 pl-5">
+                                <a href="../../Admin/BookManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
+                                <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function readURLTruoc(input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                $('#show-mattruoc').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#imageTruoc').change(function(){
+        readURLTruoc(this);
+    });
+    function readURLSau(input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                $('#show-sau').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#imageSau').change(function(){
+        readURLSau(this);
+    });
+</script>

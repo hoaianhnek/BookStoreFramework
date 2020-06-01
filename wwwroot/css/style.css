@@ -85,9 +85,9 @@ label {
     outline: none;
 }
 
-.snipcart-details input.button {
+.snipcart-details> a {
     font-size: 13px;
-    color: #fff;
+    color: #fff !important;
     background: #0879c9;
     text-decoration: none;
     border: none;
@@ -107,8 +107,7 @@ label {
     -o-transition: 0.5s all;
     -ms-transition: 0.5s all;
 }
-
-.snipcart-details input.button:hover {
+.snipcart-details> a:hover {
     background: #000;
 }
 
@@ -238,7 +237,7 @@ label {
     background: #ff2978;
     color: #fff;
     position: absolute;
-    top: 0;
+    top: -13px;
     left: 0;
     font-size: 13px;
     text-align: center;
@@ -573,7 +572,7 @@ table.timetable_sub {
     font-size: 16px;
     border-right: 1px solid #ded2d2;
     text-align: center;
-    padding: 12px 0;
+    padding: 5px 3px;
     letter-spacing: 1px;
     font-weight: normal;
 }
@@ -590,7 +589,6 @@ table.timetable_sub {
 }
 
 td.invert-image a img {
-    width: 30%;
     margin: 0 auto;
 }
 

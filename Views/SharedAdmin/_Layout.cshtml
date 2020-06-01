@@ -6,6 +6,8 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <!-- Bootstrap -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -13,14 +15,22 @@
     <link href="~/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="~/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
+    @* sweetalert2 *@
+    <link rel="stylesheet" href="~/sweetalert2/dist/sweetalert2.min.css">
     <!-- Custom Theme Style -->
     <link href="~/css/custom.min.css" rel="stylesheet">
     <link href="~/css/QL_Sach.css" rel="stylesheet">
+    <link href="~/css/QL_TacGia.css" rel="stylesheet">
     <link href="~/css/QL_TaiKhoan.css" rel="stylesheet">
     <link href="~/css/QL_DonDatHang.css" rel="stylesheet">
     <link href="~/css/QL_KhachHang.css" rel="stylesheet">
     <link href="~/css/QL_NhanVien.css" rel="stylesheet">
+    <link href="~/css/QL_NhaCungCap.css" rel="stylesheet">
+    <link href="~/css/QL_TheLoai.css" rel="stylesheet">
+    <link href="~/css/CreateAuthor.css" rel="stylesheet">
+    <link href="~/css/EditAuthor.css" rel="stylesheet">
+    <link href="~/css/DeleteAuthor.css" rel="stylesheet">
+    <link href="~/css/DetailsAuthor.css" rel="stylesheet">
 </head>
 <body class="nav-md">
     <div class="container body">
@@ -54,30 +64,34 @@
                                 <li>
                                     <a><i class="fa fa-home"></i>Home <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="../Admin/Index">Dashboard</a></li>
+                                        <li><a href="~/Home/Index">Customer</a></li>
+                                        <li><a href="~/Admin/Index">Admin</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-edit"></i>Quản lý<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-edit"></i>Managemennt<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="../Admin/BookManagement">Quản lý sách</a></li>
-                                        <li><a href="../Admin/AccountManagement">Quản lý tài khoản</a></li>
-                                        <li><a href="../Admin/OrderManagement">Quán lý đơn đặt hàng</a></li>
-                                        <li><a href="../Admin/EmployeeManagement">Quản lý nhân viên</a></li>
-                                        <li><a href="../Admin/CustomerManagement">Quản lý khách hàng</a></li>
+                                        <li><a href="~/Admin/BookManagement">Book Management</a></li>
+                                        <li><a href="~/Admin/CategoryManagement">Category Management</a></li>
+                                        <li><a href="~/Admin/SupplierManagement">Supplier Management</a></li>
+                                        <li><a href="~/Admin/AuthorManagement">Author Management</a></li>
+                                        <li><a href="~/Admin/OrderManagement">Order Management</a></li>
+                                        <li><a href="~/Admin/EntryManagement">Entry Management</a></li>
+                                        <li><a href="~/Admin/EmployeeManagement">Employee Management</a></li>
+                                        <li><a href="~/Admin/CustomerManagement">Customer Management</a></li>
+                                        <li><a href="~/Admin/DiscountManagement">Discount Management</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-bar-chart-o"></i>Báo cáo <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-bar-chart-o"></i>Report<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="chartjs.html">Báo cáo bán hàng</a></li>
-                                        <li><a href="chartjs2.html">Báo cáo tồn kho</a></li>
+                                        <li><a href="chartjs.html">Inventory Report</a></li>
+                                        <li><a href="chartjs2.html">Sales Report</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-user"></i>Tài khoản<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-user"></i>Account<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="tables.html">Thay đổi thông tin</a></li>
                                         <li><a href="tables_dynamic.html">Thoát</a></li>
                                     </ul>
                                 </li>
@@ -117,41 +131,42 @@
     @RenderBody()
     <footer>
         <div class="pull-right">
-            WEBSITE BÁN SÁCH
+            WEBSITE SELLING bOOK
         </div>
         <div class="clearfix"></div>
     </footer>
     
-    <!-- jQuery -->
-    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    @* sweetalert2 *@
+    <script src="~/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <script src="~/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
+    <script src="~/vendors/nprogress/nprogress.js"></script>
     <!-- Chart.js -->
-    <script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="~/vendors/Chart.js/dist/Chart.min.js"></script>
     <!-- jQuery Sparklines -->
-    <script src="../vendors/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+    <script src="~/vendors/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
     <!-- Flot -->
-    <script src="../vendors/Flot/jquery.flot.js"></script>
-    <script src="../vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="../vendors/Flot/jquery.flot.time.js"></script>
-    <script src="../vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="../vendors/Flot/jquery.flot.resize.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.resize.js"></script>
     <!-- Flot plugins -->
-    <script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="../vendors/flot.curvedlines/curvedLines.js"></script>
+    <script src="~/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/vendors/flot.curvedlines/curvedLines.js"></script>
     <!-- DateJS -->
-    <script src="../vendors/DateJS/build/date.js"></script>
+    <script src="~/vendors/DateJS/build/date.js"></script>
     <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/vendors/moment/min/moment.min.js"></script>
+    <script src="~s/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="~/js/custom.min.js"></script>
+    <script src="~/js/Admin.js"></script>
 </body>
 </html>
 

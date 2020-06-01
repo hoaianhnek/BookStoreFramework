@@ -1,0 +1,81 @@
+ @{
+    ViewBag.Title = "Add Customer";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var employee = ViewBag.employees;
+}
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>EMPLOYEE MANAGEMENT</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Edit Employee</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row"> 
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">ID</label>
+                                <input type="text" class="form-control" value="@employee.idEmployee" disabled>
+                                <input type="hidden" value="@employee.idEmployee" name="idEmployee" />
+                            </div> 
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Name</label>
+                                <input type="text" value="@employee.nameEmployee" pattern="^[A-Za-z0-9-\s]*" title="Name should without accents"class="form-control" name="nameEmployee" required="" placeholder="Nhập tên nhân viên">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Phone</label>
+                                <input type="text" value="@employee.phoneEmployee" class="form-control" name="phoneEmployee" required="" placeholder="Nhập sdt">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Address</label>
+                                <input type="text" value="@employee.addEmployee" pattern="^[A-Za-z0-9-\s]*" title="Address should without accents"class="form-control" name="addEmployee" required="" placeholder="Nhập địa chỉ nhân viên">
+                            </div>
+                        </div>   
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Email</label>
+                                @foreach (var item in ViewBag.user)
+                                {
+                                    if(item.idUser == employee.idUser) {
+                                        <input type="hidden" value ="@item.idUser"class="form-control" name="idUser" required="" placeholder="Nhập SĐT NCC">
+                                        <input type="email" value ="@item.email"class="form-control" name="email" required="" placeholder="Nhập SĐT NCC">
+                                    }
+                                }
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Password</label>
+                                @foreach (var item in ViewBag.user)
+                                {
+                                    if(item.idUser == employee.idUser) {
+                                        <input type="text" value ="@item.password"class="form-control" name="password" required="" placeholder="Nhập SĐT NCC">
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <br>
+                        <div class="modal-footer">
+                            <a href="/Admin/EmployeeManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
+                            <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

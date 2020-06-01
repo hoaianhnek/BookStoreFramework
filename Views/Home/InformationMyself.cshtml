@@ -1,29 +1,65 @@
 @{
     ViewData["Title"] = "Check out";
     Layout = "~/Views/Shared/_Layout.cshtml";
+	var detailinfo = ViewBag.detailinfo;
+	var myOrder = ViewBag.myOrder;
+	var myOrderDetail = ViewBag.myOrderDetail;
+	var Book = ViewBag.Book;
+	var Discount = ViewBag.Discount;
 }
-<div class="ads-grid py-sm-5 py-4">
+<div class="page-header">
+    <div class="container">
+        <h1>My Order</h1>
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>My Order</strong>
+            </li>
+        </ul>
+    </div>
+</div>
+@if(TempData["StatusDelete"] != null) {
+	<div class="alert alert-success alert-dismissible">
+		<button type="button" class="close" data-dismiss = "alert">&times;</button>
+		@TempData["StatusDelete"]
+	</div>
+}
+<div class="ads-grid py-sm-5 py-4 ">
 		<div class="container py-xl-4 py-lg-2">
 			<!-- tittle heading -->
 			<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
-				<span>Đ</span>ơn hàng của tôi</h3>
+				<span>My Order</span></h3>
 			<!-- //tittle heading -->
 			<div class="row">
 				<!-- product right -->
 				<div class="col-lg-3 mt-lg-0 mt-4 p-lg-0">
 					<div class="side-bar p-sm-4 p-3">
 						<div class="search-hotel border-bottom py-2">
-							<h3 class="agileits-sear-head mb-3">Tài khoản của</h3>
-							<span>Huỳnh Công Đạt</span>
+							<div class="d-flex">
+								<img src="../../images/avatar.png" style="border-radius: 50%;
+                                height: 45px;
+                                width: 45px;"/>
+								<div class="ml-3">
+									<h3 class="agileits-sear-head mb-1">Account of</h3>
+										<span>@detailinfo</span>
+								</div>
+							</div>
+							
 							<div class="left-side py-2">
-								<ul>
+								<ul style="list-style-type:none">
 									<li>
 										<i class="fas fa-user"></i>
-										<a href="Information"><span class="span">Thông tin tài khoản</span></a>
+										<a href="Information"><span class="span">Account Information</span></a>
 									</li>
 									<li>
 										<i class="far fa-address-book"></i>
-										<a href="donhang.html"><span class="span">Quản lý đơn hàng</span></a>
+										<a href="donhang.html"><span class="span">Order Management</span></a>
+									</li>
+									<li>
+										<i class="fas fa-sign-out-alt"></i>
+										<a href="/Home/Logout"><span class="span">Logout</span></a>
 									</li>
 								</ul>
 							</div>
@@ -42,75 +78,123 @@
 										<table class="timetable_sub">
 											<thead>
 												<tr>
-													<th>Mã đơn hàng</th>
-													<th>Hình ảnh sản phẩm</th>
-													<th>Tên sản phẩm</th>
-													<th>Số lượng</th>
-													<th>Tổng tiền</th>
-													<th>Trạng thái đơn hàng</th>
+													<th>ID Order</th>
+													<th>Product Information</th>
+													<th>Total</th>
+													<th>Status</th>
+													<th>Manipulation</th>
 												</tr>
 											</thead>
 											<tbody>
+												@foreach (var item in myOrder)
+												{
+													double tt = 0;
 												<tr class="rem1">
-													<td class="invert">1</td>
+													<td class="invert">@item.idOrder</td>
 													<td class="invert-image">
-														<a href="single.html">
-															<img src="../../images/KinhTe4.jpg" alt=" " class="img-responsive">
-														</a>
+														<table>
+															<tr>
+																<th>Product Name</th>
+																<th>Image</th>
+																<th>Quantity</th>
+															</tr>
+															@foreach (var o in myOrderDetail)
+															{	var dem=0;
+																if(o.idOrder == item.idOrder) {
+															<tr>
+																@foreach (var b in Book)
+															{
+																if(b.idBook == o.idBook) {
+																	if(b.idDiscount == "") {
+																	<td>
+																		<a href="">
+																			<img src="../../images/@b.imgBook" 
+																			width= "67" height="90"
+																			alt="@b.nameBook" class="img-responsive">
+																		</a>
+																	</td>
+																	<td class="invert">@b.nameBook</td>
+																	<td class="invert">
+																		<div class="quantity">
+																			<div class="quantity-select">
+																				<div class="entry value">
+																					<span>@o.quantityBook</span>
+																				</div>
+																			</div>
+																		</div>
+																	</td>
+																	tt += o.quantityBook*b.priceBook;
+																	} else {
+																	foreach(var d in Discount) {
+																	if(d.idDiscount == b.idDiscount) {
+																		dem++; 
+																		<td>
+																			<a href="">
+																				<img src="../../images/@b.imgBook" 
+																				width= "67" height="90"
+																				alt="@b.nameBook" class="img-responsive">
+																			</a>
+																		</td>
+																		<td class="invert">@b.nameBook</td>
+																		<td class="invert">
+																			<div class="quantity">
+																				<div class="quantity-select">
+																					<div class="entry value">
+																						<span>@o.quantityBook</span>
+																					</div>
+																				</div>
+																			</div>
+																		</td>
+																		tt += o.quantityBook*(b.priceBook-b.priceBook*d.numberDiscount/100);
+																		}
+																	
+																	}
+																	if(dem==0) {
+																	<td>
+																		<a href="">
+																			<img src="../../images/@b.imgBook" 
+																			width= "67" height="90"
+																			alt="@b.nameBook" class="img-responsive">
+																		</a>
+																	</td>
+																	<td class="invert">@b.nameBook</td>
+																	<td class="invert">
+																		<div class="quantity">
+																			<div class="quantity-select">
+																				<div class="entry value">
+																					<span>@o.quantityBook</span>
+																				</div>
+																			</div>
+																		</div>
+																	</td>
+																	tt += o.quantityBook*b.priceBook;
+																	}
+																}
+																
+																}
+																
+															}
+															</tr>
+															
+																}
+															
+															}
+															
+														</table>
+														
 													</td>
-													<td class="invert">Ai hiểu được khách hàng</td>
+													<td class="invert">$@tt</td>
+													<td class="invert">@item.status</td>
 													<td class="invert">
-														<div class="quantity">
-															<div class="quantity-select">
-																<div class="entry value">
-																	<span>1</span>
-																</div>
-															</div>
-														</div>
+														<form action="/Home/InformationMyself/@item.idOrder" method="POST">
+															<button type="submit" class="btnSubmit">
+																<i class="fas fa-trash-alt"></i>
+															</button>
+														</form>
+														
 													</td>
-													<td class="invert">$199</td>
-													<td class="invert">Đang xử lý</td>
 												</tr>
-												<tr class="rem2">
-													<td class="invert">2</td>
-													<td class="invert-image">
-														<a href="single2.html">
-															<img src="../../images/VanHoc5.jpg" alt=" " class="img-responsive">
-														</a>
-													</td>
-													<td class="invert">Ghost in love</td>
-													<td class="invert">
-														<div class="quantity">
-															<div class="quantity-select">
-																<div class="entry value">
-																	<span>1</span>
-																</div>
-															</div>
-														</div>
-													</td>						
-													<td class="invert">$280</td>
-													<td class="invert">Đang xử lý</td>
-												</tr>
-												<tr class="rem3">
-													<td class="invert">3</td>
-													<td class="invert-image">
-														<a href="single.html">
-															<img src="../../images/KyNang1.jpg" alt=" " class="img-responsive">
-														</a>
-													</td>
-													<td class="invert">Chủ nghĩa khắc kỷ</td>
-													<td class="invert">
-														<div class="quantity">
-															<div class="quantity-select">
-																<div class="entry value">
-																	<span>1</span>
-																</div>
-															</div>
-														</div>
-													</td>
-													<td class="invert">$320</td>
-													<td class="invert">Đã giao</td>
-												</tr>
+												}
 											</tbody>
 										</table>
 									</div>
@@ -125,3 +209,11 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>

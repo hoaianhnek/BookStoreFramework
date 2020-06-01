@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace frame.Models
 {
     public class Book
     {
         public string idBook { get; set;}
-        
         public string nameBook { get; set;}
         public string imgBook { get; set;}
         public string desBook { get; set;}
@@ -21,5 +21,6 @@ namespace frame.Models
         public string idAuthor { get; set;}
         public string idDiscount { get; set;}
         public string imgBackBook { get; set;}
+        public string status { get; set;}
     }
 }

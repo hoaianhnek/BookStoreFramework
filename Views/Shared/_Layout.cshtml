@@ -11,16 +11,14 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    
+    @* sweetalert2 *@
+    <link rel="stylesheet" href="~/sweetalert2/dist/sweetalert2.min.css">
     <!-- font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" 
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
     crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/fontawesome-all.css">
+    <link rel="stylesheet" href="~/lib/fontawesome/fontawesome-all.css">
     <!-- carousel -->
-    <script src="~/js/Book.js"></script>
-    <script src="~/js/ShoppingCart.js"></script>
-    <script src="~/carousel/owl.carousel.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="~/css/header.css">
     <link rel="stylesheet" href="~/css/home.css">
@@ -29,6 +27,8 @@
     <link rel="stylesheet" href="~/css/myAccount.css">
     <link rel="stylesheet" href="~/css/product-detail.css">
     <link rel="stylesheet" href="~/css/style.css"/>
+    <link rel="stylesheet" href="~/css/Cart.css"/>
+    <link rel="stylesheet" href="~/css/CheckOut.css"/>
     <!-- carousel -->
     <link href="~/carousel/owl.carousel.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/carousel/owl.theme.default.min.css">
@@ -45,7 +45,9 @@
         @* @Html.Partial("_Header") *@
         <partial name="_Header" />
         <!-- slideshow -->
-        @RenderBody()
+        <div class="body">
+            @RenderBody()
+        </div>
         <partial name="_Footer" />
     </div>
     <div class="back-to-top">
@@ -54,4 +56,9 @@
         </button>
     </div>
 </body>
+    @* sweetalert2 *@
+    <script src="~/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="~/js/Book.js"></script>
+    <script src="~/js/ShoppingCart.js"></script>
+    <script src="~/carousel/owl.carousel.js"></script>
 </html>

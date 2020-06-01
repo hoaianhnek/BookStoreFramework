@@ -1,4 +1,7 @@
 /* slideshow */
+html {
+    scroll-behavior: smooth;
+}
 .slideshow-background {
     margin: 0px auto;
     background-image: url(../images/bg_brick.jpg);
@@ -544,14 +547,14 @@ ul.nav.nav-tabs {
     transform: perspective(600px) rotateX(90deg);
     background-color: rgba(0, 172, 224, 0.842);
 }
-.add-to-cart {
+.product-button .add-to-cart {
     width: 60%;
     float: left;
 }
-.add-to-cart:hover {
+.product-button .add-to-cart:hover {
     background-color: rgb(0, 172, 224);
 }
-.add-to-cart>a {
+.product-button .add-to-cart>a {
     display: inline-block;
     width: 100% !important;
     font-size: 14px;

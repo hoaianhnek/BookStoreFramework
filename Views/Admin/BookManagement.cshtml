@@ -1,85 +1,206 @@
+@model IEnumerable<frame.Models.Book>
+
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var categories = ViewBag.categories;
+    var  authors = ViewBag.authors ;
+    var discounts = ViewBag.discounts;
+    var books = ViewBag.books;
 }
-    <!-- /top navigation -->
-    <!-- page content -->
-    <div class="right_col" role="main">
-        <div class="">
-            <div class="page-title">
-                <div class="title_left">
-                    <h3>Quản lý sách</h3>
-                </div>
-                <div class="title_right">
-                    <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">Go!</button>
-                            </span>
-                        </div>
+<!-- /top navigation -->
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="book-manage">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>BOOK MANAGEMENT</h4>
+            </div>
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id = "searchBook" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
-            <div class="row" style="display: block;">
-                <div class="col-md-6 col-sm-6  ">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Basic Tables <small>basic table subtitle</small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li>
-                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Settings 1</a>
-                                        <a class="dropdown-item" href="#">Settings 2</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>12</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>12</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>12</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex;">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Book</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <p>
+                        <span>
+                            @Html.ActionLink("Create New", "CreateBook")
+                        </span>|
+                        <span>
+                            @Html.ActionLink("Create Discount Book", "CreateDiscountBook")
+                        </span>
+                    </p>
+                    @if(TempData["StatusUpdate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdate"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreate"]
+                    </div>
+                    }
+                    @if(TempData["StatusDelete"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDelete"]
+                    </div>
+                    }
+                    <div class="x_content">
+                        <table class= "table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID Book
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Image Front
+                                    </th>
+                                    <th>
+                                        Describe
+                                    </th>
+                                    <th>
+                                        Summary
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                    <th>
+                                        Category
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Published Year
+                                    </th>
+                                    <th>
+                                        Page Count
+                                    </th>
+                                    <th>
+                                        Publisher
+                                    </th>
+                                    <th>
+                                        Author
+                                    </th>
+                                    <th>
+                                        Discount
+                                    </th>
+                                    <th>
+                                        Image Back
+                                    </th>
+                                    <th style="padding: 0.75rem 1.4rem;">
+                                        Manipulation
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in books)
+                            {
+                            <tr>
+                                <td>
+                                    @item.idBook
+                                </td>
+                                <td>
+                                    @item.nameBook
+                                </td>
+                                <td>
+                                    <img src="../../images/@item.imgBook" src="@item.nameBook" width="64"
+                                    height="92">
+                                </td>
+                                <td>
+                                    <p class = "content_DesBook">
+                                        @item.desBook
+                                    </p>		
+                                </td>
+                                <td>
+                                    <p class ="content_SumBook">
+                                        @item.summaryBook
+                                    </p>			
+                                </td>
+                                <td>
+                                    @item.priceBook
+                                </td>
+                                <td>
+                                    @foreach(var c in categories) {
+                                        if(c.idCategory == item.idCategory) {
+                                            @c.nameCategory;
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @item.amountBook
+                                </td>
+                                <td>
+                                    @item.publishingYear
+                                </td>
+                                <td>
+                                    @item.pageCount
+                                </td>
+                                <td>
+                                    @item.publisherBook
+                                </td>
+                                <td>
+                                    @foreach(var a in authors) {
+                                        if(a.idAuthor == item.idAuthor) {
+                                            @a.nameAuthor;
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @foreach(var d in discounts) {
+                                        if(d.idDiscount == item.idDiscount) {
+                                            @d.nameDiscount;
+                                        }
+                                    }
+                                </td>
+                                    
+                                <td>
+                                    <img src="../../images/@item.imgBackBook" src="@item.nameBook" width="64"
+                                    height="92">
+                                </td>
+                                    
+                                <td class="actionAdmin" style="width: 100px;">
+                                    <a href="/Admin/DeleteBook/@item.idBook" class="btnSubmit">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    |
+                                    <a href="/Admin/EditBook/@item.idBook">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /page content -->
-    <!-- footer content -->
+</div>
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>

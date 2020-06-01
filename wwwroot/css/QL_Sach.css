@@ -1,11 +1,40 @@
-﻿body {
+﻿.title_left {
+    color: wheat;
+    margin: 20px 0px;
+}
+.page-title .title_left h4 {
+    margin-left: 333px;
+    width: max-content;
+}
+.page-title .title_right {
+    padding-right: 55px;
+}
+.x_content
+{
+    width: 100%;
+    height: 70vh !important;
+    overflow-x: scroll;
+    overflow-y:scroll;
 }
 
 .x_panel {
+    width: 140%;
     position: absolute;
     left: 50%;
+    height: 100vh !important;
 }
 
-.page-title .title_left h3 {
-    margin-left: 400px;
+.book-manage .content_DesBook
+{
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+    text-overflow: ellipsis;
+}
+.book-manage .content_SumBook
+{
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+    text-overflow: ellipsis;
 }

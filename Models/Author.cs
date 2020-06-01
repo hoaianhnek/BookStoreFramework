@@ -6,5 +6,6 @@ namespace frame.Models
         public string nameAuthor { get; set;}
         public string imgAuthor { get; set;}
         public string describeAuthor { get; set;}
+        public string status { get; set;}
     }
 }

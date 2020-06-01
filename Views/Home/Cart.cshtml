@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Check out";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Email = ViewBag.Email;
+}
+<div class="content clearfix">
+    <div class="page-header page-header-product">
+        <div class="container">
+            <h1>Cart</h1>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="~/Home">Home</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong>Cart</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-content-cart">
+        <div class="container">
+            <div class="title">
+                <h5>Cart</h5>
+                ( <span>0</span> Product)
+            </div>
+            <div class="content-cart">
+                <div class="d-flex justify-content-end container-cart-product-pay pr-5 pt-5">
+                    <span class="mr-4">SubTotal</span>
+                    <span class="ml-4">0$</span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end pt-3 pr-5">
+                <a class="mr-4 text-decoration-none text-dark" id="next-purchase" href="/Home">Shopping
+                    <i class="fas fa-cart-plus pr-2"></i>
+                </a>
+                @if(Email != null) {
+                <a id="pay" href="../../Home/CheckOut" class="text-decoration-none">Check Out
+                    <i class="fas fa-chevron-circle-right pr-2"></i>
+                </a>
+                } else {
+                <a id="pay" href="../../Home/MyAccount" class="text-decoration-none" onclick="alert('Login to Pay')">Thanh toán
+                    <i class="fas fa-chevron-circle-right pr-2"></i>
+                </a> 
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>

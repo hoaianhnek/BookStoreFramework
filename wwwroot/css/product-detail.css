@@ -203,7 +203,7 @@
     background-color: #f6f6f6;
     color: #616161;
 }
-.product-action form {
+.product-action>div:first-child {
     display: flex;
     margin-bottom: 30px;
     padding: 30px;
@@ -219,7 +219,7 @@
     background-color: white;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.04), 0 4px 7px rgba(0, 0, 0, 0.08);
 }
-.product-action>form>button {
+.product-action button {
     color: #ffffff;
     background-color: #00ABE0;
     display: inline-block;
@@ -228,6 +228,9 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: 600;
     line-height: 1.5;
+}
+.product-action .add-to-cart {
+    width: auto !important;
 }
 .product-bookmark {
     display: inline-block;
@@ -433,7 +436,9 @@
 }
 .related-price {
     margin-top: 15px;
-    font-size: 1em;
+    font-weight: 700;
+    font-size: 20px;
+    color: #00ABE0;
 }
 .related-price> span:first-child {
     text-decoration: line-through;

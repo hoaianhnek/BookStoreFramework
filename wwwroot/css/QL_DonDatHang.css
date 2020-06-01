@@ -1,10 +1,27 @@
-﻿body {
-}
-.x_panel {
-    position: absolute;
-    left: 50%;
-}
-
+﻿
 .page-title .title_left h3 {
     margin-left: 400px;
+}
+.Invoice,.InvoiceEntry {
+    background: #2A3F54;
+    color: white !important;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.Invoice:hover,.InvoiceEntry:hover {
+    border: 1px solid #2A3F54;
+    color: #2A3F54 !important;
+    background: white !important;
+    transition: 0.5s all;
+}
+.Invoicedis,.InvoiceEntrydis{ 
+    background: rgb(128, 130, 131);
+    color: white !important;
+}
+.Invoicedis:hover,.InvoiceEntrydis:hover {
+    background: rgb(128, 130, 131);
+    color: white !important;
+}
+.xoaEntrybtn {
+    cursor: pointer;
 }

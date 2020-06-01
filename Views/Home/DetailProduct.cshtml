@@ -2,7 +2,10 @@
 @{
     ViewData["Title"] = "Detail Prod";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var book = ViewBag.detail;
+    var DetailBook = ViewBag.DetailBook;
+    var DetailBookNotDis = ViewBag.DetailBookNotDis;
+    var ProRelDis = ViewBag.ProRelDis;
+    var ProRel = ViewBag.ProRel;
 }
 
 <div class="content clearfix">
@@ -20,7 +23,7 @@
         </div>
     </div>
     <div class="page-content page-content-product">
-        @foreach (var item in book) {
+        @foreach (var item in DetailBook) {
         <div class="product-overview">
             <div class="container">
                 <div class="row">
@@ -58,7 +61,7 @@
                     <div class="col-sm-7 product-overview-summary">
                         <div>
                             <h2>@item.nameBook</h2>
-                            <span>Sale!</span>
+                            <span>-@item.numberDis%</span>
                         </div>
                         <div class="product-meta">
                             <span>@item.nameAuthor</span>
@@ -76,7 +79,7 @@
                         </div>
                         <div class="product-price">
                             <span>$@item.priceBook</span>
-                            <span>$20.00</span>
+                            <span>$@(item.priceBook - (item.priceBook*item.numberDis)/100)</span>
                         </div>
                         <div class="product-excerpt">
                             <p>
@@ -84,14 +87,174 @@
                             </p>
                         </div>
                         <div class="product-action">
-                            <form>
+                            <div>
                                 <div class="quantity-product">
                                     <input type="number" step="1" min="1" value="1">
                                 </div>
-                                <button type="submit">
+                                <button type="submit" data-name='@item.nameBook'
+                                    class="addcart" data-price = '@item.priceBook' 
+                                            data-number = '@item.numberDis'
+                                            data-id="@item.idBook"
+                                            data-image= '@item.imgBook'>
                                     Add to Cart
                                 </button>
-                            </form>
+                            </div>
+                            
+                            
+                            <div class="product-bookmark">
+                                <a href="#">
+                                    <i class="far fa-heart"></i>
+                                    Add to Wishlist
+                                </a>
+                            </div>
+                            <div class="product-detail-info">
+                                <div class="sku-product">
+                                    SKU:
+                                    <span>125002150</span>
+                                </div>
+                                <div class="category-product">
+                                    Categories:
+                                    <a href="#">@item.nameCategory</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-detail">
+            <div class="nav-product-detail">
+                <div class="container">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a href="#des" data-toggle = "tab" class="nav-link active">Description</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#bookdetail" data-toggle = "tab" class="nav-link">Book Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#meetauthor" data-toggle = "tab" class="nav-link">Meet The Author</a>
+                        </li>    
+                    </ul>
+                </div>
+            </div>
+            <div class="content-product-detail">
+                <div class="tab-content">
+                    <div id="des" class="container tab-pane active">
+                        <p>@item.desBook</p>
+                    </div>
+                    <div id="bookdetail" class="container tab-pane">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Pulished Year</th>
+                                    <td><p>@item.publishingYear</p></td>
+                                </tr>
+                                <tr>
+                                    <th>Page Count</th>
+                                    <td><p>@item.pageCount</p></td>
+                                </tr>
+                                <tr>
+                                    <th>Author</th>
+                                    <td><p>@item.nameAuthor</p></td>
+                                </tr>
+                                <tr>
+                                    <th>Publisher</th>
+                                    <td><p>@item.publisherBook</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="meetauthor" class="container tab-pane">
+                        <div class="author-info-wrapper">
+                            <div class="author-img">
+                                <img src="~/images/@item.imgAuthor">
+                            </div>
+                            <div class="author-detail">
+                                <h3>@item.nameAuthor</h3>
+                                <p>@item.describeAuthor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        }
+        @foreach (var item in DetailBookNotDis)
+        {
+        <div class="product-overview">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="book-~/">
+                            <div class="content-book">
+                                <img src="~/images/@item.imgBook">
+                                <div class="book-page book-page-front">
+                                    <img src="~/images/@item.imgBook">
+                                </div>
+                                <div class="book-page book-page-back">
+                                    <img src="~/images/@item.imgBackBook">
+                                </div>
+                                <div class="book-page book-page-first">
+                                    
+                                </div>
+                                <div class="book-page book-page-second">
+                                    
+                                </div>
+                                <div class="book-page book-page-side">
+                                    
+                                </div>
+                                <div class="book-page book-page-side-paper">
+                                    
+                                </div>
+                            </div>
+                            <div class="book-action">
+                                <button class="see-back">
+                                    <i class="fas fa-undo"></i>
+                                    <span>Flip to Back</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 product-overview-summary">
+                        <div>
+                            <h2>@item.nameBook</h2>
+                        </div>
+                        <div class="product-meta">
+                            <span>@item.nameAuthor</span>
+                            <div class="rating-product">
+                                <div class="start-rating">
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span>(1 customer review)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            $@item.priceBook
+                        </div>
+                        <div class="product-excerpt">
+                            <p>
+                                @item.summaryBook
+                            </p>
+                        </div>
+                        <div class="product-action">
+                            <div>
+                                <div class="quantity-product">
+                                    <input type="number" step="1" min="1" value="1">
+                                </div>
+                                <button type="submit" data-name='@item.nameBook'
+                                    class="addcart" data-price = '@item.priceBook' 
+                                            data-number = '0'
+                                            data-id="@item.idBook"
+                                            data-image= '@item.imgBook'>
+                                    Add to Cart
+                                </button>
+                            </div>
                             <div class="product-bookmark">
                                 <a href="#">
                                     <i class="far fa-heart"></i>
@@ -178,90 +341,47 @@
                         <h2>Related Products</h2>
                     </header>
                     <div class="content-related-product row">
+                        @foreach (var item in ProRelDis)
+                        {
                         <div class="col-3">
                             <div class="related-inner">
                                 <div class="related-img">
                                     <a href="#">
-                                        <img src="../../images/Book_015.jpg">
+                                        <img src="../../images/@item.imgBook">
                                     </a>
                                 </div>
                                 <div class="related-detail">
                                     <h3>
-                                        <a href="#">Life Giant</a>
+                                        <a href="../../Home/DetailProduct/@item.idBook">@item.nameBook</a>
                                     </h3>
-                                    <div class="related-author">
-                                        G Blakemore Evans
-                                    </div>
                                     <div class="related-price">
-                                        <span>$136</span>
-                                        <span>$100</span>
+                                        <span>$@item.priceBook</span>
+                                        <span>$@(item.priceBook - item.priceBook*item.numberDiscount/100)</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        }
+                        @foreach (var item in ProRel)
+                        {
                         <div class="col-3">
                             <div class="related-inner">
                                 <div class="related-img">
                                     <a href="#">
-                                        <img src="../../images/Book_015.jpg">
+                                        <img src="../../images/@item.imgBook">
                                     </a>
                                 </div>
                                 <div class="related-detail">
                                     <h3>
-                                        <a href="#">Life Giant</a>
+                                        <a href="../../Home/DetailProduct/@item.idBook">@item.nameBook</a>
                                     </h3>
-                                    <div class="related-author">
-                                        G Blakemore Evans
-                                    </div>
                                     <div class="related-price">
-                                        <span>$136</span>
-                                        <span>$100</span>
+                                        $@item.priceBook
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
-                            <div class="related-inner">
-                                <div class="related-img">
-                                    <a href="#">
-                                        <img src="../../images/Book_015.jpg">
-                                    </a>
-                                </div>
-                                <div class="related-detail">
-                                    <h3>
-                                        <a href="#">Life Giant</a>
-                                    </h3>
-                                    <div class="related-author">
-                                        G Blakemore Evans
-                                    </div>
-                                    <div class="related-price">
-                                        <span>$136</span>
-                                        <span>$100</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="related-inner">
-                                <div class="related-img">
-                                    <a href="#">
-                                        <img src="../../images/Book_015.jpg">
-                                    </a>
-                                </div>
-                                <div class="related-detail">
-                                    <h3>
-                                        <a href="#">Life Giant</a>
-                                    </h3>
-                                    <div class="related-author">
-                                        G Blakemore Evans
-                                    </div>
-                                    <div class="related-price">
-                                        <span>$136</span>
-                                        <span>$100</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </section>
             </div>

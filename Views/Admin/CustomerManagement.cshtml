@@ -1,17 +1,21 @@
+
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var customer = ViewBag.customer;
+    var users = ViewBag.users;
+    var shippings = ViewBag.shippings;
 }
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Quản lý sách</h3>
+                <h4>CUSTOMER MANAGEMENT</h4>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
+                        <input type="text" class="form-control" id="searchCustomer" placeholder="Search for...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -20,57 +24,81 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="row" style="display: block;">
-            <div class="col-md-6 col-sm-6  ">
+        <div class="row" style="display: flex;">
+            <div class="col-md-6 col-sm-6 " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Basic Tables <small>basic table subtitle</small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                        <h2>Customer</h2>
                         <div class="clearfix"></div>
                     </div>
+                    <p>
+                        @Html.ActionLink("Create New", "AddCustomer")
+                    </p>
+                    @if(TempData["StatusUpdate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdate"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreate"]
+                    </div>
+                    }
+                    @if(TempData["StatusDelete"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDelete"]
+                    </div>
+                    }
                     <div class="x_content">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Province/City</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Manipulation</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>123</td>
-                                </tr>
+                                @foreach (var item in customer)
+                                {
+                                    <tr>
+                                        <td scope="row">@item.idCustomer</td>
+                                        <td>@item.nameCustomer</td>
+                                        <td>@item.phoneCustomer</td> 
+                                        @foreach (var s in shippings)
+                                        {
+                                            @if(item.idShip == s.idShip) {
+                                                <td>@s.country</td>
+                                            }
+                                        }
+                                        
+                                        <td>@item.addressCustomer</td>
+                                        @foreach (var u in users)
+                                        {
+                                            @if(u.idUser == item.idUser) {
+                                                <td>@u.email</td>
+                                                <td>@u.password</td>
+                                            }
+                                        }
+                                        <td class="actionAdmin" style="width: 100px;">
+                                            <a href="/Admin/CustomerDelete/@item.idCustomer" class="btnSubmit">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            |
+                                            <a href="/Admin/UpdateCustomer/@item.idCustomer">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -79,3 +107,10 @@
         </div>
     </div>
 </div>
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>

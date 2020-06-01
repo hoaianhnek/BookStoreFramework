@@ -33,7 +33,18 @@ namespace frame
             //     options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             // });
             //services.AddScoped<DBContext>(_=>new DbContext(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddRazorPages().AddMvcOptions(options =>
+            {
+                options.MaxModelValidationErrors = 50;
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                    _ => "The field  is required."
+                );
+            });
+            services.AddDistributedMemoryCache();
 
+            services.AddSession(options => {  
+                options.IdleTimeout = TimeSpan.FromMinutes(3600);//You can set Time   
+            });  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +66,8 @@ namespace frame
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

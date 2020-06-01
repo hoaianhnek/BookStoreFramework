@@ -1,29 +1,71 @@
+@model frame.Models.Customer
 @{
     ViewData["Title"] = "Check out";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var detailinfo = ViewBag.detailinfo;
+    var email = ViewBag.Email;
+    var city = ViewBag.city;
+    var citylist = ViewBag.cityList;
 }
+@if(TempData["StatusUpdate"] != null) {
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss = "alert">&times;</button>
+    @TempData["StatusUpdate"]
+</div>
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1>Account Information</h1>
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>Account Information</strong>
+            </li>
+        </ul>
+    </div>
+</div>
 <div class="ads-grid py-sm-5 py-4">
     <div class="container py-xl-4 py-lg-2">
         <!-- tittle heading -->
         <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
-            <span>T</span>hông tin tài khoản</h3>
+            <span>Account Information</span></h3>
         <!-- //tittle heading -->
         <div class="row">
             <!-- product right -->
             <div class="col-lg-3 mt-lg-0 mt-4 p-lg-0">
                 <div class="side-bar p-sm-4 p-3">
                     <div class="search-hotel border-bottom py-2">
-                        <h3 class="agileits-sear-head mb-3">Tài khoản của</h3>
-                        <span>Huỳnh Công Đạt</span>
+                        <div class="d-flex">
+                            <img src="../../images/avatar.png" style="border-radius: 50%;
+                                height: 45px;
+                                width: 45px;"/>
+                            @foreach (var item in detailinfo)
+                            {
+                            <div class="ml-3">
+                                <h3 class="agileits-sear-head mb-1">Account of</h3>
+                                <span>@item.nameCustomer</span>
+                            </div>
+                            }
+                            
+                            
+                        </div>
+                        
                         <div class="left-side py-2">
-                            <ul>
+                            <ul style="list-style-type:none">
                                 <li>
                                     <i class="fas fa-user"></i>
-                                    <a href="Information"><span class="span">Thông tin tài khoản</span></a>
+                                    <a href="Information"><span class="span">Account Information</span></a>
                                 </li>
                                 <li>
                                     <i class="far fa-address-book"></i>
-                                    <a href="InformationMyself"><span class="span">Quản lý đơn hàng</span></a>
+                                    <a href="InformationMyself"><span class="span">Order Management</span></a>
+                                </li>
+                                <li>
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <a href="/Home/Logout"><span class="span">Logout</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -38,46 +80,82 @@
                     <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
                         <div class="row">
                             <div class="checkout-right">
-                                <form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
-                                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                                @foreach (var item in detailinfo)
+                                {
+                                @using (Html.BeginForm("Information","Home",new {@class = "creditly-card-form agileinfo_form"}))
+                                {
+                                    @Html.AntiForgeryToken();
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                   <div class="creditly-wrapper wthree, w3_agileits_wrapper">
                                         <div class="information-wrapper">
                                             <div class="first-row">
-                                                <label class="input-label">Họ tên</label>
+                                                <label class="input-label">Full Name</label>
                                                 <div class="controls form-group w-100">
-                                                    <input class="billing-address-name form-control" type="text" name="name" maxlength="128" placeholder="Full Name" required="">
+                                                    <input class="billing-address-name form-control" pattern="^[A-Za-z\s]*" title="Full name should without accents" type="text" name="nameCustomer" maxlength="128" 
+                                                    placeholder="Truong Thi Hoai Anh" required="" value="@item.nameCustomer">
                                                 </div>
-                                                <label class="input-label">Số điện thoại</label>
+                                                <label class="input-label">Phone</label>
                                                 <div class="w3_agileits_card_number_grids">
                                                     <div class="w3_agileits_card_number_grid_left form-group">
                                                         <div class="controls w-100">
-                                                            <input type="text" class="form-control" placeholder="Mobile Number" name="number" required="">
+                                                            <input type="text" class="form-control" placeholder="0977667321"
+                                                            name="phoneCustomer" required="" value="@item.phoneCustomer">
+                                                        @Html.ValidationMessageFor(model => model.idCustomer,"",new {@class = "text-danger"})
                                                         </div>
                                                     </div>
                                                     <label class="input-label">Email</label>
                                                     <div class="w3_agileits_card_number_grid_right form-group">
                                                         <div class="controls w-100">
-                                                            <input type="text" class="form-control" placeholder="Email" name="landmark" required="">
+                                                            <input type="text" class="form-control" placeholder="a@gmail.com" 
+                                                            name="email" required="" value="@email" disabled>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <label class="input-label">City</label>
                                                 <div class="controls form-group w-100">
-                                                    <input type="text" class="form-control" placeholder="Town/City" name="city" required="">
+                                                    <select class="option-w3ls" name="idShip">
+                                                        @foreach (var c in city)
+                                                        {
+                                                            <option value="@c.idShip">@c.country</option>
+                                                            @foreach (var list in citylist)
+                                                            {
+                                                                @if(list.idShip != c.idShip){
+                                                                <option value="@list.idShip">@list.country</option>
+                                                                }
+                                                                
+                                                            }
+                                                            
+                                                        }
+                                                        @if(item.idShip == "") {
+                                                            <option>Select City</option>
+                                                            @foreach (var list in citylist)
+                                                            {
+                                                                <option value="@list.idShip">@list.country</option>
+                                                            }
+                                                        }
+                                                    </select>
                                                 </div>
                                                 <label class="input-label">Address</label>
                                                 <div class="controls form-group w-100">
-                                                    <select class="option-w3ls">
-                                                        <option>Select Address type</option>
-                                                        <option>Office</option>
-                                                        <option>Home</option>
-                                                        <option>Commercial</option>
-                                                    </select>
+                                                    <input type="text" class="form-control" placeholder="Address" 
+                                                    name="addressCustomer" pattern="^[A-Za-z0-9-\s]*" title="Address should without accents" required="" value="@item.addressCustomer">
                                                 </div>
+                                                
                                             </div>
-                                            <button class="submit check_out btn">Cập nhật</button>
+                                            <button class="submit check_out btn">Update</button>
+                                            <input class="billing-address-name form-control d-none" type="text" name="idCustomer" maxlength="128" 
+                                                placeholder="Full Name" required="" value="@item.idCustomer">
                                         </div>
-                                    </div>
-                                </form>
+                                    </div> 
+                                }
+                                    
+                                
+                                }
+                                
+                                
+                                
+                                
+                                
                             </div>
                         </div>
                     </div>

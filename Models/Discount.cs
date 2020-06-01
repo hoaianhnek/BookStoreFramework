@@ -9,5 +9,6 @@ namespace frame.Models
         public DateTime dateStart { get; set;}
         public DateTime dateEnd { get; set;}
         public int numberDiscount { get; set;}
+        public string status {get; set;}
     }
 }

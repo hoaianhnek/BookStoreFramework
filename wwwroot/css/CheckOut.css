@@ -1,0 +1,21 @@
+.page-content-checkout {
+    margin: 50px 0px;
+}
+.content-checkout {
+    margin-bottom: 10px;
+    margin-top:20px;
+}
+.table> thead th {
+    border-left-style: none; 
+    border-top-style: none;
+    border-right-style: none;
+}
+.table> tbody td {
+    border-left-style: none; 
+    border-top-style: none;
+    border-right-style: none;
+}
+.table> tbody td input#thanhtoan {
+    width: 100px;
+    background-color: white;
+}

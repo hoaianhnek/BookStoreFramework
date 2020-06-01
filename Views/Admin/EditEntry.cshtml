@@ -1,0 +1,121 @@
+@{
+    ViewBag.Title = "Add Customer";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var entry = ViewBag.entry;
+}
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>ENTRY MANAGEMENT</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Edit Entry</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label class="font-weight-bold">ID</label>
+                                <input type="text" class="form-control" value="@entry.idEntry" disabled>
+                                <input type="hidden" value="@entry.idEntry" name="idEntry"/>
+                            </div> 
+                            <div class="form-group col-md-5">
+                                <label class="font-weight-bold">Name</label>
+                                <select class="form-control m-bot15" name="idSupplier">
+                                    @foreach (var item in  ViewBag.suppliers)
+                                    {
+                                        if(item.idSupplier == entry.idSupplier) {
+                                            <option value="@item.idSupplier">@item.nameSupplier</option>
+                                        } else {
+                                            <option value="@item.idSupplier">@item.nameSupplier</option>
+                                        }
+                                    }
+                                    
+                                </select>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label class="font-weight-bold">Date</label>
+                                <input type="date" class="form-control" name="dateEntry" value='@entry.dateEntry.ToString("yyyy-MM-dd")' required>
+                                <div class="text-danger">@TempData["errorDate"]</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="font-weight-bold">Name Book</label>
+                                        <select class="form-control m-bot15 optionBook">
+                                            <option value="">--Choose a name Book--</option>
+                                            @foreach(var item in ViewBag.books) {
+                                            <option value="@item.idBook">@item.nameBook</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold">Quantity</label>
+                                        <input type="number" class="form-control quantity" placeholder="Enter quantity">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold">Price</label>
+                                        <input type="number" class="form-control priceBook" placeholder="Enter price">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="modal-footer">
+                                    <a href="../../Admin/EntryManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-1 pl-5">
+                                <a class="btn bg-success mt-5 text-light btnAddEntry" style="cursor: pointer;">Add</a>
+                            </div>
+                            <div class="form-group col-md-7 pl-5" style="height:240px;overflow-y:scroll">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.detail)
+                                        {
+                                            if(item.idEntry == entry.idEntry) {
+                                            <tr>
+                                                <td>
+                                                    @foreach (var b in ViewBag.books)
+                                                    {
+                                                        if(item.idBook == b.idBook) {
+                                                            <input type='text' value='@b.nameBook' name='name' class='border-0' disabled/>
+                                                        }
+                                                    }
+                                                </td>
+                                                <input type='hidden' value='@item.idBook' name='id' />
+                                                <td><input type='text' value='@item.quantityEntry' id="quantity-@item.idBook" name='amount' class='w-100 border-0'/></td>
+                                                <td><input type='text' value='@item.priceEntry'name='price' id="price@item.priceEntry" class='w-100 border-0'/></td>
+                                            </tr> 
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="text-danger">@TempData["errordetail"]</div>
+                            </div> 
+                        </div> 
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

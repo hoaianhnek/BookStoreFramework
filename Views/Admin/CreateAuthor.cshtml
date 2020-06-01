@@ -1,0 +1,82 @@
+@model frame.Models.Author
+ 
+@{
+    ViewBag.Title = "CreateAuthor";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var id = ViewBag.id;
+}
+ 
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>AUTHOR MANAGEMENT</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Add Author</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row"> 
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">ID</label>
+                                <input type="text" class="form-control" value="@id" disabled>
+                                <input type="hidden" value="@id" name="idAuthor"/>
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold">Image</label>
+                                    <input type="file" class="form-control hinhanhsach border-0" required=""name="imgAuthor" id="image">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <img src="" id = "show-image" width="auto"
+                                    height="90px">
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Name Author</label>
+                                <input type="text" pattern="^[A-Za-z0-9-\s]*" title="Name should without accents"class="form-control"required="" name="nameAuthor" placeholder="Enter name author">
+                            </div>   
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="col-form-label font-weight-bold des">Describe</label>
+                                <textarea class="form-control des" required="" pattern="^[A-Za-z0-9-\s]*" title="Describe should without accents"rows="8" name="describeAuthor" style="width:100%"></textarea>
+                            </div>
+                            <div class="form-group col-md-6 pt-5 pt-5">
+                                <a href="../../Admin/AuthorManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
+                                <button type="submit" name="submit-save" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function readURL(input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                $('#show-image').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $('#image').change(function(){
+        readURL(this);
+    });
+</script>

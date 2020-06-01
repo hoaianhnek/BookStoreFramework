@@ -2,7 +2,13 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var books = ViewBag.Book;
-    var BookDis = ViewBag.BookDis;
+    var BookDisBest = ViewBag.BookDisBest;
+    var flashsale = ViewBag.flashsale;
+    var BestSellerDis = ViewBag.BestSellerDis;
+    var BestSeller = ViewBag.BestSeller;
+    var Drama = ViewBag.Drama;
+    var TrueStory = ViewBag.TrueStory;
+    var Loved = ViewBag.Loved;
 }
 <div class="d-flex flex-wrap">
     <div class="slideshow-background">
@@ -110,8 +116,8 @@
                     <div class="category-content">
                         <div class="content-text">
                             <h6>shop category</h6>
-                            <h2>literary</h2>
-                            <a href="#">Shop Now<i class="fas fa-long-arrow-alt-right"></i>
+                            <h2>Drama</h2>
+                            <a href="#productsale">Shop Now<i class="fas fa-long-arrow-alt-right"></i>
                             </a>
                         </div>
                     </div>
@@ -124,8 +130,8 @@
                     <div class="category-content">
                         <div class="content-text">
                             <h6>shop category</h6>
-                            <h2>Tiểu thuyết</h2>
-                            <a href="#">Shop Now<i class="fas fa-long-arrow-alt-right"></i>
+                            <h2>True Story</h2>
+                            <a href="#productsale">Shop Now<i class="fas fa-long-arrow-alt-right"></i>
                             </a>
                         </div>
                     </div>
@@ -138,8 +144,8 @@
                     <div class="category-content">
                         <div class="content-text">
                             <h6>shop category</h6>
-                            <h2>Language</h2>
-                            <a href="#">Shop Now<i class="fas fa-long-arrow-alt-right"></i>
+                            <h2>Loved</h2>
+                            <a href="#productsale">Shop Now<i class="fas fa-long-arrow-alt-right"></i>
                             </a>
                         </div>
                     </div>
@@ -152,22 +158,73 @@
             <div class="tabs-best-selection">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a href="#bestseller" class="nav-link active" data-toggle="tab">Best Seller</a>
+                        <a href="#bestseller" class="nav-link active" data-toggle="tab">Discount Best</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#book1" class="nav-link" data-toggle="tab">Book1</a>
+                        <a href="#book1" class="nav-link" data-toggle="tab">Best Seller</a>
                     </li>
                 </ul>
                 <!-- noidung -->
                 <div class="tab-content" style="margin-top:50px">
                     <div id="bestseller" class="tab-pane active">
                         <div class="slide-bestseller owl-carousel">
-                        @foreach (var item in BookDis)
+                        @foreach (var item in BookDisBest)
                         {
+                        <div class="item">
+                            <div class="productbest-wrap">
+                                <span class="on-sale">
+                                    @item.numberDiscount%
+                                </span>
+                                <div class="product-img">
+                                    <a href="#">
+                                        <img src="~/images/@item.imgBook">
+                                        <div class="button-search">
+                                            <a href="Home/DetailProduct/@item.idBook">
+                                                <i class="fas fa-search"></i>
+                                            </a>  
+                                        </div>
+                                    </a>
+                                    <div class="product-button">
+                                        <div class="add-to-cart">
+                                            <a data-name='@item.nameBook'
+                                            data-price = '@item.priceBook' 
+                                            data-number = '@item.numberDiscount'
+                                            id="@item.idBook"
+                                            data-image= '@item.imgBook'>Add to cart</a>
+                                        </div>
+                                        <div class="menu-tocart">
+                                            <a href="#"><i class="fas fa-bars"></i></a>
+                                        </div>
+                                        <div class="love-tocart">
+                                            <a href="#"><i class="fas fa-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <h4>
+                                        <a href="#">@item.nameBook</a>
+                                    </h4>
+                                    <div class="price">
+                                        <span>@item.priceBook$</span>
+                                        <span>@(item.priceBook - 
+                                            (item.priceBook * item.numberDiscount)/100) $</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                            
+                            
+                        </div>
+                    </div>
+                    <div id="book1" class="tab-pane fade">
+                        <div class="slide-bestseller owl-carousel">
+                            @foreach (var item in BestSellerDis)
+                            {
                             <div class="item">
                                 <div class="productbest-wrap">
                                     <span class="on-sale">
-                                        @item.numberDiscount
+                                        @item.numberDiscount%
                                     </span>
                                     <div class="product-img">
                                         <a href="#">
@@ -182,7 +239,7 @@
                                             <div class="add-to-cart">
                                                 <a data-name='@item.nameBook'
                                                 data-price = '@item.priceBook' 
-                                                id="@item.idBook"
+                                                id="@item.idBook" data-number = '@item.numberDiscount'
                                                 data-image= '@item.imgBook'>Add to cart</a>
                                             </div>
                                             <div class="menu-tocart">
@@ -199,31 +256,32 @@
                                         </h4>
                                         <div class="price">
                                             <span>@item.priceBook$</span>
-                                            <span>@item.priceBook - 
-                                                (@item.priceBook * @item.numberDiscount)/100 $</span>
+                                            <span>@(item.priceBook - 
+                                                (item.priceBook * item.numberDiscount)/100) $</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                            
-                            
-                        </div>
-                    </div>
-                    <div id="book1" class="tab-pane fade">
-                        <div class="slide-bestseller owl-carousel">
+                            }
+                            @foreach (var item in BestSeller)
+                            {
                             <div class="item">
                                 <div class="productbest-wrap">
                                     <div class="product-img">
                                         <a href="#">
-                                            <img src="~/images/book7.png">
+                                            <img src="~/images/@item.imgBook">
                                             <div class="button-search">
-                                                <i class="fas fa-search"></i>
+                                                <a href="Home/DetailProduct/@item.idBook">
+                                                    <i class="fas fa-search"></i>
+                                                </a>  
                                             </div>
                                         </a>
                                         <div class="product-button">
                                             <div class="add-to-cart">
-                                                <a>Add to cart</a>
+                                                <a data-name='@item.nameBook'
+                                                data-price = '@item.priceBook' 
+                                                id="@item.idBook" data-number="0"
+                                                data-image= '@item.imgBook'>Add to cart</a>
                                             </div>
                                             <div class="menu-tocart">
                                                 <a href="#"><i class="fas fa-bars"></i></a>
@@ -235,155 +293,15 @@
                                     </div>
                                     <div class="product-content">
                                         <h4>
-                                            <a href="#">Loving Chickens</a>
+                                            <a href="#">@item.nameBook</a>
                                         </h4>
-                                        <div class="price">120$</div>
+                                        <div class="price">
+                                            @item.priceBook$
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div class="productbest-wrap">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="~/images/book7.png">
-                                            <div class="button-search">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                        </a>
-                                        <div class="product-button">
-                                            <div class="add-to-cart">
-                                                <a href="#">Add to cart</a>
-                                            </div>
-                                            <div class="menu-tocart">
-                                                <a href="#"><i class="fas fa-bars"></i></a>
-                                            </div>
-                                            <div class="love-tocart">
-                                                <a href="#"><i class="fas fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h4>
-                                            <a href="#">Loving Chickens</a>
-                                        </h4>
-                                        <div class="price">120$</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="productbest-wrap">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="~/images/book7.png">
-                                            <div class="button-search">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                        </a>
-                                        <div class="product-button">
-                                            <div class="add-to-cart">
-                                                <a href="#">Add to cart</a>
-                                            </div>
-                                            <div class="menu-tocart">
-                                                <a href="#"><i class="fas fa-bars"></i></a>
-                                            </div>
-                                            <div class="love-tocart">
-                                                <a href="#"><i class="fas fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h4>
-                                            <a href="#">Loving Chickens</a>
-                                        </h4>
-                                        <div class="price">120$</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="productbest-wrap">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="~/images/book7.png">
-                                            <div class="button-search">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                        </a>
-                                        <div class="product-button">
-                                            <div class="add-to-cart">
-                                                <a href="#">Add to cart</a>
-                                            </div>
-                                            <div class="menu-tocart">
-                                                <a href="#"><i class="fas fa-bars"></i></a>
-                                            </div>
-                                            <div class="love-tocart">
-                                                <a href="#"><i class="fas fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h4>
-                                            <a href="#">Loving Chickens</a>
-                                        </h4>
-                                        <div class="price">120$</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="productbest-wrap">
-                                    <div class="product-img">
-                                        <a href="#">
-                                            <img src="~/images/book7.png">
-                                            <div class="button-search">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                        </a>
-                                        <div class="product-button">
-                                            <div class="add-to-cart">
-                                                <a href="#">Add to cart</a>
-                                            </div>
-                                            <div class="menu-tocart">
-                                                <a href="#"><i class="fas fa-bars"></i></a>
-                                            </div>
-                                            <div class="love-tocart">
-                                                <a href="#"><i class="fas fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-content">
-                                        <h4>
-                                            <a href="#">Loving Chickens</a>
-                                        </h4>
-                                        <div class="price">120$</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item"><div class="productbest-wrap">
-                                <div class="product-img">
-                                    <a href="#">
-                                        <img src="~/images/book7.png">
-                                        <div class="button-search">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </a>
-                                    <div class="product-button">
-                                        <div class="add-to-cart">
-                                            <a href="#">Add to cart</a>
-                                        </div>
-                                        <div class="menu-tocart">
-                                            <a href="#"><i class="fas fa-bars"></i></a>
-                                        </div>
-                                        <div class="love-tocart">
-                                            <a href="#"><i class="fas fa-heart"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-content">
-                                    <h4>
-                                        <a href="#">Loving Chickens</a>
-                                    </h4>
-                                    <div class="price">120$</div>
-                                </div>
-                            </div></div>
+                            }                                            
                         </div>
                     </div>
                 </div>
@@ -396,37 +314,42 @@
                 <div class="title-flash d-flex">
                     <img src="~/images/logo-sale.jpg">
                     <div>
+                        @foreach (var item in flashsale)
+                        {
+                        <div class="d-none flashSale">@item.dateEnd</div>
                         <h3>Free Ship
                             <span>20$</span>
-                            Cho tất cả đơn hàng
+                            For All Orders
                         </h3>
                         <div class="time-flash-sale">
-                            <span>1/1/2020-1/1/2021</span>
+                            <span>@item.dateStart - @item.dateEnd</span>
                         </div>
                         <span>
-                            Kết thúc trong
+                            Finish Later
                         </span>
                         <div class="countdown">
                             <div class="day-countdown">
-                                <span id="day"></span>
+                                <span class="day"></span>
                                 <span>Days</span>
                             </div>
                             <div class="haicham">:</div>
                             <div class="day-countdown">
-                                <span id="hours"></span>
+                                <span class="hours"></span>
                                 <span>Hours</span>
                             </div>
                             <div class="haicham">:</div>
                             <div class="day-countdown">
-                                <span id="minutes"></span>
+                                <span class="minutes"></span>
                                 <span>minutes</span>
                             </div>
                             <div class="haicham">:</div>
                             <div class="day-countdown">
-                                <span id="seconds"></span>
+                                <span class="seconds"></span>
                                 <span>Seconds</span>
                             </div>
                         </div>
+                        }
+                        
                     </div>
                     
                 </div>
@@ -434,101 +357,38 @@
             </div>
         </div>
     </div>
-    <div class="product-sale">
+    <div class="product-sale" id="productsale">
         <div class="container">
             <div class="row product-sale-wrapper">
                 <div class="col-sm-4">
                     <div class="product-sale-inner">
                         <div class="heading-product-sale">
-                            <span>Product đồng giá</span>
+                            <span>DRAMA</span>
                         </div>
                         <div class="product-sale-list">
-                            <ul>
+                           <ul>
+                                @foreach (var drama in Drama)
+                                {
                                 <li class="flex-wrap d-flex">
                                     <div class="col-sm-4">
-                                        <div></div>
+                                        <div>
+                                            <img src="../../images/@drama.imgBook" width="100%" height="100%"/>
+                                        </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <h2>
-                                            <a href="#">
-                                                The Best Investment
+                                            <a href="Home/DetailProduct/@drama.idBook">
+                                                @drama.nameBook
                                             </a>
                                         </h2>
                                         <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
+                                            <span>$@drama.priceBook</span>
+                                            <span>$@(drama.priceBook - (drama.priceBook*drama.numberDiscount)/100)</span>
                                         </div>
                                         
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
                                     </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
                                 </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -536,95 +396,32 @@
                 <div class="col-sm-4">
                     <div class="product-sale-inner">
                         <div class="heading-product-sale">
-                            <span>Product đồng giá</span>
+                            <span>TRUE STORY</span>
                         </div>
                         <div class="product-sale-list">
                             <ul>
+                                @foreach (var item in TrueStory)
+                                {
                                 <li class="flex-wrap d-flex">
                                     <div class="col-sm-4">
-                                        <div></div>
+                                        <div>
+                                            <img src="../../images/@item.imgBook" width="100%" height="100%"/>
+                                        </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <h2>
-                                            <a href="#">
-                                                The Best Investment
+                                            <a href="Home/DetailProduct/@item.idBook">
+                                                @item.nameBook
                                             </a>
                                         </h2>
                                         <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
+                                            <span>$@item.priceBook</span>
+                                            <span>$@(item.priceBook - (item.priceBook*item.numberDiscount)/100)</span>
                                         </div>
                                         
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
                                     </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
                                 </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -632,95 +429,32 @@
                 <div class="col-sm-4">
                     <div class="product-sale-inner">
                         <div class="heading-product-sale">
-                            <span>Product đồng giá</span>
+                            <span>LOVED</span>
                         </div>
                         <div class="product-sale-list">
                             <ul>
+                                @foreach (var item in Loved)
+                                {
                                 <li class="flex-wrap d-flex">
                                     <div class="col-sm-4">
-                                        <div></div>
+                                        <div>
+                                            <img src="../../images/@item.imgBook" width="100%" height="100%"/>
+                                        </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <h2>
-                                            <a href="#">
-                                                The Best Investment
+                                            <a href="Home/DetailProduct/@item.idBook">
+                                                @item.nameBook
                                             </a>
                                         </h2>
                                         <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
+                                            <span>$@item.priceBook</span>
+                                            <span>$@(item.priceBook - (item.priceBook*item.numberDiscount)/100)</span>
                                         </div>
                                         
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
                                     </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
                                 </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
-                                <li class="flex-wrap d-flex">
-                                    <div class="col-sm-4">
-                                        <div></div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h2>
-                                            <a href="#">
-                                                The Best Investment
-                                            </a>
-                                        </h2>
-                                        <div>
-                                            <span>$360.000</span>
-                                            <span>$205.000</span>
-                                        </div>
-                                        
-                                    </h2>
-                                </li>
+                                }
                             </ul>
                         </div>
                     </div>

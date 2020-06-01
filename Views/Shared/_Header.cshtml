@@ -1,12 +1,13 @@
 @{
-    List<Category> book = ViewBag.Category;
+    var book = ViewBag.Category;
+    var Email = ViewBag.Email;
 }
 <div class="topbar">
     <div class="container">
         <div class="row">
             <div class="col-sm-6 text-left">
                 <i class="fas fa-map-marker-alt"></i>
-                <span>KTX khu B - ĐH quốc gia TPHCM</span>
+                <span>KTX khu B - DH QUOC GIA TPHCM</span>
                 <i class="fas fa-mobile"></i>
                 <span>0-376-206-***</span>
                 <i class="fas fa-envelope"></i>
@@ -15,9 +16,16 @@
             <div class="col-sm-6 text-right">
                 <ul class="nav justify-content-end">
                     <li class="topbar-login">
-                        <a class="" href="Home/MyAccount">
+                        @if(Email != null) {
+                        <a class="" href="../../Home/Information">
+                            <span>MyAccount</span>
+                        </a>
+                        } else {
+                        <a class="" href="../../Home/MyAccount">
                             <span>Login</span>
                         </a>
+                        }
+                        
                     </li>
                     <li class="">
                         <a class="" href="#">
@@ -36,7 +44,7 @@
             <div class="container-inner d-flex flex-wrap">
                 <div class="logo-wrapper col-sm-3">
                     <div class="logo-inside">
-                        <a href="~/Home">
+                        <a href="~/Home" title="Sky Book">
                             <span>SkyBook</span>
                         </a>
                     </div>
@@ -46,7 +54,7 @@
                     <div class="search-inside">
                         <form>
                             <div class="form-input">
-                                <input  type="search" class="search" placeholder="Search Products...">
+                                <input  type="search" class="search" id="SearchBookHome" placeholder="Search Products...">
                                 <button class="button" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -67,10 +75,10 @@
                                 <div id='cartne'>
                                     <div class="total-minicart d-flex justify-content-between">
                                         <strong>Subtotal:</strong>
-                                        <span>$95.00</span>
+                                        <span>$0.00</span>
                                     </div>
                                     <div class="view-minicart">
-                                        <a href="#">View Cart</a>
+                                        <a href="../../Home/Cart">View Cart</a>
                                     </div>
                                 </div>
                                 
@@ -96,7 +104,7 @@
                         @foreach (var item in book)
                         {
                         <li class="">
-                            <a href="#">
+                            <a href="../../Home/ProductCategory/@item.idCategory">
                                 <span>@item.nameCategory</span>
                             </a>
                         </li>

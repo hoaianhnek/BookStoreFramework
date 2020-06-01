@@ -1,12 +1,13 @@
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    double tongtien = 0;
 }
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Quản lý sách</h3>
+                <h4>ORDER MANAGEMENT</h4>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
@@ -20,57 +21,129 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="row" style="display: block;">
-            <div class="col-md-6 col-sm-6  ">
+        <div class="row" style="display: flex;">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Basic Tables <small>basic table subtitle</small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                        <h2>Order</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table class="table">
+                        <table class="table table-striped b-t b-light">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
+                                    <th data-breakpoints="xs" scope="col">ID</th>
+                                    <th>Name Customer</th>
+                                    <th>Date Order</th>
+                                    <th>Address</th>
+                                    <th>Details Product</th>
+                                    <th>Ship Fee</th>
+                                    <th>SubTotal</th>
+                                    <th>Status</th>
+                                    <th scope="col">Manipulation</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (var item in ViewBag.orders)
+                                {
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>123</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>123</td>
-                                </tr>
+                                    <td scope="row">@item.idOrder</td>
+                                    <td><span class="text-ellipsis">
+                                        @foreach (var cus in ViewBag.customers)
+                                        {
+                                            if(cus.idCustomer == item.idCustomer) {
+                                                @cus.nameCustomer
+                                            }
+                                        }
+                                    </span></td>
+                                    <td><span class="text-ellipsis">@item.dateOrder.ToString("dd/MM/yyyy")</span></td>
+                                    <td><span class="text-ellipsis">
+                                        @foreach (var cus in ViewBag.customers)
+                                        {
+                                            if(cus.idCustomer == item.idCustomer) {
+                                                @cus.addressCustomer<span> - </span>
+                                                foreach (var s in ViewBag.shippings)
+                                                {
+                                                    if(s.idShip == cus.idShip) {
+                                                        @s.country
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </span></td>
+                                    <td>
+                                        <table width="auto" border="0">
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Quantity</td>
+                                                <td>Price</td>
+                                            </tr>
+                                            @foreach (var od in ViewBag.orderdetails)
+                                            {
+                                                if(od.idOrder == item.idOrder) {
+                                                    <tr>
+                                                        <td>
+                                                            @foreach (var b in ViewBag.books)
+                                                            {
+                                                                if(b.idBook==od.idBook) {
+                                                                    @b.nameBook
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td>@od.quantityBook</td>
+                                                        <td>
+                                                            @foreach (var b in ViewBag.books)
+                                                            {   var dem=0;
+                                                                if(b.idBook == od.idBook && b.idDiscount!="") {
+                                                                    foreach (var d in ViewBag.discounts)
+                                                                    {
+                                                                        if(d.idDiscount == b.idDiscount) {
+                                                                            <span>@(b.priceBook-b.priceBook*d.numberDiscount/100)$</span>
+                                                                            dem++;
+                                                                            tongtien += (b.priceBook-b.priceBook*d.numberDiscount/100)*od.quantityBook;
+                                                                        }
+                                                                    }
+                                                                    if(dem==0){<span>@b.priceBook$</span>
+                                                                    tongtien += b.priceBook*od.quantityBook;}
+                                                                    
+                                                                } else if(b.idBook == od.idBook) {
+                                                                    <span>@b.priceBook$</span>
+                                                                    tongtien += b.priceBook*od.quantityBook;
+                                                                }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            
+                                        </table>
+                                    </td>
+                                    <td>
+                                        @foreach (var cus in ViewBag.customers)
+                                        {
+                                            if(cus.idCustomer == item.idCustomer) {
+                                                foreach (var s in ViewBag.shippings)
+                                                {
+                                                    if(s.idShip == cus.idShip) {
+                                                       <span>@s.charge$</span> 
+                                                       tongtien += s.charge;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                    <td>@tongtien$</td>
+                                    <td>@item.status</td>
+                                    @* //disabled="true" *@
+                                    @if(item.status == "Delivered" || item.status == "Cancelled") {
+                                        <td><a class="btn float-right Invoicedis" disabled>Invoice</a></td>
+                                    } else {
+                                        <td><a class="btn float-right Invoice" data-id="@item.idOrder">Invoice</a></td>
+                                    }
+                                </tr> 
+                                tongtien=0;
+                                }
+                                
                             </tbody>
                         </table>
                     </div>

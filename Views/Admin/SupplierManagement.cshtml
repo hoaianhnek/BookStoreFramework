@@ -1,0 +1,106 @@
+@model IEnumerable<frame.Models.Supplier>
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>SUPPLIER MANAGEMENT</h4>
+            </div>
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchSupplier"placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Supplier</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <p>
+                    @Html.ActionLink("Create New", "CreateSupplier")
+                    </p>
+                    @if(TempData["StatusUpdate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdate"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreate"]
+                    </div>
+                    }
+                    @if(TempData["StatusDelete"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDelete"]
+                    </div>
+                    }
+                    <div class="x_content">
+                        <table class= "table">
+                            <thead>
+                                <tr>
+                                    <th>ID Supplier</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Manipulation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.idSupplier)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.nameSupplier)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.addressSupplier)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.phoneSupplier)
+                                    </td>
+
+                                        
+                                     <td class="actionAdmin">
+                                        <a href="/Admin/DeleteSupplier/@item.idSupplier" class="btnSubmit">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        |
+                                        <a href="../../Admin/EditSupplier/@item.idSupplier">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>
