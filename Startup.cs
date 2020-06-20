@@ -45,6 +45,10 @@ namespace frame
             services.AddSession(options => {  
                 options.IdleTimeout = TimeSpan.FromMinutes(3600);//You can set Time   
             });  
+
+            //create Authentication Middleware
+            // services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //         .AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +70,8 @@ namespace frame
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
             
             app.UseSession();
 
@@ -75,6 +81,8 @@ namespace frame
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+         
         }
     }
 }

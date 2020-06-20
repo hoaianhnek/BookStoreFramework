@@ -17,6 +17,11 @@ using Syncfusion.Pdf.Parsing;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using frame.Common;
+
 
 namespace frame.Controllers
 {
@@ -522,10 +527,76 @@ namespace frame.Controllers
         #region shipping
         public IActionResult ShippingManagement() {
             BookStoreContext context = new BookStoreContext();
-            var shippings = context.GetAllShipping();
-            ViewBag.shippings = shippings;
+            var shipping = context.GetAllShipping();
+            var shippings = shipping.Where(s=>s.status == "true");
+            ViewBag.shipping = shippings;
             return View();
         }
+
+        
+        public IActionResult CreateShipping()
+        {
+            BookStoreContext context = new BookStoreContext();
+            List<Shipping> shippings = context.GetAllShipping();
+            string idLast = shippings.Select(s=>s.idShip).LastOrDefault();
+            var so = idLast.Substring(1,3);
+            string id = "";
+            for(int i=0;i<so.Length;i++) {
+                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                    id= ("S00").ToString() + (int.Parse(so)+1).ToString();
+                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                    id = ("S0").ToString() + (int.Parse(so)+1).ToString();
+                } else {
+                    id = ("S").ToString() + (int.Parse(so)+1).ToString();
+                }
+            }
+            ViewBag.id = id;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateShipping(string id, string country, float charge)
+        {
+            BookStoreContext context = new BookStoreContext();
+            context.AddShipping(id,country, charge);
+            TempData["StatusCreateShipping"] = "Create Shipping Success!";
+            return RedirectToAction("ShippingManagement");
+        }
+
+        public IActionResult EditShipping(string id)
+        {
+           BookStoreContext context = new BookStoreContext();
+           List<Shipping> shipping = context.GetAllShipping();
+           var country = shipping.Where(c => c.idShip == id)
+                        .FirstOrDefault();
+           var charge = shipping.Where(c => c.idShip == id)
+                        .FirstOrDefault();
+            ViewBag.Shipping = country;
+            ViewBag.Shipping = charge;
+           return View();
+       }
+       [HttpPost]
+       public IActionResult EditShipping (string id, string country, float charge)
+       {
+           BookStoreContext context = new BookStoreContext();
+           var button = Request.Form["submit"].ToString();
+           if(button == "Cancel") {
+               return RedirectToAction("ShippingManagement");
+           } else {
+               context.UpdateShipping(id,country,charge);
+               TempData["StatusUpdateShipping"] = "Update Shipping Success!";
+               return RedirectToAction("ShippingManagement");
+           }
+       }
+
+       
+        public IActionResult DeleteShipping(string id)
+       {
+           BookStoreContext context = new BookStoreContext();
+           context.DeleteShipping(id);
+           TempData["StatusDeleteShipping"] = "Delete Shipping Success!";
+           return RedirectToAction("ShippingManagement");
+       }
+
         #endregion shipping
 
         #region order
@@ -1205,6 +1276,121 @@ namespace frame.Controllers
             return new JsonResult(book);
         }
         #endregion entry
+
+
+        #region Account
+        [HttpGet]
+        public IActionResult AccountAdmin()
+        {
+            BookStoreContext context = new BookStoreContext();
+            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AccountAdmin (User user) {
+            BookStoreContext context = new BookStoreContext();
+            
+            var users = context.GetAllUser();
+                if(ModelState.IsValid) {
+                var login = users.Where(u => u.email == user.email && u.password == user.password).FirstOrDefault();
+                    if(login == null ) {
+                        var Error = "Email hoặc password không đúng!";
+                        ViewBag.Error = Error;
+                        return View();
+                    } else {
+                    if(login.role.Equals("customer")){
+                        // SessionHelper.SetObjectAsJson(HttpContext.Session,"email",user.email);
+                        ViewBag.Error = "Đây là tài khoản khách hàng, không thể đăng nhập";
+                        return View();
+                    }
+                    else if (login.role.Equals("admin") || login.role.Equals("employee")){
+                        HttpContext.Session.SetString("login", JsonConvert.SerializeObject(login));
+                        return Redirect("/Admin/Index");
+                    }
+                }
+            }
+            
+            return View(user);
+        }
+
+        public IActionResult Logout(){
+            HttpContext.Session.Remove("login");
+            return Redirect("/Admin/AccountAdmin");
+        }
+
+
+        public IActionResult AddAccountAdmin(){
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddAccountAdmin(int id, string email, string password, string role){
+            BookStoreContext context = new BookStoreContext();
+            // int result = context.AddAccount(user);
+            // if(ModelState.IsValid) {
+            //     if(result > 0) ViewBag.Status = "Đăng Ký tài khoản nhân viên thành công";
+            //     else ViewBag.Status = "error";
+            // }
+            // return View();
+
+            context.AddAccount(id,email, password, role);
+            TempData["StatusCreateAccount"] = "Create Account Success!";
+            return RedirectToAction("AccountAdminManagement");
+        }
+
+
+
+        public IActionResult AccountAdminManagement() {
+            BookStoreContext context = new BookStoreContext();
+            var account = context.GetAllAccount();
+            var accounts = account.Where(s=>s.role == "employee" && s.status == "true");
+            ViewBag.account = accounts;
+            return View();
+        }
+
+        public IActionResult EditAccountAdmin(int id)
+        {
+           BookStoreContext context = new BookStoreContext();
+           List<User> account = context.GetAllAccount();
+           var email = account.Where(c => c.idUser == id)
+                        .FirstOrDefault();
+           var password = account.Where(c => c.idUser == id)
+                        .FirstOrDefault();
+           var role = account.Where(c => c.idUser == id)
+                        .FirstOrDefault();
+            ViewBag.User = email;
+            ViewBag.User = password;
+            ViewBag.User = role;
+           return View();
+       }
+       [HttpPost]
+       public IActionResult EditAccountAdmin (string id, string email, string password)
+       {
+           BookStoreContext context = new BookStoreContext();
+           var button = Request.Form["submit"].ToString();
+           if(button == "Cancel") {
+               return RedirectToAction("AccountAdminManagement");
+           } else {
+               context.UpdateAccount(id,email,password);
+               TempData["StatusUpdateAccount"] = "Update Account Success!";
+               return RedirectToAction("AccountAdminManagement");
+           }
+       }
+
+       
+        public IActionResult DeleteAccountAdmin(string id)
+       {
+           BookStoreContext context = new BookStoreContext();
+           context.DeleteAccount(id);
+           TempData["StatusDeleteAccount"] = "Delete Account Success!";
+           return RedirectToAction("AccountAdminManagement");
+       }
+
+
+        #endregion Account
+
     
     }
 }

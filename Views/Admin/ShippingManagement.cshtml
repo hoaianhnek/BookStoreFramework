@@ -3,13 +3,13 @@
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
     var customer = ViewBag.customer;
     var users = ViewBag.users;
-    var shippings = ViewBag.shippings;
+    var shipping = ViewBag.shipping;
 }
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Quản lý sách</h3>
+                <h3>Shipping Management</h3>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
@@ -27,24 +27,30 @@
             <div class="col-md-6 col-sm-6  ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Basic Tables <small>basic table subtitle</small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Settings 1</a>
-                                    <a class="dropdown-item" href="#">Settings 2</a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                        </ul>
+                        <h2>Shipping</h2>
                         <div class="clearfix"></div>
                     </div>
+                     <p>
+                        @Html.ActionLink("Create New", "CreateShipping")
+                    </p>
+                    @if(TempData["StatusUpdateShipping"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdateShipping"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreateShipping"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreateShipping"]
+                    </div>
+                    }
+                    @if(TempData["StatusDeleteShipping"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDeleteShipping"]
+                    </div>
+                    }
                     <div class="x_content">
                         <table class="table">
                             <thead>
@@ -55,12 +61,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var s in shippings)
+                                @foreach (var s in shipping)
                                 {
                                     <tr>
                                         <th scope="row">@s.idShip</th>
                                         <td>@s.country</td>
-                                        <td>@s.charge</td>                                      
+                                        <td>@s.charge</td>    
+                                        <td class="actionAdmin">
+                                            <a href="/Admin/DeleteShipping/@s.idShip" class="btnSubmit">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            |
+                                            <a href="/Admin/EditShipping/@s.idShip">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>                                  
                                     </tr>
                                 }
                             </tbody>
@@ -71,3 +86,10 @@
         </div>
     </div>
 </div>
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>

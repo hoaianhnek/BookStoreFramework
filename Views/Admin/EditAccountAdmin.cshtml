@@ -1,0 +1,56 @@
+@model frame.Models.User
+ 
+@{
+    ViewBag.Title = "EditAccountAdmin";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var Account = ViewBag.User;
+}
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>ACCOUNT MANAGEMENT</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Edit Account</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using(Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row"> 
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">ID Account</label>
+                                <input type="text" class="form-control" name="id" value="@Account.idUser" disabled>
+                            </div> 
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Email</label>
+                                <input type="email" title="Name should without accents" class="form-control" name="email" required="" value="@Account.email">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Password</label>
+                                <input type="password" title="Name should without accents" class="form-control" name="password" required="" value="@Account.password">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="modal-footer">
+                            <a href="../../Admin/AccountAdminManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
+                            <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -15,5 +15,6 @@ namespace frame.Models
         [MinLength(4,ErrorMessage = "Password tối thiểu 4 kí tự")]
         public string password { get; set; }
         public string role { get; set; }
+        public string status {get; set;}
     }
 }

@@ -1,0 +1,114 @@
+@{
+    ViewData["Title"] = "Account Management";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var account = ViewBag.account;
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>ACCOUNT MANAGEMENT</h4>
+            </div>
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchCategory" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6" style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Account</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                        <p>
+                          @Html.ActionLink("Create New", "AddAccountAdmin")
+                        </p>
+                        @if(TempData["StatusUpdateAccount"] != null) {
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                            @TempData["StatusUpdateAccount"]
+                        </div>
+                        }
+                        @if(TempData["StatusCreateAccount"] != null) {
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                            @TempData["StatusCreateAccount"]
+                        </div>
+                        }
+                        @if(TempData["StatusDeleteAccount"] != null) {
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                            @TempData["StatusDeleteAccount"]
+                        </div>
+                        }
+                        <div class="x_content">
+                            <table class= "table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            ID User
+                                        </th>
+                                        <th>
+                                            Email User
+                                        </th>
+                                        <th>
+                                            Password
+                                        </th>
+                                        <th>
+                                            Role
+                                        </th>
+                                        <th>Manipulation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in account)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @item.idUser
+                                        </td>
+                                        <td>
+                                            @item.email
+                                        </td>
+                                        <td>
+                                            @item.password
+                                        </td>
+                                        <td>
+                                            @item.role
+                                        </td>
+                                            
+                                        <td class="actionAdmin">
+                                            <a href="/Admin/DeleteAccountAdmin/@item.idUser" class="btnSubmit">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            |
+                                            <a href="../../Admin/EditAccountAdmin/@item.idUser">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$('.btnSubmit').click(function() {
+		var x = confirm("Are you sure you want to delete?");
+		if(x) return true;
+		else return false;
+	});
+</script>

@@ -304,8 +304,12 @@ namespace frame.Controllers
         {
             BookStoreContext context = new BookStoreContext();
             var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
+            var password = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"password");
+            var role = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"role");
             
             ViewBag.Email = email;
+            ViewBag.Password = password;
+            ViewBag.Role = role;
             var categories = context.GetAllCategory().Where(c=>c.status == "true");
             ViewBag.Category = categories;
             return View();
@@ -397,15 +401,22 @@ namespace frame.Controllers
             if(button == "login") {
                 if(ModelState.IsValid) {
                 var login = users.Where(u => u.email == user.email && u.password == user.password)
-                                .Select(u => u.email).DefaultIfEmpty("").First();  
+                            .Select(u => u.role).DefaultIfEmpty("").First();  
                     
                 if(login == "" ) {
                     var Error = "Email hoặc password không đúng!";
                     ViewBag.Error = Error;
                     return View(user);
-                } else {
+                } else if(user.role == "admin") {
+                    // if(login == "customer"){
+                    //     SessionHelper.SetObjectAsJson(HttpContext.Session,"email",user.email);
+                    //     return RedirectToAction("Index");
+                    // }
                     SessionHelper.SetObjectAsJson(HttpContext.Session,"email",user.email);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session,"password",user.password);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session,"role",user.role);
                     return RedirectToAction("Index");
+                    
                 }
             }
             } else {

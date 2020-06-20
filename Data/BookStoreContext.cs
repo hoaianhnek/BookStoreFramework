@@ -13,8 +13,8 @@ namespace frame.Data
             MySqlConnectionStringBuilder conn_string = new MySqlConnectionStringBuilder();
             conn_string.Server = "localhost";
             conn_string.UserID = "root";
-            conn_string.Password = "123";
-            conn_string.Database = "bookstore";
+            conn_string.Password = "";
+            conn_string.Database = "websitebansachframework";
             conn_string.Port = 3306;
             conn_string.ConvertZeroDateTime = true;
             MySqlConnection cnn = new MySqlConnection(conn_string.ToString());
@@ -774,7 +774,8 @@ namespace frame.Data
 
                             idShip = reader["id_Ship"].ToString(),
                             country = reader["country"].ToString(),
-                            charge = float.Parse(reader["charge"].ToString())
+                            charge = float.Parse(reader["charge"].ToString()),
+                            status = reader["status"].ToString()
                         });
                     }
                 }
@@ -783,6 +784,44 @@ namespace frame.Data
                 Console.WriteLine("Can not open connection ! "+e.Message);
             }
             return list;
+        }
+
+        public void AddShipping(string id, string country, float charge)
+        {
+            string sql = "INSERT INTO shipping VALUES (N'"+ id + "',N'" + country + "',N'"+charge+"',N'true')";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();           
+            cmd.Dispose();
+            conn.Close();
+        }
+        public void UpdateShipping(string id, string country, float charge)
+        {
+            string sql = "Update shipping set country= N'"+country+"', charge =N'"+charge+"' where id_Ship= '"+ id+"'";
+            MySqlConnection conn= GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql,conn);
+            try {
+                conn.Open();
+                cmd.ExecuteNonQuery();           
+                cmd.Dispose();
+                conn.Close();
+            } catch(Exception e ) {
+                Console.WriteLine(e);
+            }
+           
+        }
+
+        
+        public void DeleteShipping(String id)
+        {
+            string sql = "update shipping set status = N'false' where id_Ship= '"+id+"'";
+            MySqlConnection conn= GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql,conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            conn.Close();
         }
         #endregion shipping
         
@@ -1070,5 +1109,71 @@ namespace frame.Data
         }
 
         #endregion entry
+        #region account
+        public void AddAccount(int id, string email, string password, string role)
+        {
+            string sql = "INSERT INTO user VALUES (N'"+ id + "',N'" + email + "',N'"+password+"',N'employee',N'true')";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();           
+            cmd.Dispose();
+            conn.Close();
+        }
+
+
+        public List<User> GetAllAccount() {
+            List<User> list = new List<User>();
+
+            MySqlConnection cnn = GetConnection();
+            try {
+                cnn.Open();
+                MySqlCommand cmd = new MySqlCommand("select * from user",cnn);
+                using( var reader = cmd.ExecuteReader()) {
+                    while(reader.Read()) {
+                        list.Add(new User() {
+
+                            idUser = int.Parse(reader["id_User"].ToString()),
+                            email = reader["email"].ToString(),
+                            password = reader["password"].ToString(),
+                            role = reader["role"].ToString(),
+                            status = reader["status"].ToString()
+                        });
+                    }
+                }
+                cnn.Close();
+            }catch(Exception e) {
+                Console.WriteLine("Can not open connection ! "+e.Message);
+            }
+            return list;
+        }
+
+         public void UpdateAccount(string id, string email, string password)
+        {
+            string sql = "Update user set email= N'"+email+"', password =N'"+password+"' where id_User= '"+ id+"'";
+            MySqlConnection conn= GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql,conn);
+            try {
+                conn.Open();
+                cmd.ExecuteNonQuery();           
+                cmd.Dispose();
+                conn.Close();
+            } catch(Exception e ) {
+                Console.WriteLine(e);
+            }
+           
+        }
+
+         public void DeleteAccount(String id)
+        {
+            string sql = "update user set status = N'false' where id_User= '"+id+"'";
+            MySqlConnection conn= GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql,conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            conn.Close();
+        }
+        #endregion
     }
 }
