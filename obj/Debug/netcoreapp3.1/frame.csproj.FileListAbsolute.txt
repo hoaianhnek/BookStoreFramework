@@ -166,7 +166,6 @@ C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Home\MyAccount.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Home\ProductCategory.cshtml.g.cs
-C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Home\SearchProduct.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\SharedAdmin\_Layout.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Footer.cshtml.g.cs
@@ -216,3 +215,17 @@ C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateEntry.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditEntry.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\package-lock.json
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\SalesReport.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\PdfSharp.Charting.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\PdfSharp.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\de\PdfSharp.Charting.resources.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\bin\Debug\netcoreapp3.1\de\PdfSharp.resources.dll
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AccountAdmin.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\SharedAdmin\Error.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\SharedAdmin\_LayoutEmpty.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\SharedAdmin\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateShipping.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditShipping.cshtml.g.cs

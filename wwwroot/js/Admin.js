@@ -145,7 +145,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $(".Invoice").click(function() {
         var id = $(this).attr("data-id");
-        var x = confirm("Are you sure you want to Invoice?");
+        var x = confirm("Bạn thật sự muốn tạo hóa đơn?");
         if(x) {
             $.ajax({
                 type:'GET',
@@ -153,7 +153,7 @@ $(document).ready(function() {
                 data:{id:id},
                 success:function(data) {
                     if(data == "0") {
-                        alert("Quantity Book not enough!");
+                        alert("Số lượng sách không đủ!");
                         location.reload();
                     } else {
                         window.location.href ="/Admin/GeneratePdf/"+id;
@@ -167,7 +167,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $(".InvoiceEntry").click(function() {
         var id = $(this).attr("data-id");
-        var x = confirm("Are you sure you want to Invoice?");
+        var x = confirm("Bạn thật sự muốn tạo hóa đơn?");
 		if(x) {
             $.ajax({
                 type:'GET',
@@ -188,10 +188,10 @@ $(document).ready(function() {
         var quantity = $(".quantity").val();
         var price = $(".priceBook").val();
         if(name != "" && quantity!="" && price!="") {
-            if(quantity<0) {
-                alert("Quantity Book must bigger 0!");
-            } else if(price<0) {
-                alert("Price Book must bigger 0!");
+            if(quantity <= 0) {
+                alert("Số lượng sách phải lớn hơn 0!");
+            } else if(price <= 0) {
+                alert("Giá sách phải lớn hơn 0!");
             } else {
                 $.ajax({
                     type:'GET',
@@ -210,18 +210,78 @@ $(document).ready(function() {
             }
             
         } else if(quantity=="") {
-            alert("Quantity not Empty!");
+            alert("Số lượng không được trống!");
         } else if(name=="")
         {
-            alert("Name Book not empty!");
+            alert("Vui lòng chọn sách!");
         } else if(price == "") {
-            alert("Price not empty!");
+            alert("Giá không được trống!");
         }
     });
 });
+$(document).on(
+    'click', 
+    '.xoaEntrybtn',
+    function() {
+        $(this).parent().parent().remove();
+    }
+);
 $(document).ready(function() {
-    $(".xoaEntrybtn").click(function() {
-        alert("huh");
-        // $(this).parent().parent().remove();
+    $('select.discount').change(function() {
+        var cate = $(this).val();
+        $.ajax({
+            type:'GET',
+            url:'/Admin/SelectDis/',
+            data:{category:cate},
+            success:function(data) {
+                if(data[0].nameCategory==undefined) {
+                    $('.category').remove();
+                    html = "";
+                    $('tbody').html("");
+                    for(var i=0;i<data.length;i++) {                  
+                        html += "<tr>";
+                        html += "<input type='hidden' value='"+data[i].idBook+"' name='idBook'>";
+                        html += "<td>"+data[i].nameBook+"</td>";
+                        html += "<td><img src='../../images/"+data[i].imgBook+"' width='60' height='70'></td>";
+                        html += "<td>"+data[i].amountBook+"</td>";
+                        html += "<td><a class='xoaEntrybtn'><i class='fa fa-trash'></i></a></td>";
+                        html += "</tr>";
+                    }
+                    $('tbody').append(html);
+                } else {
+                    $('tbody').html("");
+                    html = "";
+                    html += "<label class='category font-weight-bold ml-1'>Chọn Thể Loại</label>"
+                    html += "<select class='category ml-5 mb-2' style='height: 30px;'><option>--Chọn thể loại--</option>";
+                    for(var i=0;i<data.length;i++) {
+                        html+="<option value="+data[i].idCategory+">"+data[i].nameCategory+"</option>";
+                    }
+                    html += "</select>";
+                    $(".x_content .col-5 .discount-row").append(html);
+                }
+            }
+        });
+    });
+});
+$(document).on('change','select.category',function() {
+    var idCategory = $(this).val();
+    $.ajax({
+        type:'GET',
+        url:'/Admin/CateDis/',
+        data:{idCategory:idCategory},
+        success: function(data) {
+            $('tbody').html("");
+            html = "";
+            for(var i=0;i<data.length;i++) {
+                html += "<tr>";
+                html += "<input type='hidden' value='"+data[i].idBook+"' name='idBook'>";
+                html += "<td>"+data[i].nameBook+"</td>";
+                html += "<td><img src='../../images/"+data[i].imgBook+"' width='60' height='70'></td>";
+                html += "<td>"+data[i].amountBook+"</td>";
+                html += "<td><a class='xoaEntrybtn'><i class='fa fa-trash'></i></a></td>";
+                html += "</tr>";
+            }
+            $('tbody').append(html);
+        }
     });
 });

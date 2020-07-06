@@ -9,14 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using frame.Models;
 using frame.Data;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Grid;
-using Syncfusion.Pdf.Graphics;
-using Syncfusion.Drawing;
-using Syncfusion.Pdf.Parsing;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using frame.Common;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Http;
 
 namespace frame.Controllers
 {
@@ -24,6 +25,11 @@ namespace frame.Controllers
     {
         
         public IActionResult Index() {
+            BookStoreContext context = new BookStoreContext();
+            var daynow = DateTime.Now.ToString("yyyy-MM-dd");
+            var orders = context.GetAllOrder().Where(o=>o.dateOrder.ToString("yyyy-MM-dd") == daynow);
+            int countsOrder = orders.Count();
+            ViewBag.CountOrder = countsOrder;
             return View();
         }
         
@@ -40,15 +46,19 @@ namespace frame.Controllers
             BookStoreContext context = new BookStoreContext();
             List<Author> authors = context.GetAllAuthor();
             string idLast = authors.Select(a => a.idAuthor).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("A00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("A0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("A").ToString() + (int.Parse(so)+1).ToString();
+            if(idLast == null) {
+                id = "A001";
+            } else {
+                var so = idLast.Substring(1,3);
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("A00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("A0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("A").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
             ViewBag.id = id;
@@ -113,15 +123,19 @@ namespace frame.Controllers
             BookStoreContext context = new BookStoreContext();
             List<Category> categories = context.GetAllCategory();
             string idLast = categories.Select(c=>c.idCategory).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("C00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("C0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("C").ToString() + (int.Parse(so)+1).ToString();
+            if(idLast == null) {
+                id = "C001";
+            } else {
+                var so = idLast.Substring(1,3);
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("C00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("C0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("C").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
             ViewBag.id = id;
@@ -186,15 +200,19 @@ namespace frame.Controllers
             BookStoreContext context = new BookStoreContext();
             List<Supplier> suppliers = context.GetAllSupplier();
             string idLast = suppliers.Select(s => s.idSupplier).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("S00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("S0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("S").ToString() + (int.Parse(so)+1).ToString();
+            if(idLast == null) {
+                id = "S001";
+            } else {
+                var so = idLast.Substring(1,3);
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("S00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("S0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("S").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
             ViewBag.id = id;
@@ -257,17 +275,22 @@ namespace frame.Controllers
             BookStoreContext context = new BookStoreContext();
             List<Employee> employees = context.GetAllEmployee();
             string idLast = employees.Select(c=>c.idEmployee).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("E00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("E0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("E").ToString() + (int.Parse(so)+1).ToString();
+            if (idLast == null) {
+                id = "E001";
+            } else {
+                var so = idLast.Substring(1,3);         
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("E00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("E0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("E").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
+            
             ViewBag.id = id;
             return View();
         }
@@ -433,17 +456,22 @@ namespace frame.Controllers
             BookStoreContext context = new BookStoreContext();
             List<Discount> discounts = context.GetAllDiscount();
             string idLast = discounts.Select(c=>c.idDiscount).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("D00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("D0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("D").ToString() + (int.Parse(so)+1).ToString();
+            if(idLast == null) {
+                id = "D001";
+            } else {
+                var so = idLast.Substring(1,3);
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("D00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("D0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("D").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
+            
             ViewBag.id = id;
             return View();
         }
@@ -522,10 +550,73 @@ namespace frame.Controllers
         #region shipping
         public IActionResult ShippingManagement() {
             BookStoreContext context = new BookStoreContext();
-            var shippings = context.GetAllShipping();
-            ViewBag.shippings = shippings;
+            var shipping = context.GetAllShipping();
+            var shippings = shipping.Where(s=>s.status == "true");
+            ViewBag.shipping = shippings;
             return View();
         }
+        public IActionResult CreateShipping()
+        {
+            BookStoreContext context = new BookStoreContext();
+            List<Shipping> shippings = context.GetAllShipping();
+            string idLast = shippings.Select(s=>s.idShip).LastOrDefault();
+            var so = idLast.Substring(1,3);
+            string id = "";
+            for(int i=0;i<so.Length;i++) {
+                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                    id= ("S00").ToString() + (int.Parse(so)+1).ToString();
+                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                    id = ("S0").ToString() + (int.Parse(so)+1).ToString();
+                } else {
+                    id = ("S").ToString() + (int.Parse(so)+1).ToString();
+                }
+            }
+            ViewBag.id = id;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateShipping(string id, string country, float charge)
+        {
+            BookStoreContext context = new BookStoreContext();
+            context.AddShipping(id,country, charge);
+            TempData["StatusCreateShipping"] = "Create Shipping Success!";
+            return RedirectToAction("ShippingManagement");
+        }
+
+        public IActionResult EditShipping(string id)
+        {
+           BookStoreContext context = new BookStoreContext();
+           List<Shipping> shipping = context.GetAllShipping();
+           var country = shipping.Where(c => c.idShip == id)
+                        .FirstOrDefault();
+           var charge = shipping.Where(c => c.idShip == id)
+                        .FirstOrDefault();
+            ViewBag.Shipping = country;
+            ViewBag.Shipping = charge;
+           return View();
+       }
+       [HttpPost]
+       public IActionResult EditShipping (string id, string country, float charge)
+       {
+           BookStoreContext context = new BookStoreContext();
+           var button = Request.Form["submit"].ToString();
+           if(button == "Cancel") {
+               return RedirectToAction("ShippingManagement");
+           } else {
+               context.UpdateShipping(id,country,charge);
+               TempData["StatusUpdateShipping"] = "Update Shipping Success!";
+               return RedirectToAction("ShippingManagement");
+           }
+       }
+
+        public IActionResult DeleteShipping(string id)
+        {
+           BookStoreContext context = new BookStoreContext();
+           context.DeleteShipping(id);
+           TempData["StatusDeleteShipping"] = "Delete Shipping Success!";
+           return RedirectToAction("ShippingManagement");
+        }
+        
         #endregion shipping
 
         #region order
@@ -556,7 +647,7 @@ namespace frame.Controllers
             var shipping = context.GetAllShipping();
             var detailorders = context.GetAllOrderDetail();
             var books = context.GetAllBook();
-            var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var daynow = DateTime.Now.ToString("yyyy-MM-dd");
             var discounts = context.GetAllDiscount().Where(d=>d.status=="true" && DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
                         && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0);
             double tt = 0;
@@ -569,6 +660,7 @@ namespace frame.Controllers
                             id = d.idBook,
                             quantity = d.quantityBook
                         };
+            
             foreach(var d in detail) {
                 foreach(var b in books) {
                     if(b.idBook == d.id) {
@@ -578,57 +670,53 @@ namespace frame.Controllers
                 }
             }
             //tạo invoice
-            PdfDocument document = new PdfDocument();//tạo tl pdf
-            PdfPage page = document.Pages.Add();//thêm 1 trang vào tl
-            PdfGraphics graphics = page.Graphics;  
-            //title
-            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
-            RectangleF bounds = new RectangleF((graphics.ClientSize.Width)/2-30, 0, 390, 30);
-            graphics.DrawString("SkyBook",font,PdfBrushes.Black, bounds);
-            //bảng order
-            PdfBrush solidBrush = new PdfSolidBrush(new PdfColor(126, 151, 173));
-            bounds = new RectangleF(0,bounds.Bottom + 10, graphics.ClientSize.Width, 20);
-            graphics.DrawRectangle(solidBrush, bounds);//hình chữ nhật tím
+            PdfDocument document = new PdfDocument();
+            PdfPage page = document.Pages.Add();
+            XGraphics graphics = XGraphics.FromPdfPage(page);  
+            XFont font = new XFont("Timenewroman", 20, XFontStyle.Regular);
+            XRect bounds = new XRect((graphics.PageSize.Width)/2-30, 40, 390, 0);
+            graphics.DrawString("SkyBook",font,XBrushes.Black, bounds);
 
-            PdfFont subHeadingFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
-            PdfTextElement element = new PdfTextElement("SHD: " + id.ToString(), subHeadingFont);
-            element.Brush = PdfBrushes.White;
-            PdfLayoutResult result = element.Draw(page, new PointF(10, bounds.Top + 3));
-            string currentDate = "Date Order:" + order.dateOrder.ToString("dd/MM/yyyy");
-            SizeF textSize = subHeadingFont.MeasureString(currentDate);
-            PointF textPosition = new PointF(graphics.ClientSize.Width - textSize.Width - 10, result.Bounds.Y);
-            graphics.DrawString(currentDate, subHeadingFont, element.Brush, textPosition);
+            XBrush solidBrush = new XSolidBrush(XColor.FromArgb(126, 151, 173));
+            bounds = new XRect(30,bounds.Bottom + 15, graphics.PageSize.Width-60, 20);
+            graphics.DrawRectangle(solidBrush, bounds);
 
-            PdfFont timesRoman = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
+            XFont subHeadingFont = new XFont("Timenewroman", 12, XFontStyle.Regular);
+            bounds = new XRect(bounds.Left+10,bounds.Top+13,graphics.PageSize.Width-60,0);
+            graphics.DrawString("SHD: " + id.ToString(),subHeadingFont, XBrushes.White, bounds);
+
+            string currentDate = "Ngày đặt hàng: " + order.dateOrder.ToString("dd/mm/yyyy");
+            var fontsize = graphics.MeasureString(currentDate,subHeadingFont);
+            var point = new XPoint(bounds.Width - fontsize.Width, bounds.Y);
+            graphics.DrawString(currentDate, subHeadingFont, XBrushes.White, point);
+
+            XFont timesRoman = new XFont("Timenewroman", 12, XFontStyle.Regular);
+            var color = new XSolidBrush(XColor.FromArgb(126, 155, 203));
+            bounds = new XRect(bounds.Left,bounds.Bottom + 20,graphics.PageSize.Width-60,0);
+
             foreach(var c in customer) {
                 if(c.idCustomer == order.idCustomer) {
                     foreach(var s in shipping) {
                         if(s.idShip == c.idShip) {
-                            element = new PdfTextElement("Name:"+c.nameCustomer, timesRoman);
-                            element.Brush = new PdfSolidBrush(new PdfColor(126, 155, 203));
-                            result = element.Draw(page, new PointF(10, result.Bounds.Bottom + 5));
+                            graphics.DrawString("Họ và tên: "+c.nameCustomer,timesRoman, color,bounds);
+                            
+                            bounds = new XRect(bounds.Left,bounds.Bottom + 20,graphics.PageSize.Width-60,0);
+                            graphics.DrawString("Địa chỉ: "+c.addressCustomer,timesRoman, color,bounds);
 
-                            element = new PdfTextElement("Address:"+c.addressCustomer+"-"+s.country, timesRoman);
-                            element.Brush = new PdfSolidBrush(new PdfColor(126, 155, 203));
-                            result = element.Draw(page, new PointF(10, result.Bounds.Bottom + 5));
-
-                            element = new PdfTextElement("Phone:"+c.phoneCustomer,timesRoman);
-                            element.Brush = new PdfSolidBrush(new PdfColor(126, 155, 203));
-                            result = element.Draw(page, new PointF(10, result.Bounds.Bottom + 5));
-
+                            bounds = new XRect(bounds.Left,bounds.Bottom + 20,graphics.PageSize.Width-60,0);
+                            graphics.DrawString("SĐT: "+c.phoneCustomer,timesRoman, color,bounds);
                         }
                     }
                 }
             }
             
-            PdfPen linePen = new PdfPen(new PdfColor(126, 151, 173), 0.70f);
-            PointF startPoint = new PointF(0, result.Bounds.Bottom + 3);
-            PointF endPoint = new PointF(graphics.ClientSize.Width, result.Bounds.Bottom + 3);
+            XPen linePen = new XPen(XColor.FromArgb(126, 151, 173), 0.70f);
+            XPoint startPoint = new XPoint(bounds.Left-10, bounds.Bottom + 10);
+            XPoint endPoint = new XPoint(bounds.Width+28, bounds.Bottom + 10);
             graphics.DrawLine(linePen, startPoint, endPoint);
 
-            PdfGrid pdfGrid = new PdfGrid();
             DataTable dataTable = new DataTable();
-
+    
             dataTable.Columns.Add("Name Book");
             dataTable.Columns.Add("Quantity");
             dataTable.Columns.Add("Price");
@@ -674,89 +762,87 @@ namespace frame.Controllers
                     }
                 }
             }
-            pdfGrid.DataSource = dataTable;
-            PdfGridRow header = pdfGrid.Headers[0];
 
-            PdfGridCellStyle headerStyle = new PdfGridCellStyle();
-            headerStyle.Borders.All = new PdfPen(new PdfColor(126, 151, 173));
-            headerStyle.BackgroundBrush = new PdfSolidBrush(new PdfColor(126, 151, 173));
-            headerStyle.TextBrush = PdfBrushes.White;
-            headerStyle.Font = new PdfStandardFont(PdfFontFamily.TimesRoman, 14,
-                style: PdfFontStyle.Regular);
+            solidBrush = new XSolidBrush(XColor.FromArgb(126, 151, 173));
+            var bounds1 = new XRect(30,bounds.Bottom + 15, graphics.PageSize.Width-60, 20);
+            graphics.DrawRectangle(solidBrush, bounds1);
 
-            for(int i=0;i<header.Cells.Count;i++) {
-                if(i==0||i==1) {
-                    header.Cells[i].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle
-                    );
-                } else {
-                    header.Cells[i].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle
-                    );
-                }
-                header.Cells[i].Style = headerStyle;
+            var bounds2 = new XRect(bounds1.Left+10,bounds1.Top+13,graphics.PageSize.Width-60,0);
+            graphics.DrawString("STT",timesRoman,XBrushes.White,bounds2);
+
+            fontsize = graphics.MeasureString("STT",subHeadingFont);
+            var bounds3 = new XRect(bounds2.Left+fontsize.Width+80,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Tên Sách",timesRoman,XBrushes.White,bounds3);
+
+            fontsize = graphics.MeasureString("Tên Sách",subHeadingFont);
+            var bounds4 = new XRect(bounds3.Left+fontsize.Width+110,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Số lượng",timesRoman,XBrushes.White,bounds4);
+
+            fontsize = graphics.MeasureString("Số lượng",subHeadingFont);
+            var bounds5 = new XRect(bounds4.Left+fontsize.Width+80,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Giá",timesRoman,XBrushes.White,bounds5);
+
+            fontsize = graphics.MeasureString("Giá",subHeadingFont);
+            var bounds6 = new XRect(bounds.Width-fontsize.Width-10,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Tổng tiền",timesRoman,XBrushes.White,bounds6);
+            point = new XPoint(40,bounds1.Bottom);
+            for(int i=0;i<dataTable.Rows.Count;i++) {
+                point = new XPoint(point.X,point.Y+20);
+                graphics.DrawString((i+1).ToString(),timesRoman,color,point);
+
+                fontsize = graphics.MeasureString("STT",subHeadingFont);
+                point = new XPoint(bounds2.Left+fontsize.Width+20,point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Name Book"].ToString(),timesRoman,color,point);
+                
+                fontsize = graphics.MeasureString("Tên Sách",subHeadingFont);
+                point = new XPoint(bounds3.Left+fontsize.Width+120,point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Quantity"].ToString(),timesRoman,color,point);
+                
+                fontsize = graphics.MeasureString("Số lượng",subHeadingFont);
+                point = new XPoint(bounds4.Left+fontsize.Width+75, point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Price"].ToString(),timesRoman,color,point);
+                
+                fontsize = graphics.MeasureString("Giá",subHeadingFont);
+                point = new XPoint(bounds.Width-fontsize.Width-10,point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Total"].ToString(),timesRoman,color,point);
+
+                point = new XPoint(40,point.Y);
             }
 
-            PdfGridCellStyle cellStyle = new PdfGridCellStyle();
-            cellStyle.Borders.All = PdfPens.White;
-            cellStyle.Borders.Bottom = new PdfPen(new PdfColor(217, 217, 217),width: (float)0.70);
-            cellStyle.Font = new PdfStandardFont(PdfFontFamily.TimesRoman,12);
-            cellStyle.TextBrush = new PdfSolidBrush(new PdfColor(131, 130, 136));
+            linePen = new XPen(XColor.FromArgb(126, 151, 173), 0.70f);
+            startPoint = new XPoint(30, point.Y+13);
+            endPoint = new XPoint(bounds.Width+28, point.Y+13);
+            graphics.DrawLine(linePen, startPoint, endPoint);
 
-            for (int i = 0; i < pdfGrid.Rows.Count; i++) {
-                PdfGridRow row = pdfGrid.Rows[i];
-                for (int j = 0; j < row.Cells.Count; j++) {
-                    row.Cells[j].Style = cellStyle;
-                    if (j == 0 || j == 1) {
-                    row.Cells[j].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle);
-                    } else {
-                        row.Cells[j].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle);
-                    }
-                }
-            }
-            PdfLayoutResult gridResult = pdfGrid.Draw(
-            page: page,
-            bounds: new RectangleF(0, result.Bounds.Bottom + 20,
-                graphics.ClientSize.Width, graphics.ClientSize.Height - 100));
-            //end detail
             foreach(var c in customer) {
                 if(c.idCustomer == order.idCustomer) {
-                    foreach(var s in shipping) {
-                        if(c.idShip == s.idShip) {
-                            gridResult.Page.Graphics.DrawString("Charge Ship: "+s.charge+"$",subHeadingFont,
-                            brush: new PdfSolidBrush(new PdfColor(126, 155, 203)),
-                            new RectangleF(graphics.ClientSize.Width - textSize.Width - 10,gridResult.Bounds.Bottom + 30,0,0));
-                            tt += s.charge;
-                        }
-                    }
+                  foreach(var s in shipping) {
+                    if(c.idShip == s.idShip) {
+                        tt += s.charge;
+                        fontsize = graphics.MeasureString("Phí Ship: " +s.charge,subHeadingFont);
+                        bounds = new XRect(graphics.PageSize.Width - fontsize.Width - 30,point.Y+32,0,0);
+                        graphics.DrawString("Phí Ship: "+s.charge, timesRoman, color, bounds);
+                       }
+                   }
                 }
             }
 
-            gridResult.Page.Graphics.DrawString("Grand Total:"+tt+"$",subHeadingFont,
-            brush: new PdfSolidBrush(new PdfColor(126, 155, 203)),
-            new RectangleF(graphics.ClientSize.Width - textSize.Width - 10,gridResult.Bounds.Bottom + 50,0,0));
+            fontsize = graphics.MeasureString("Tổng tiền: " +tt,subHeadingFont);
+            bounds = new XRect(graphics.PageSize.Width - fontsize.Width - 30, bounds.Bottom+20,0,0);
+            graphics.DrawString("Tổng tiền: "+tt,timesRoman,color,bounds);
 
-            gridResult.Page.Graphics.DrawString(
-            "Thank you for your business !", subHeadingFont,
-            brush: PdfBrushes.Black,
-            new RectangleF((graphics.ClientSize.Width - textSize.Width)/2, gridResult.Bounds.Bottom + 80, 0, 0));
-            //lưu pdf vào memory
+            fontsize = graphics.MeasureString("Cảm ơn quý khách!",subHeadingFont);
+            bounds = new XRect((graphics.PageSize.Width - fontsize.Width)/2,bounds.Bottom+80,0,0);
+            graphics.DrawString("Cảm ơn quý khách! ",timesRoman,color,bounds);
+
             MemoryStream stream = new MemoryStream();
+            
             document.Save(stream);
             stream.Position = 0;
-            //đặt vị trí là 0
-            document.Close(true);
-            //xác định type
+
             string contentType = "application/pdf";
             return File(stream,contentType);
-            //string fileName=order.idOrder+".pdf";
-            //return File(stream, contentType, fileName);
+
         }
         
         public string CheckQuantity(int id) {
@@ -806,17 +892,22 @@ namespace frame.Controllers
             var categories = context.GetAllCategory().Where(c=>c.status == "true");
             var author = context.GetAllAuthor().Where(a=>a.status == "true");
             string idLast = books.Select(c=>c.idBook).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("B00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("B0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("B").ToString() + (int.Parse(so)+1).ToString();
+            if(idLast == null) {
+                id = "B001";
+            } else {
+                var so = idLast.Substring(1,3);
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("B00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("B0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("B").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
+            
             ViewBag.id = id;
             ViewBag.categories = categories;
             ViewBag.authors = author;
@@ -861,8 +952,43 @@ namespace frame.Controllers
             return RedirectToAction("BookManagement");
         }
         public IActionResult CreateDiscountBook() {
+            BookStoreContext context = new BookStoreContext();
+            var discounts = context.GetAllDiscount().Where(d=>d.status=="true");
+            var entrys = context.GetAllEntry();
+            ViewBag.discounts = discounts;
+            ViewBag.entrys = entrys;
             return View();
         }
+        [HttpPost]
+        public IActionResult CreateDiscountBook(List<string> idBook,string idDiscount) {
+            BookStoreContext context = new BookStoreContext();
+            foreach(var i in idBook) {
+                context.UpdateDiscountBook(i,idDiscount);
+            }
+            TempData["StatusUpdateDiscount"] = "Create Discount Book Success!";
+            return RedirectToAction("BookManagement");
+        }
+        
+        //ajax
+        public IActionResult SelectDis (int category) {
+            BookStoreContext context = new BookStoreContext();
+            var categories = context.GetAllCategory().Where(c=>c.status=="true");
+            var books = context.GetAllBook();
+            if(category == 1) {
+                return new JsonResult(categories);
+            } else {
+                var b = books.OrderByDescending(bo=>bo.amountBook).Take(10);
+                return new JsonResult(b);
+            }   
+        }
+        public IActionResult CateDis (string idCategory) {
+            BookStoreContext context = new BookStoreContext();
+            var books = context.GetAllBook().Where(b=>b.idCategory == idCategory)
+                            .OrderByDescending(bo=>bo.amountBook)
+                            .Take(5);
+            return new JsonResult(books);
+        }
+
         public IActionResult SearchBook(string name) {
             BookStoreContext context = new BookStoreContext();
             var books = context.GetAllBook();
@@ -890,10 +1016,15 @@ namespace frame.Controllers
                         html+=a.nameAuthor+"</td><td>";
                     }
                 }
+                var dem =0;
                 foreach(var d in discounts) {
                     if(d.idDiscount==b.idDiscount)  {
                         html+=d.nameDiscount+"</td><td>";
+                        dem++;
                     }
+                }
+                if(dem == 0) {
+                    html+="</td><td>";
                 }
                 html+="<img src='../../images/"+b.imgBackBook+"' src='"+b.nameBook+"' width='64'height='92'>";
                 html+="</td><td class='actionAdmin' style='width: 100px;'><a href='/Admin/DeleteBook/"+b.idBook+"' class='btnSubmit'>";
@@ -907,7 +1038,7 @@ namespace frame.Controllers
         #region entry
         public IActionResult EntryManagement() {
             BookStoreContext context = new BookStoreContext();
-            var entrys = context.GetAllEntry().Where(e=>e.status=="Processing" || e.status == "Delivered");
+            var entrys = context.GetAllEntry();
             var suppliers = context.GetAllSupplier();
             var detail = context.GetAllDetailEntry();
             var books = context.GetAllBook();
@@ -924,17 +1055,22 @@ namespace frame.Controllers
             var entrys = context.GetAllEntry();
             
             string idLast = entrys.Select(c=>c.idEntry).LastOrDefault();
-            var so = idLast.Substring(1,3);
             string id = "";
-            for(int i=0;i<so.Length;i++) {
-                if(int.Parse(so) >=0 && int.Parse(so)<=8) {
-                    id= ("S00").ToString() + (int.Parse(so)+1).ToString();
-                } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
-                    id = ("S0").ToString() + (int.Parse(so)+1).ToString();
-                } else {
-                    id = ("S").ToString() + (int.Parse(so)+1).ToString();
+            if (idLast == null) {
+                id = "S001";
+            } else {
+                var so = idLast.Substring(1,3);
+                for(int i=0;i<so.Length;i++) {
+                    if(int.Parse(so) >=0 && int.Parse(so)<=8) {
+                        id= ("S00").ToString() + (int.Parse(so)+1).ToString();
+                    } else if(int.Parse(so)>=9 && int.Parse(so)<=98) {
+                        id = ("S0").ToString() + (int.Parse(so)+1).ToString();
+                    } else {
+                        id = ("S").ToString() + (int.Parse(so)+1).ToString();
+                    }
                 }
             }
+            
             ViewBag.id = id;
             ViewBag.suppliers = suppliers;
             ViewBag.books = books;
@@ -1023,6 +1159,7 @@ namespace frame.Controllers
         
         public IActionResult DeleteEntry(string id) {
             BookStoreContext context = new BookStoreContext();
+            context.DeleteDetailEntry(id);
             context.DeleteEntry(id);
             TempData["StatusDelete"] = "Delete Entry Success!";
             return  RedirectToAction("EntryManagement");
@@ -1054,52 +1191,49 @@ namespace frame.Controllers
                     }
                 }
             }
-        
 
             PdfDocument document = new PdfDocument();
             PdfPage page = document.Pages.Add();
-            PdfGraphics graphics = page.Graphics;  
-            PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
-            RectangleF bounds = new RectangleF((graphics.ClientSize.Width)/2-30, 0, 390, 30);
-            graphics.DrawString("SkyBook",font,PdfBrushes.Black, bounds);
+            XGraphics graphics = XGraphics.FromPdfPage(page);  
+            XFont font = new XFont("Timenewroman", 20, XFontStyle.Regular);
+            XRect bounds = new XRect((graphics.PageSize.Width)/2-30, 40, 390, 0);
+            graphics.DrawString("SkyBook",font,XBrushes.Black, bounds);
 
-            PdfBrush solidBrush = new PdfSolidBrush(new PdfColor(126, 151, 173));
-            bounds = new RectangleF(0,bounds.Bottom + 10, graphics.ClientSize.Width, 20);
+            XBrush solidBrush = new XSolidBrush(XColor.FromArgb(126, 151, 173));
+            bounds = new XRect(30,bounds.Bottom + 15, graphics.PageSize.Width-60, 20);
             graphics.DrawRectangle(solidBrush, bounds);
 
-            PdfFont subHeadingFont = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
-            PdfTextElement element = new PdfTextElement("SHD: " + id.ToString(), subHeadingFont);
-            element.Brush = PdfBrushes.White;
-            PdfLayoutResult result = element.Draw(page, new PointF(10, bounds.Top + 3));
+            XFont subHeadingFont = new XFont("Timenewroman", 12, XFontStyle.Regular);
+            bounds = new XRect(bounds.Left+10,bounds.Top+13,graphics.PageSize.Width-60,0);
+            graphics.DrawString("SHD: " + id.ToString(),subHeadingFont, XBrushes.White, bounds);
 
-            string currentDate = "Date Order:" + entry.dateEntry.ToString("dd/MM/yyyy");
-            SizeF textSize = subHeadingFont.MeasureString(currentDate);
-            PointF textPosition = new PointF(graphics.ClientSize.Width - textSize.Width - 10, result.Bounds.Y);
-            graphics.DrawString(currentDate, subHeadingFont, element.Brush, textPosition);
+            string currentDate = "Ngày đặt hàng: " + entry.dateEntry.ToString("dd/mm/yyyy");
+            var fontsize = graphics.MeasureString(currentDate,subHeadingFont);
+            var point = new XPoint(bounds.Width - fontsize.Width, bounds.Y);
+            graphics.DrawString(currentDate, subHeadingFont, XBrushes.White, point);
 
-            PdfFont timesRoman = new PdfStandardFont(PdfFontFamily.TimesRoman, 12);
+            XFont timesRoman = new XFont("Timenewroman", 12, XFontStyle.Regular);
+            var color = new XSolidBrush(XColor.FromArgb(126, 155, 203));
+            bounds = new XRect(bounds.Left,bounds.Bottom + 20,graphics.PageSize.Width-60,0);
+
             foreach(var s in supplier) {
                 if(s.idSupplier == entry.idSupplier) {
-                    element = new PdfTextElement("Name: "+s.nameSupplier, timesRoman);
-                    element.Brush = new PdfSolidBrush(new PdfColor(126, 155, 203));
-                    result = element.Draw(page, new PointF(10, result.Bounds.Bottom + 5));
+                    graphics.DrawString("Họ và tên: "+s.nameSupplier,timesRoman, color,bounds);
+                            
+                    bounds = new XRect(bounds.Left,bounds.Bottom + 20,graphics.PageSize.Width-60,0);
+                    graphics.DrawString("Địa chỉ: "+s.addressSupplier,timesRoman, color,bounds);
 
-                    element = new PdfTextElement("Adress: "+s.addressSupplier, timesRoman);
-                    element.Brush = new PdfSolidBrush(new PdfColor(126, 155, 203));
-                    result = element.Draw(page, new PointF(10, result.Bounds.Bottom + 5));
+                    bounds = new XRect(bounds.Left,bounds.Bottom + 20,graphics.PageSize.Width-60,0);
+                    graphics.DrawString("SĐT: "+s.phoneSupplier,timesRoman, color,bounds);
 
-                    element = new PdfTextElement("Phone: "+s.phoneSupplier, timesRoman);
-                    element.Brush = new PdfSolidBrush(new PdfColor(126, 155, 203));
-                    result = element.Draw(page, new PointF(10, result.Bounds.Bottom + 5));
                 }
             }
             
-            PdfPen linePen = new PdfPen(new PdfColor(126, 151, 173), 0.70f);
-            PointF startPoint = new PointF(0, result.Bounds.Bottom + 3);
-            PointF endPoint = new PointF(graphics.ClientSize.Width, result.Bounds.Bottom + 3);
+            XPen linePen = new XPen(XColor.FromArgb(126, 151, 173), 0.70f);
+            XPoint startPoint = new XPoint(bounds.Left-10, bounds.Bottom + 10);
+            XPoint endPoint = new XPoint(bounds.Width+28, bounds.Bottom + 10);
             graphics.DrawLine(linePen, startPoint, endPoint);
 
-            PdfGrid pdfGrid = new PdfGrid();
             DataTable dataTable = new DataTable();
 
             dataTable.Columns.Add("Name Book");
@@ -1123,77 +1257,75 @@ namespace frame.Controllers
                 }
             }
 
-            pdfGrid.DataSource = dataTable;
-            PdfGridRow header = pdfGrid.Headers[0];
+           solidBrush = new XSolidBrush(XColor.FromArgb(126, 151, 173));
+            var bounds1 = new XRect(30,bounds.Bottom + 15, graphics.PageSize.Width-60, 20);
+            graphics.DrawRectangle(solidBrush, bounds1);
 
-            PdfGridCellStyle headerStyle = new PdfGridCellStyle();
-            headerStyle.Borders.All = new PdfPen(new PdfColor(126, 151, 173));
-            headerStyle.BackgroundBrush = new PdfSolidBrush(new PdfColor(126, 151, 173));
-            headerStyle.TextBrush = PdfBrushes.White;
-            headerStyle.Font = new PdfStandardFont(PdfFontFamily.TimesRoman, 14,
-                style: PdfFontStyle.Regular);
+            var bounds2 = new XRect(bounds1.Left+10,bounds1.Top+13,graphics.PageSize.Width-60,0);
+            graphics.DrawString("STT",timesRoman,XBrushes.White,bounds2);
 
-            for(int i=0;i<header.Cells.Count;i++) {
-                if(i==0||i==1) {
-                    header.Cells[i].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle
-                    );
-                } else {
-                    header.Cells[i].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle
-                    );
-                }
-                header.Cells[i].Style = headerStyle;
+            fontsize = graphics.MeasureString("STT",subHeadingFont);
+            var bounds3 = new XRect(bounds2.Left+fontsize.Width+80,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Tên Sách",timesRoman,XBrushes.White,bounds3);
+
+            fontsize = graphics.MeasureString("Tên Sách",subHeadingFont);
+            var bounds4 = new XRect(bounds3.Left+fontsize.Width+110,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Số lượng",timesRoman,XBrushes.White,bounds4);
+
+            fontsize = graphics.MeasureString("Số lượng",subHeadingFont);
+            var bounds5 = new XRect(bounds4.Left+fontsize.Width+80,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Giá",timesRoman,XBrushes.White,bounds5);
+
+            fontsize = graphics.MeasureString("Giá",subHeadingFont);
+            var bounds6 = new XRect(bounds.Width-fontsize.Width-10,bounds2.Top,graphics.PageSize.Width-60,0);
+            graphics.DrawString("Tổng tiền",timesRoman,XBrushes.White,bounds6);
+            point = new XPoint(40,bounds1.Bottom);
+
+            for(int i=0;i<dataTable.Rows.Count;i++) {
+                point = new XPoint(point.X,point.Y+20);
+                graphics.DrawString((i+1).ToString(),timesRoman,color,point);
+
+                fontsize = graphics.MeasureString("STT",subHeadingFont);
+                point = new XPoint(bounds2.Left+fontsize.Width+20,point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Name Book"].ToString(),timesRoman,color,point);
+                
+                fontsize = graphics.MeasureString("Tên Sách",subHeadingFont);
+                point = new XPoint(bounds3.Left+fontsize.Width+120,point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Quantity"].ToString(),timesRoman,color,point);
+                
+                fontsize = graphics.MeasureString("Số lượng",subHeadingFont);
+                point = new XPoint(bounds4.Left+fontsize.Width+75, point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Price"].ToString(),timesRoman,color,point);
+                
+                fontsize = graphics.MeasureString("Giá",subHeadingFont);
+                point = new XPoint(bounds.Width-fontsize.Width-10,point.Y);
+                graphics.DrawString(dataTable.Rows[i]["Total"].ToString(),timesRoman,color,point);
+
+                point = new XPoint(40,point.Y);
             }
 
-            PdfGridCellStyle cellStyle = new PdfGridCellStyle();
-            cellStyle.Borders.All = PdfPens.White;
-            cellStyle.Borders.Bottom = new PdfPen(new PdfColor(217, 217, 217),width: (float)0.70);
-            cellStyle.Font = new PdfStandardFont(PdfFontFamily.TimesRoman,12);
-            cellStyle.TextBrush = new PdfSolidBrush(new PdfColor(131, 130, 136));
+            linePen = new XPen(XColor.FromArgb(126, 151, 173), 0.70f);
+            startPoint = new XPoint(30, point.Y+13);
+            endPoint = new XPoint(bounds.Width+28, point.Y+13);
+            graphics.DrawLine(linePen, startPoint, endPoint);
 
-            for (int i = 0; i < pdfGrid.Rows.Count; i++) {
-                PdfGridRow row = pdfGrid.Rows[i];
-                for (int j = 0; j < row.Cells.Count; j++) {
-                    row.Cells[j].Style = cellStyle;
-                    if (j == 0 || j == 1) {
-                    row.Cells[j].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle);
-                    } else {
-                        row.Cells[j].StringFormat = new PdfStringFormat(
-                        alignment: PdfTextAlignment.Center,
-                        lineAlignment: PdfVerticalAlignment.Middle);
-                    }
-                }
-            }
+            fontsize = graphics.MeasureString("Tổng tiền: " +tt,subHeadingFont);
+            bounds = new XRect(graphics.PageSize.Width - fontsize.Width - 30, point.Y+32,0,0);
+            graphics.DrawString("Tổng tiền: "+tt,timesRoman,color,bounds);
 
-            PdfLayoutResult gridResult = pdfGrid.Draw(
-            page: page,
-            bounds: new RectangleF(0, result.Bounds.Bottom + 20,
-                graphics.ClientSize.Width, graphics.ClientSize.Height - 100));
-
-            gridResult.Page.Graphics.DrawString("Grand Total:"+tt+"$",subHeadingFont,
-            brush: new PdfSolidBrush(new PdfColor(126, 155, 203)),
-            new RectangleF(graphics.ClientSize.Width - textSize.Width - 10,gridResult.Bounds.Bottom + 50,0,0));
-
-            gridResult.Page.Graphics.DrawString(
-            "Thank you for your business !", subHeadingFont,
-            brush: PdfBrushes.Black,
-            new RectangleF((graphics.ClientSize.Width - textSize.Width)/2, gridResult.Bounds.Bottom + 80, 0, 0));
+            fontsize = graphics.MeasureString("Cảm ơn quý khách!",subHeadingFont);
+            bounds = new XRect((graphics.PageSize.Width - fontsize.Width)/2,bounds.Bottom+80,0,0);
+            graphics.DrawString("Cảm ơn quý khách! ",timesRoman,color,bounds);
 
             MemoryStream stream = new MemoryStream();
+            
             document.Save(stream);
             stream.Position = 0;
-            //đặt vị trí là 0
-            document.Close(true);
-            //xác định type
+
             string contentType = "application/pdf";
             return File(stream,contentType);
         }
-        //ajax
+        // //ajax
         public IActionResult AddBookEntry(string name,int quantity,float price) {
             BookStoreContext context = new BookStoreContext();
             var nameBook = context.GetAllBook().Where(b=>b.idBook == name).Select(b=>b.nameBook).FirstOrDefault();
@@ -1205,6 +1337,88 @@ namespace frame.Controllers
             return new JsonResult(book);
         }
         #endregion entry
-    
+
+        #region report
+
+        public IActionResult SalesReport() {
+            BookStoreContext context = new BookStoreContext();
+            var year = context.GetAllOrder().Select(y=>y.dateOrder.Year).Distinct();
+            var orders = context.GetAllOrder().Where(o=>o.status == "Delivered");
+            var detailorders = context.GetAllOrderDetail();
+            var detail = from o in orders join d in detailorders on o.idOrder equals d.idOrder
+                        group d by //new {
+                            // o.dateOrder.Year,
+                            o.dateOrder.Month
+                        /*}*/ into doanhthu
+                        select new {
+                            // year = doanhthu.Key.Year,
+                            month = doanhthu.Key,
+                            dt = doanhthu.Sum(d=>d.quantityBook*d.priceOrder)
+                        };
+            ViewBag.dt = detail;
+            ViewBag.year = year;
+            return View();
+        }
+        public IActionResult ReportFilter( int year) {
+            BookStoreContext context = new BookStoreContext();
+            var orders = context.GetAllOrder().Where(o=>o.dateOrder.Year == year && o.status == "Delivered");
+            var detailorders = context.GetAllOrderDetail();
+            var detail = from o in orders join d in detailorders on o.idOrder equals d.idOrder
+                        orderby o.dateOrder.Month
+                        group d by o.dateOrder.Month into dt
+                        select new {
+                            month = dt.Key,
+                            doanhthu = dt.Sum(d=>d.priceOrder*d.quantityBook)
+                        };
+
+            return new JsonResult(detail);
+        }
+        // [HttpPost]
+        // public IActionResult SalesReport(int year) {
+        //     BookStoreContext context = new BookStoreContext();
+        //     var y = context.GetAllOrder();
+
+        // }
+        #endregion report
+
+        #region Account
+        [HttpGet]
+        public IActionResult AccountAdmin()
+        {
+            BookStoreContext context = new BookStoreContext();
+            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
+            ViewBag.Email = email;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AccountAdmin (User user) {
+            BookStoreContext context = new BookStoreContext();
+            
+            var users = context.GetAllUser();
+                if(ModelState.IsValid) {
+                var login = users.Where(u => u.email == user.email && u.password == user.password).FirstOrDefault();
+                    if(login == null ) {
+                        var Error = "Email hoặc password không đúng!";
+                        ViewBag.Error = Error;
+                        return View();
+                    } else {
+                        if(login.role.Equals("customer")) {
+                            // SessionHelper.SetObjectAsJson(HttpContext.Session,"email",user.email);
+                            ViewBag.Error = "Đây là tài khoản khách hàng, không thể đăng nhập";
+                            return View();
+                        }
+                        else if (login.role.Equals("Admin") || login.role.Equals("employee")) {
+                            HttpContext.Session.SetString("login", JsonConvert.SerializeObject(login));
+                            return Redirect("/Admin/Index");
+                        }
+                    }
+                }
+            return View(user);
+        }
+        public IActionResult Logout(){
+            HttpContext.Session.Remove("login");
+            return Redirect("/Admin/AccountAdmin");
+        }
+        #endregion Account
     }
 }

@@ -8,18 +8,33 @@
     var discounts = ViewBag.discounts;
     var books = ViewBag.books;
 }
-<!-- /top navigation -->
-<!-- page content -->
+
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
+@* <!-- /top navigation --> *@
+@* <!-- page content --> *@
 <div class="right_col" role="main">
     <div class="book-manage">
         <div class="page-title">
             <div class="title_left">
-                <h4>BOOK MANAGEMENT</h4>
+                <h4>QUẢN LÝ SÁCH</h4>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     <div class="input-group">
-                        <input type="text" class="form-control" id = "searchBook" placeholder="Search for...">
+                        <input type="text" class="form-control" id = "searchBook" placeholder="Nhập tên sách...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -32,15 +47,15 @@
             <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Book</h2>
+                        <h2>Sách</h2>
                         <div class="clearfix"></div>
                     </div>
                     <p>
                         <span>
-                            @Html.ActionLink("Create New", "CreateBook")
+                            @Html.ActionLink("Tạo Sách", "CreateBook")
                         </span>|
                         <span>
-                            @Html.ActionLink("Create Discount Book", "CreateDiscountBook")
+                            @Html.ActionLink("Tạo Sách Khuyến Mãi", "CreateDiscountBook")
                         </span>
                     </p>
                     @if(TempData["StatusUpdate"] != null) {
@@ -61,54 +76,60 @@
                         @TempData["StatusDelete"]
                     </div>
                     }
+                    @if(TempData["StatusUpdateDiscount"] != null) {
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                            @TempData["StatusUpdateDiscount"] 
+                        </div>
+                    }
                     <div class="x_content">
                         <table class= "table">
                             <thead>
                                 <tr>
                                     <th>
-                                        ID Book
+                                        Mã sách
                                     </th>
                                     <th>
-                                        Name
+                                        Tên
                                     </th>
                                     <th>
-                                        Image Front
+                                        Hình mặt trước
                                     </th>
                                     <th>
-                                        Describe
+                                        Mô tả
                                     </th>
                                     <th>
-                                        Summary
+                                        Tóm tắt
                                     </th>
                                     <th>
-                                        Price
+                                        Giá
                                     </th>
                                     <th>
-                                        Category
+                                        Thể loại
                                     </th>
                                     <th>
-                                        Quantity
+                                        Số lượng
                                     </th>
                                     <th>
-                                        Published Year
+                                        Năm sản xuất
                                     </th>
                                     <th>
-                                        Page Count
+                                        Số trang
                                     </th>
                                     <th>
-                                        Publisher
+                                        Nhà xuất bản
                                     </th>
                                     <th>
-                                        Author
+                                        Tác giả
                                     </th>
                                     <th>
-                                        Discount
+                                        Khuyến mãi
                                     </th>
                                     <th>
-                                        Image Back
+                                        Mặt sau
                                     </th>
                                     <th style="padding: 0.75rem 1.4rem;">
-                                        Manipulation
+                                        Hành động
                                     </th>
                                 </tr>
                             </thead>
@@ -197,9 +218,11 @@
         </div>
     </div>
 </div>
+}
+
 <script>
 	$('.btnSubmit').click(function() {
-		var x = confirm("Are you sure you want to delete?");
+		var x = confirm("Bạn thật sự muốn xóa sách?");
 		if(x) return true;
 		else return false;
 	});

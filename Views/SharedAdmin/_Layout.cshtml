@@ -1,3 +1,14 @@
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -5,8 +16,12 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <!--chart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <!-- Bootstrap -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -31,14 +46,22 @@
     <link href="~/css/EditAuthor.css" rel="stylesheet">
     <link href="~/css/DeleteAuthor.css" rel="stylesheet">
     <link href="~/css/DetailsAuthor.css" rel="stylesheet">
+    <link href="~/css/Dasboard.css" rel="stylesheet">
+    
 </head>
+@if(users == null) {
+<body>
+    @RenderBody()
+</body>
+}
+else {
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i><span>AAA</span></a>
+                        <a href="../../Admin/Index" class="site_title"><i class="fa fa-paw"></i><span>Admin</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -49,8 +72,8 @@
                             <img src="../../images/img.jpg" alt="..." class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
-                            <span>Welcome</span>
-                            <h2>Admin</h2>
+                            <span>Xin chào</span>
+                            <h2 style="font-size:10px;">@users.email</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -62,39 +85,46 @@
                         <div class="menu_section">
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-home"></i>Home <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-home"></i>Trang Chủ <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="~/Home/Index">Customer</a></li>
+                                        <li><a href="~/Home">Người Dùng</a></li>
                                         <li><a href="~/Admin/Index">Admin</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-edit"></i>Managemennt<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-edit"></i>Quản Lý<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="~/Admin/BookManagement">Book Management</a></li>
-                                        <li><a href="~/Admin/CategoryManagement">Category Management</a></li>
-                                        <li><a href="~/Admin/SupplierManagement">Supplier Management</a></li>
-                                        <li><a href="~/Admin/AuthorManagement">Author Management</a></li>
-                                        <li><a href="~/Admin/OrderManagement">Order Management</a></li>
-                                        <li><a href="~/Admin/EntryManagement">Entry Management</a></li>
-                                        <li><a href="~/Admin/EmployeeManagement">Employee Management</a></li>
-                                        <li><a href="~/Admin/CustomerManagement">Customer Management</a></li>
-                                        <li><a href="~/Admin/DiscountManagement">Discount Management</a></li>
+                                        <li><a href="~/Admin/BookManagement">Quản lý Sách</a></li>
+                                        <li><a href="~/Admin/CategoryManagement">Quản lý Thể loại</a></li>
+                                        <li><a href="~/Admin/SupplierManagement">Quản lý NCC</a></li>
+                                        <li><a href="~/Admin/AuthorManagement">Quản lý Tác giả</a></li>
+                                        <li><a href="~/Admin/OrderManagement">Quản lý Hóa đơn</a></li>
+                                        <li><a href="~/Admin/EntryManagement">Quản lý Phiếu Nhập</a></li>
+                                        @if(users.role.Equals("Admin")) {
+                                        <li><a href="~/Admin/EmployeeManagement">Quản lý Nhân viên</a></li>
+                                        }
+                                        <li><a href="~/Admin/CustomerManagement">Quản lý Khách hàng</a></li>
+                                        <li><a href="~/Admin/DiscountManagement">Quản lý Khuyến mãi</a></li>
+                                        <li><a href="~/Admin/ShippingManagement">Quản lý Vận chuyển</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-bar-chart-o"></i>Report<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-bar-chart-o"></i>Báo Cáo<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="chartjs.html">Inventory Report</a></li>
-                                        <li><a href="chartjs2.html">Sales Report</a></li>
+                                        <li><a href="chartjs.html">Báo cáo Tồn kho</a></li>
+                                        <li><a href="~/Admin/SalesReport">Báo cáo Doanh thu</a></li>
                                     </ul>
                                 </li>
+                                @if(users.role.Equals("Admin")) {
                                 <li>
                                     <a><i class="fa fa-user"></i>Account<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                        <li><a href="/Admin/AccountAdminManagement">User Management</a></li>
                                         <li><a href="tables_dynamic.html">Thoát</a></li>
                                     </ul>
                                 </li>
+                                }
+                                
                             </ul>
                         </div>
 
@@ -114,11 +144,11 @@
                         <ul class=" navbar-right">
                             <li class="nav-item dropdown open" style="padding-left: 15px;">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="../../images/img.jpg" alt="">Admin
+                                    <img src="../../images/img.jpg" alt="">@users.email
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="javascript:;">Profile</a>
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i>Log Out</a>
+                                    @* <a class="dropdown-item" href="javascript:;">Profile</a> *@
+                                    <a class="dropdown-item" href="../../Admin/Logout"><i class="fa fa-sign-out pull-right"></i>Log Out</a>
                                 </div>
                             </li>
                         </ul>
@@ -131,7 +161,7 @@
     @RenderBody()
     <footer>
         <div class="pull-right">
-            WEBSITE SELLING bOOK
+            WEBSITE BÁN SÁCH
         </div>
         <div class="clearfix"></div>
     </footer>
@@ -162,11 +192,12 @@
     <script src="~/vendors/DateJS/build/date.js"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="~/vendors/moment/min/moment.min.js"></script>
-    <script src="~s/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+    <script src="~/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="~/js/custom.min.js"></script>
     <script src="~/js/Admin.js"></script>
 </body>
+}
+
 </html>
 

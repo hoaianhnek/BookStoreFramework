@@ -100,28 +100,28 @@ namespace frame.Data
             if(book.imgBook == null) {
                 if(book.imgBackBook==null) {
                     sql= "update book set name_Book=N'"+book.nameBook+"',"+
-                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',price_Book="+book.priceBook+","
-                    +"id_Category=N'"+book.idCategory+"',amount_Book="+book.amountBook+",publishing_Year="+book.publishingYear+","
+                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
+                    +"id_Category=N'"+book.idCategory+",publishing_Year="+book.publishingYear+","
                     +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
                     " Where id_Book=N'"+book.idBook+"'";
                 } else {
                     sql= "update book set name_Book=N'"+book.nameBook+"',"+
-                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',price_Book="+book.priceBook+","
-                    +"id_Category=N'"+book.idCategory+"',amount_Book="+book.amountBook+",publishing_Year="+book.publishingYear+","
+                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
+                    +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
                     +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"',"+
                     "imgback_Book=N'"+book.imgBackBook+"' Where id_Book=N'"+book.idBook+"'";
                 }
             } else {
                 if(book.imgBackBook==null) {
                     sql= "update book set name_Book=N'"+book.nameBook+"',img_Book=N'"+book.imgBook+"',"+
-                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',price_Book="+book.priceBook+","
-                +"id_Category=N'"+book.idCategory+"',amount_Book="+book.amountBook+",publishing_Year="+book.publishingYear+","
+                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
+                +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
                 +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
                 " Where id_Book=N'"+book.idBook+"'";
                 }else {
                     sql= "update book set name_Book=N'"+book.nameBook+"',img_Book=N'"+book.imgBook+"',"+
-                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',price_Book="+book.priceBook+","
-                +"id_Category=N'"+book.idCategory+"',amount_Book="+book.amountBook+",publishing_Year="+book.publishingYear+","
+                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
+                +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
                 +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"',"+
                 "imgback_Book=N'"+book.imgBackBook+"' Where id_Book=N'"+book.idBook+"'";
                 }
@@ -237,6 +237,16 @@ namespace frame.Data
                 Console.WriteLine(e);
             }
         }
+        
+        public void UpdateDiscountBook(string idBook,string idDiscount) {
+            string sql = "update book set id_Discount = N'"+idDiscount+"' where id_Book=N'"+idBook+"'";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        
         #endregion book
         
         #region category
@@ -508,10 +518,11 @@ namespace frame.Data
                 MySqlCommand cmd = new MySqlCommand("select * from detailorder",cnn);
                 using( var reader = cmd.ExecuteReader()) {
                     while(reader.Read()) {
-                        list.Add(new OrderDetail() {
+                        list.Add(new OrderDetail() {        
                             idOrder = int.Parse(reader["id_Order"].ToString()),
                             idBook = reader["id_Book"].ToString(),
-                            quantityBook = int.Parse(reader["quantity"].ToString())
+                            quantityBook = int.Parse(reader["quantity"].ToString()),
+                            priceOrder = double.Parse(reader["price"].ToString())
                         });
                     }
                 }
@@ -592,17 +603,19 @@ namespace frame.Data
             }
         }
 
-        public void CreateDetailOrder(int idOrder, string idBook, int quantity) {
+        public void CreateDetailOrder(int idOrder, string idBook, int quantity,double price) {
             MySqlConnection cnn = GetConnection();
             try {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand("insert into detailorder values (@idOrder,@idBook,@quantity)",cnn);
+                MySqlCommand cmd = new MySqlCommand("insert into detailorder values (@idOrder,@idBook,@quantity,@price)",cnn);
                 var idOr = new MySqlParameter("idOrder",idOrder);
                 var idB = new MySqlParameter("idBook",idBook);
                 var qtt = new MySqlParameter("quantity",quantity);
+                var pr = new MySqlParameter("price",price);
                 cmd.Parameters.Add(idOr);
                 cmd.Parameters.Add(idB);
                 cmd.Parameters.Add(qtt);
+                cmd.Parameters.Add(pr);
                 cmd.ExecuteNonQuery();
                 cnn.Close();
             } catch(Exception e) {
@@ -774,7 +787,8 @@ namespace frame.Data
 
                             idShip = reader["id_Ship"].ToString(),
                             country = reader["country"].ToString(),
-                            charge = float.Parse(reader["charge"].ToString())
+                            charge = float.Parse(reader["charge"].ToString()),
+                            status = reader["status"].ToString()
                         });
                     }
                 }
@@ -783,6 +797,44 @@ namespace frame.Data
                 Console.WriteLine("Can not open connection ! "+e.Message);
             }
             return list;
+        }
+        
+        public void AddShipping(string id, string country, float charge)
+        {
+            string sql = "INSERT INTO shipping VALUES (N'"+ id + "',N'" + country + "',N'"+charge+"',N'true')";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();           
+            cmd.Dispose();
+            conn.Close();
+        }
+        
+        public void UpdateShipping(string id, string country, float charge)
+        {
+            string sql = "Update shipping set country= N'"+country+"', charge =N'"+charge+"' where id_Ship= '"+ id+"'";
+            MySqlConnection conn= GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql,conn);
+            try {
+                conn.Open();
+                cmd.ExecuteNonQuery();           
+                cmd.Dispose();
+                conn.Close();
+            } catch(Exception e ) {
+                Console.WriteLine(e);
+            }
+           
+        }
+        
+         public void DeleteShipping(String id)
+        {
+            string sql = "update shipping set status = N'false' where id_Ship= '"+id+"'";
+            MySqlConnection conn= GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql,conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            conn.Close();
         }
         #endregion shipping
         
@@ -1049,11 +1101,19 @@ namespace frame.Data
         public void DeleteEntry(string id) {
             MySqlConnection cnn = GetConnection();
             cnn.Open();
-            MySqlCommand cmd = new MySqlCommand("update entry set status =N'Cancelled' where id_Entry=N'"+id+"'",cnn);
+            MySqlCommand cmd = new MySqlCommand("delete from entry where id_Entry=N'"+id+"'",cnn);
             cmd.ExecuteNonQuery();
             cnn.Close();
         } 
         
+        public void DeleteDetailEntry(string id) {
+            MySqlConnection cnn = GetConnection();
+            cnn.Open();
+            MySqlCommand cmd = new MySqlCommand("delete from detailentry where id_Entry=N'"+id+"'",cnn);
+            cmd.ExecuteNonQuery();
+            cnn.Close();
+        }
+
         public void UpdateStatusEntry(string id,string status) {
             MySqlConnection cnn = GetConnection();
             try {
@@ -1070,5 +1130,92 @@ namespace frame.Data
         }
 
         #endregion entry
+
+        #region comments
+        
+        public List<Comments> GetAllComment() {
+            List<Comments> list = new List<Comments>();
+
+            MySqlConnection cnn = GetConnection();
+
+            try {
+                cnn.Open();
+                
+                MySqlCommand cmd = new MySqlCommand("select * from comments",cnn);
+                using ( var reader = cmd.ExecuteReader()) {
+                     while(reader.Read()) {
+                        list.Add(new Comments() {
+                            id_Comment= int.Parse(reader["id_Comment"].ToString()),
+                            id_User = int.Parse(reader["id_User"].ToString()),
+                            id_Book = reader["id_Book"].ToString(),
+                            date_Comment = DateTime.Parse(reader["date_Comment"].ToString()),
+                            content = reader["Content"].ToString()
+                        });
+                    }
+                }
+                cnn.Close();
+            } catch(Exception e) {
+                Console.WriteLine("Can not open connection ! "+e.Message);
+            }
+
+            return list;
+        }
+        
+        public void AddComment(Comments comments)
+        {
+            var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string sql = "INSERT INTO Comments(id_User,id_Book,date_Comment,Content) VALUES ("+comments.id_User+",N'" + comments.id_Book + "',N'"+daynow+"',N'"+comments.content+"')";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();           
+            cmd.Dispose();
+            conn.Close();
+        }
+        #endregion comments
+    
+        #region reply
+        
+        public void AddReply(Reply reply)
+        {
+            var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string sql = "INSERT INTO reply_comment(id_Comment,content,date_Reply) VALUES ("+reply.id_Comment+",N'" + reply.content + "',N'"+daynow+"')";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();           
+            cmd.Dispose();
+            conn.Close();
+        }
+        
+        public List<Reply> GetAllReply() {
+            List<Reply> list = new List<Reply>();
+
+            MySqlConnection cnn = GetConnection();
+
+            try {
+                cnn.Open();
+                
+                MySqlCommand cmd = new MySqlCommand("select * from reply_comment",cnn);
+                using ( var reader = cmd.ExecuteReader()) {
+                     while(reader.Read()) {
+                        list.Add(new Reply() {
+                            id_Comment= int.Parse(reader["id_Comment"].ToString()),
+                            id_Reply = int.Parse(reader["id_Reply"].ToString()),
+                            date_Reply = DateTime.Parse(reader["date_Reply"].ToString()),
+                            content = reader["content"].ToString()
+                        });
+                    }
+                }
+                cnn.Close();
+            } catch(Exception e) {
+                Console.WriteLine("Can not open connection ! "+e.Message);
+            }
+
+            return list;
+        }
+        #endregion reply
+
+
     }
 }

@@ -2,16 +2,30 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
 }
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h4>CATEGORY MANAGEMENT</h4>
+                <h4>QUẢN LÝ THỂ LOẠI</h4>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchCategory" placeholder="Search for...">
+                        <input type="text" class="form-control" id="searchCategory" placeholder="Tên thể loại...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -24,77 +38,78 @@
             <div class="col-md-6 col-sm-6" style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Category</h2>
+                        <h2>Thể Loại</h2>
                         <div class="clearfix"></div>
                     </div>
-                        <p>
-                          @Html.ActionLink("Create New", "CreateCategory")
-                        </p>
-                        @if(TempData["StatusUpdate"] != null) {
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
-                            @TempData["StatusUpdate"]
-                        </div>
-                        }
-                        @if(TempData["StatusCreate"] != null) {
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
-                            @TempData["StatusCreate"]
-                        </div>
-                        }
-                        @if(TempData["StatusDelete"] != null) {
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss = "alert">&times;</button>
-                            @TempData["StatusDelete"]
-                        </div>
-                        }
-                        <div class="x_content">
-                            <table class= "table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            ID Category
-                                        </th>
-                                        <th>
-                                            Name Category
-                                        </th>
-                                        <th>Manipulation</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                    <tr>
-                                        <td>
-                                            @item.idCategory
-                                        </td>
-                                        <td>
-                                            @item.nameCategory
-                                        </td>
-                                            
-                                        <td class="actionAdmin">
-                                            <a href="/Admin/DeleteCategory/@item.idCategory" class="btnSubmit">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                            |
-                                            <a href="../../Admin/EditCategory/@item.idCategory">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                    <p>
+                        @Html.ActionLink("Tạo mới", "CreateCategory")
+                    </p>
+                    @if(TempData["StatusUpdate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdate"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreate"]
+                    </div>
+                    }
+                    @if(TempData["StatusDelete"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDelete"]
+                    </div>
+                    }
+                    <div class="x_content">
+                        <table class= "table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã thể loại
+                                    </th>
+                                    <th>
+                                        Tên 
+                                    </th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @item.idCategory
+                                    </td>
+                                    <td>
+                                        @item.nameCategory
+                                    </td>
+                                        
+                                    <td class="actionAdmin">
+                                        <a href="/Admin/DeleteCategory/@item.idCategory" class="btnSubmit">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        |
+                                        <a href="../../Admin/EditCategory/@item.idCategory">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+}
+
 <script>
 	$('.btnSubmit').click(function() {
-		var x = confirm("Are you sure you want to delete?");
+		var x = confirm("Bạn có thật sự muốn xóa thể loại?");
 		if(x) return true;
 		else return false;
 	});

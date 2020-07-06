@@ -5,11 +5,25 @@
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
     var id = ViewBag.id;
 }
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
 <div class="right_col" role="main">
     <div class="EditCategory">
         <div class="page-title">
             <div class="title_left">
-                <h4>CATEGORY MANAGEMENT</h4>
+                <h4>QUẢN LÝ THỂ LOẠI</h4>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -17,7 +31,7 @@
             <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Add Category</h2>
+                        <h2>Thêm thể loại</h2>
                         <div class="clearfix"></div>
                     </div>
                     @using (Html.BeginForm())
@@ -26,21 +40,21 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-row"> 
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">ID Category</label>
+                                <label class="font-weight-bold">Mã thể loại</label>
                                 <input type="text" class="form-control" value="@id" disabled>
                                 <input type="hidden" value="@id" name="id" />
                             </div> 
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Name Category</label>
-                                <input type="text" pattern="^[A-Za-z0-9-\s]*" title="Name should without accents" class="form-control" name="name" required="" placeholder="Enter name category">
+                                <label class="font-weight-bold">Tên thể loại</label>
+                                <input type="text" class="form-control" name="name" required="" placeholder="Nhập tên thể loại">
                             </div>
                         </div>
                         <br>
                         <div class="modal-footer">
-                            <a href="../../Admin/CategoryManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
-                            <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                            <a href="../../Admin/CategoryManagement" name="submit-cancel" class="btn btn-danger">Hủy</a>
+                            <input type="submit" name="submit-save" class="btn btn-success" value="Lưu" />
                         </div>
                     }
                 </div>
@@ -48,3 +62,4 @@
         </div>
     </div>
 </div>
+}

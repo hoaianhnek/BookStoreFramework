@@ -20551,6 +20551,16 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\SharedAdmin\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views\\SharedAdmin\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\SharedAdmin\\Error.cshtml",
+      "TargetPath": "Views\\SharedAdmin\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\OrderManagement.cshtml",
       "TargetPath": "Views\\Admin\\OrderManagement.cshtml",
       "FileKind": "mvc"
@@ -20616,6 +20626,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\SalesReport.cshtml",
+      "TargetPath": "Views\\Admin\\SalesReport.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Shared\\_Layout.cshtml",
       "TargetPath": "Views\\Shared\\_Layout.cshtml",
       "FileKind": "mvc"
@@ -20641,6 +20656,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\AccountAdmin.cshtml",
+      "TargetPath": "Views\\Admin\\AccountAdmin.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\CreateEntry.cshtml",
       "TargetPath": "Views\\Admin\\CreateEntry.cshtml",
       "FileKind": "mvc"
@@ -20648,6 +20668,11 @@
     {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\EditShipping.cshtml",
+      "TargetPath": "Views\\Admin\\EditShipping.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -20673,6 +20698,11 @@
     {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\CreateDiscountBook.cshtml",
       "TargetPath": "Views\\Admin\\CreateDiscountBook.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\CreateShipping.cshtml",
+      "TargetPath": "Views\\Admin\\CreateShipping.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -20721,6 +20751,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\SharedAdmin\\_LayoutEmpty.cshtml",
+      "TargetPath": "Views\\SharedAdmin\\_LayoutEmpty.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\EditBook.cshtml",
       "TargetPath": "Views\\Admin\\EditBook.cshtml",
       "FileKind": "mvc"
@@ -20748,11 +20783,6 @@
     {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\BookManagement.cshtml",
       "TargetPath": "Views\\Admin\\BookManagement.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Home\\SearchProduct.cshtml",
-      "TargetPath": "Views\\Home\\SearchProduct.cshtml",
       "FileKind": "mvc"
     }
   ],

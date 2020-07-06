@@ -1,0 +1,67 @@
+.content-header {
+    padding: 15px 1.2rem;
+}
+.content-header h1 {
+    font-size: 1.8rem;
+    color: #343a40!important;
+}
+section.content {
+    padding: 0 .5rem;
+    color: white;
+}
+.content .small-box {
+    border-radius: .25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+}
+.content .small-box> .inner {
+    padding: 10px;
+}
+.content .small-box> .inner> h3 {
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding: 0;
+    white-space: nowrap;
+}
+.content .small-box> .inner> p {
+    z-index: 5;
+    font-size: 1rem;
+}
+.content .small-box> .icon {
+    color: rgba(0,0,0,.15);
+    z-index: 0;
+}
+.ion-bag::before {
+    content: "\f110";
+}
+.content .small-box> .icon> i {
+    font-size: 70px;
+    top: 20px;
+    position: absolute;
+    right: 15px;
+    transition: transform .3s linear;
+}
+.content .small-box:hover .icon> i {
+    transform: scale(1.1);
+}
+.small-box>.small-box-footer {
+    background: rgba(0,0,0,.1);
+    display: block;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    z-index: 10;
+}
+.bg-info, .bg-info>a {
+    color: #fff!important;
+}
+.small-box>.small-box-footer:hover {
+    background: rgba(0,0,0,.15);
+    color: #fff;
+}
+.content a {
+    color: white;
+}

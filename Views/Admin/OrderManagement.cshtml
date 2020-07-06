@@ -3,11 +3,25 @@
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
     double tongtien = 0;
 }
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h4>ORDER MANAGEMENT</h4>
+                <h4>QUẢN LÝ HÓA ĐƠN</h4>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
@@ -25,22 +39,22 @@
             <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Order</h2>
+                        <h2>Hóa Đơn</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <table class="table table-striped b-t b-light">
                             <thead>
                                 <tr>
-                                    <th data-breakpoints="xs" scope="col">ID</th>
-                                    <th>Name Customer</th>
-                                    <th>Date Order</th>
-                                    <th>Address</th>
-                                    <th>Details Product</th>
-                                    <th>Ship Fee</th>
-                                    <th>SubTotal</th>
-                                    <th>Status</th>
-                                    <th scope="col">Manipulation</th>
+                                    <th data-breakpoints="xs" scope="col">SHD</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Ngày đặt hàng</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Chi tiết SP</th>
+                                    <th>Phí ship</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th scope="col">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,9 +88,9 @@
                                     <td>
                                         <table width="auto" border="0">
                                             <tr>
-                                                <td>Name</td>
-                                                <td>Quantity</td>
-                                                <td>Price</td>
+                                                <td>Tên sách</td>
+                                                <td>Số lượng</td>
+                                                <td>Giá</td>
                                             </tr>
                                             @foreach (var od in ViewBag.orderdetails)
                                             {
@@ -91,27 +105,8 @@
                                                             }
                                                         </td>
                                                         <td>@od.quantityBook</td>
-                                                        <td>
-                                                            @foreach (var b in ViewBag.books)
-                                                            {   var dem=0;
-                                                                if(b.idBook == od.idBook && b.idDiscount!="") {
-                                                                    foreach (var d in ViewBag.discounts)
-                                                                    {
-                                                                        if(d.idDiscount == b.idDiscount) {
-                                                                            <span>@(b.priceBook-b.priceBook*d.numberDiscount/100)$</span>
-                                                                            dem++;
-                                                                            tongtien += (b.priceBook-b.priceBook*d.numberDiscount/100)*od.quantityBook;
-                                                                        }
-                                                                    }
-                                                                    if(dem==0){<span>@b.priceBook$</span>
-                                                                    tongtien += b.priceBook*od.quantityBook;}
-                                                                    
-                                                                } else if(b.idBook == od.idBook) {
-                                                                    <span>@b.priceBook$</span>
-                                                                    tongtien += b.priceBook*od.quantityBook;
-                                                                }
-                                                            }
-                                                        </td>
+                                                        <td>$@od.priceOrder</td>
+                                                        @{tongtien += od.priceOrder * od.quantityBook;}
                                                     </tr>
                                                 }
                                             }
@@ -136,9 +131,9 @@
                                     <td>@item.status</td>
                                     @* //disabled="true" *@
                                     @if(item.status == "Delivered" || item.status == "Cancelled") {
-                                        <td><a class="btn float-right Invoicedis" disabled>Invoice</a></td>
+                                        <td><a class="btn float-right Invoicedis" disabled>Hóa Đơn</a></td>
                                     } else {
-                                        <td><a class="btn float-right Invoice" data-id="@item.idOrder">Invoice</a></td>
+                                        <td><a class="btn float-right Invoice" data-id="@item.idOrder">Hóa Đơn</a></td>
                                     }
                                 </tr> 
                                 tongtien=0;
@@ -152,3 +147,4 @@
         </div>
     </div>
 </div>
+}

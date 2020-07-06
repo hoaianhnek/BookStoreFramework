@@ -37,7 +37,7 @@ namespace frame.Controllers
             var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
             
             ViewBag.Email = email;
-            var books = context.GetAllBook().Where(a=>a.status == "true");
+            var books = context.GetAllBook().Where(a=>a.status == "true" && a.amountBook>0);
             var categories = context.GetAllCategory().Where(a=>a.status == "true");
             var discounts = context.GetAllDiscount().Where(d=>d.status=="true");
             List<OrderDetail> orderDetails = context.GetAllOrderDetail();
@@ -133,7 +133,8 @@ namespace frame.Controllers
                             imgBook = b.imgBook,
                             priceBook = b.priceBook,
                             numberDiscount = b.numberDiscount
-                        }).Take(5);
+                        }).Take(3);
+            
             var trueStory = (from b in bookdis
                         join c in categories on b.idCategory equals c.idCategory
                         where c.nameCategory == "True Story"
@@ -143,7 +144,7 @@ namespace frame.Controllers
                             imgBook = b.imgBook,
                             priceBook = b.priceBook,
                             numberDiscount = b.numberDiscount
-                        }).Take(5);
+                        }).Take(3);
             var loved = (from b in bookdis
                         join c in categories on b.idCategory equals c.idCategory
                         where c.nameCategory == "Loved"
@@ -153,7 +154,7 @@ namespace frame.Controllers
                             imgBook = b.imgBook,
                             priceBook = b.priceBook,
                             numberDiscount = b.numberDiscount
-                        }).Take(5);
+                        }).Take(3);
 
             ViewBag.flashsale = timesale;
             ViewBag.Book = books;
@@ -168,6 +169,43 @@ namespace frame.Controllers
             return View();
         }
         
+        public IActionResult CreateComment(string idBook, string comments) {
+            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
+            BookStoreContext context = new BookStoreContext();
+            var idUser = context.GetAllUser().Where(c=>c.email == email).Select(c=>c.idUser).FirstOrDefault();
+            
+            var commets = new Comments();
+            commets.id_User = idUser;
+            commets.id_Book = idBook;
+            commets.content = comments;
+            context.AddComment(commets);
+            var comment = context.GetAllComment().LastOrDefault();
+            var customer = context.GetAllCustomer().Where(c=>c.idUser == comment.id_User).Select(c=>c.nameCustomer).FirstOrDefault();
+            var data = new {
+                date_Comment = comment.date_Comment,
+                content = comment.content,
+                customer
+            };
+            return new JsonResult(data);
+        }
+       
+        public IActionResult CreateReply(int idComment, string content) {
+            BookStoreContext context = new BookStoreContext();
+            var Reply = new Reply();
+            Reply.id_Comment = idComment;
+            Reply.content = content;
+            context.AddReply(Reply);
+            var reply = context.GetAllReply().LastOrDefault();
+            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
+            var idUser = context.GetAllUser().Where(c=>c.email == email).Select(c=>c.idUser).FirstOrDefault();
+            var customer = context.GetAllCustomer().Where(c=>c.idUser == idUser).Select(c=>c.nameCustomer);
+            var data = new {
+                date_Reply = reply.date_Reply,
+                content = reply.content,
+                nameCustomer = customer
+            };
+            return new JsonResult(data);
+        }
         public IActionResult DetailProduct(string id) {
             BookStoreContext context = new BookStoreContext();
             var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -175,7 +213,7 @@ namespace frame.Controllers
             
             ViewBag.Email = email;
             var categories = context.GetAllCategory().Where(c=>c.status == "true");
-            var books = context.GetAllBook().Where(c=>c.status == "true");
+            var books = context.GetAllBook().Where(c=>c.status == "true" && c.amountBook>0);
             var authors = context.GetAllAuthor().Where(c=>c.status == "true");
             var discounts = context.GetAllDiscount().Where(d=>d.status=="true" && DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
                         && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0);
@@ -291,7 +329,12 @@ namespace frame.Controllers
                     
                 }
             }
-            
+            var reply = context.GetAllReply();
+            var customer = context.GetAllCustomer();
+            var commets = context.GetAllComment().Where(c=>c.id_Book == id);
+            ViewBag.reply =reply;
+            ViewBag.customer = customer;
+            ViewBag.comments = commets;
             ViewBag.ProRel = prorel;
             ViewBag.ProRelDis = prorelDis;
             ViewBag.DetailBook = detailBook;
@@ -331,10 +374,10 @@ namespace frame.Controllers
             var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var discounts = context.GetAllDiscount().Where(d=>d.status=="true" && DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
                         && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0);
-            var bookdisplay = books.Where(b => b.status == "true");
+            var bookdisplay = books.Where(b => b.status == "true" && b.amountBook>0);
             var html = "<div class='content clearfix'><div class='page-header page-header-product'>";
-            html += "<div class='container'><h1>Search</h1><ul class='breadcrumb'><li class='breadcrumb-item'>";
-            html+="<a href='/Home'>Home</a></li><li class='breadcrumb-item active'><strong>Search</strong>";
+            html += "<div class='container'><h1>Tìm Kiếm</h1><ul class='breadcrumb'><li class='breadcrumb-item'>";
+            html+="<a href='/Home'>Trang Chủ</a></li><li class='breadcrumb-item active'><strong>Tìm Kiếm</strong>";
             html+="</li></ul></div></div></div><div class='ads-grid py-sm-5 py-4'>";
             html+="<div class='container py-xl-4 py-lg-2'><h3 class='tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3'>";
             html+="<span>SẢN PHẨM ĐƯỢC TÌM THẤY</span></h3><div class='row search-book'>";
@@ -346,25 +389,25 @@ namespace frame.Controllers
                         html += "<div class='men-pro-item simpleCart_shelfItem'>";
                         html += "<div class='men-thumb-item text-center'>";
                         html += "<img src='../../images/"+item.imgBook+"'alt='"+item.nameBook+"'widtd= '194px' height='300px'>";
-                        html += "<div class='men-cart-pro'><div class='inner-men-cart-pro'><a href='/Home/DetailProduct/"+item.idBook+"' class='link-product-add-cart'>Quick View</a> ";
+                        html += "<div class='men-cart-pro'><div class='inner-men-cart-pro'><a href='/Home/DetailProduct/"+item.idBook+"' class='link-product-add-cart'>Xem</a> ";
                         html += "</div></div></div><div class='item-info-product text-center border-top mt-4'>";
                         html += "<h4 class='pt-1'><a href='#'>"+item.nameBook+"</a></h4>";
                         html += "<div class='info-product-price my-2'><span class='item_price'>"+item.priceBook+"$</span>";
                         html +="</div><div class='snipcart-details add-to-cart top_brand_home_details item_add single-item hvr-outline-out'>";
-                        html += "<a class='button btn'data-name='"+item.nameBook+"'data-price = '"+item.priceBook+"'data-number = '0'data-image= '"+item.imgBook+"'id='"+item.idBook+"'>Add to cart</a>  ";
+                        html += "<a class='button btn'data-name='"+item.nameBook+"'data-price = '"+item.priceBook+"'data-number = '0'data-image= '"+item.imgBook+"'id='"+item.idBook+"'>Thêm vào giỏ hàng</a>  ";
                         html += "</div></div></div></div>";
                     } else {
                         html += "<div class='col-md-3 product-men mt-5'>";
                         html += "<div class='men-pro-item simpleCart_shelfItem'>";
                         html += "<div class='men-thumb-item text-center'>";
                         html += "<img src='../../images/"+item.imgBook+"'alt='"+item.nameBook+"'widtd= '194px' height='300px'>";
-                        html += "<div class='men-cart-pro'><div class='inner-men-cart-pro'><a href='/Home/DetailProduct/"+item.idBook+"' class='link-product-add-cart'>Quick View</a> ";
+                        html += "<div class='men-cart-pro'><div class='inner-men-cart-pro'><a href='/Home/DetailProduct/"+item.idBook+"' class='link-product-add-cart'>Xem</a> ";
                         html += "</div></div><span class='product-new-top'>-"+x.numberDiscount+"%</span></div><div class='item-info-product text-center border-top mt-4'>";
                         html += "<h4 class='pt-1'><a href='#'>"+item.nameBook+"</a></h4>";
                         html += "<div class='info-product-price my-2'><span class='item_price'>"+(item.priceBook-item.priceBook*x.numberDiscount/100)+"$</span>";
                         html += "<del>$"+item.priceBook+"</del>";
                         html +="</div><div class='snipcart-details add-to-cart top_brand_home_details item_add single-item hvr-outline-out'>";
-                        html += "<a class='button btn'data-name='"+item.nameBook+"'data-price = '"+item.priceBook+"'data-number = '"+x.nameDiscount+"'data-image= '"+item.imgBook+"'id='"+item.idBook+"'>Add to cart</a>  ";
+                        html += "<a class='button btn'data-name='"+item.nameBook+"'data-price = '"+item.priceBook+"'data-number = '"+x.nameDiscount+"'data-image= '"+item.imgBook+"'id='"+item.idBook+"'>Thêm vào giỏ hàng</a>  ";
                         html += "</div></div></div></div>";
                     }                
                 } else {
@@ -484,11 +527,11 @@ namespace frame.Controllers
         }
         
         [HttpPost]
-        public string CreateCart(string id, int quantity) {
+        public string CreateCart(string id, int quantity,double price) {
             BookStoreContext context = new BookStoreContext();
             var orders = context.GetAllOrder();
             var idOrder = orders.Select(o=>o.idOrder).LastOrDefault();
-            context.CreateDetailOrder(idOrder,id,quantity);
+            context.CreateDetailOrder(idOrder,id,quantity,price);
             return "huhu";
         }
         
@@ -562,18 +605,18 @@ namespace frame.Controllers
             var books = context.GetAllBook().Where(a=>a.status == "true");
             var discounts = context.GetAllDiscount().Where(d=>d.status == "true"&&DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
                         && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0);
-
+            var shippings = context.GetAllShipping();
             var idUser = users.Where(u => u.email == email)
                         .Select(u =>u.idUser).FirstOrDefault();
-            string detailinfo = (from c in customers
-                                where c.idUser == idUser
-                                select c.nameCustomer).FirstOrDefault();
+            var detailinfo = customers.Where(c=>c.idUser == idUser).FirstOrDefault();
+
 
             var myOrder = (from o in orders
                         join c in customers on o.idCustomer equals c.idCustomer 
                         where c.idUser == idUser
                         select new Order() {
                             idOrder = o.idOrder,
+                            dateOrder = o.dateOrder,
                             idCustomer = c.idCustomer,
                             status = o.status
                         }).ToList();
@@ -582,6 +625,7 @@ namespace frame.Controllers
             ViewBag.myOrderDetail = orderDetails;
             ViewBag.myOrder = myOrder;
             ViewBag.detailinfo = detailinfo;
+            ViewBag.shippings = shippings;
             return View();
         }
         
@@ -606,17 +650,7 @@ namespace frame.Controllers
             ViewBag.Category = categories;
             return View();
         }
-        
-        public IActionResult SearchProduct() {
-            BookStoreContext context = new BookStoreContext();
-            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
-            
-            ViewBag.Email = email;
-            var categories = context.GetAllCategory().Where(a=>a.status == "true");
-            ViewBag.Category = categories;
-            return View();
-        }
-        
+         
         public IActionResult ProductCategory(string id) {
             BookStoreContext context = new BookStoreContext();
             var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
@@ -624,7 +658,7 @@ namespace frame.Controllers
             ViewBag.Email = email;
             var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var categories = context.GetAllCategory().Where(a=>a.status == "true");
-            var books = context.GetAllBook().Where(a=>a.status == "true");
+            var books = context.GetAllBook().Where(a=>a.status == "true" && a.amountBook>0);
             var discounts = context.GetAllDiscount().Where(d=>d.status=="true" && DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
                         && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0);
             ViewBag.Category = categories;

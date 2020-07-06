@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-sm-6 text-left">
                 <i class="fas fa-map-marker-alt"></i>
-                <span>KTX khu B - DH QUOC GIA TPHCM</span>
+                <span>KTX khu B - ĐẠI HỌC QUỐC GIA TP.HCM</span>
                 <i class="fas fa-mobile"></i>
                 <span>0-376-206-***</span>
                 <i class="fas fa-envelope"></i>
@@ -18,18 +18,18 @@
                     <li class="topbar-login">
                         @if(Email != null) {
                         <a class="" href="../../Home/Information">
-                            <span>MyAccount</span>
+                            <span>Tài Khoản</span>
                         </a>
                         } else {
                         <a class="" href="../../Home/MyAccount">
-                            <span>Login</span>
+                            <span>Đăng Nhập</span>
                         </a>
                         }
                         
                     </li>
                     <li class="">
                         <a class="" href="#">
-                            <span>Help</span>
+                            <span>Trợ Giúp</span>
                         </a>
                         
                     </li>
@@ -54,7 +54,7 @@
                     <div class="search-inside">
                         <form>
                             <div class="form-input">
-                                <input  type="search" class="search" id="SearchBookHome" placeholder="Search Products...">
+                                <input  type="search" class="search" id="SearchBookHome" placeholder="Nhập tên sản phẩm...">
                                 <button class="button" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -71,14 +71,14 @@
                                 <span id="lengcart" class="badge badge-danger"></span>
                             </a>
                             <div class="dropdown-menu cart-list">
-                                <h2>Cart</h2>
+                                <h2>Giỏ hàng</h2>
                                 <div id='cartne'>
                                     <div class="total-minicart d-flex justify-content-between">
-                                        <strong>Subtotal:</strong>
+                                        <strong>Tổng tiền</strong>
                                         <span>$0.00</span>
                                     </div>
                                     <div class="view-minicart">
-                                        <a href="../../Home/Cart">View Cart</a>
+                                        <a href="../../Home/Cart">Xem Giỏ Hàng</a>
                                     </div>
                                 </div>
                                 
@@ -98,7 +98,7 @@
                     <ul class="menu-primary">
                         <li class="">
                             <a href="~/Home">
-                                <span>Home</span>
+                                <span>Trang Chủ</span>
                             </a>
                         </li>
                         @foreach (var item in book)

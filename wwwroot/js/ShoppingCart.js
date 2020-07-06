@@ -35,7 +35,7 @@ $(document).ready(function(){
     
         sessionStorage["shopping-cart-items"] = JSON.stringify(shoppingCartItems);
         Swal.fire({
-            title: 'records add successfully!',
+            title: 'Thêm sản phẩm thành công!',
             icon: 'success',
             confirmButtonText: 'OK'
           });
@@ -74,7 +74,7 @@ $(document).ready(function(){
     
         sessionStorage["shopping-cart-items"] = JSON.stringify(shoppingCartItems);
         Swal.fire({
-            title: 'records add successfully!',
+            title: 'Thêm sản phẩm thành công!',
             icon: 'success',
             confirmButtonText: 'OK'
           });
@@ -105,10 +105,10 @@ function displayShoppingCartItems() {
         var html = "";
         html += "<div id='cartne'>";
         html += "<div class='total-minicart d-flex justify-content-between'>";
-        html += "<strong>Subtotal:</strong>"
+        html += "<strong>Tổng:</strong>"
         html += "<span>$"+total+"</span>";
         html += "</div>";
-        html += "<div class='view-minicart'> <a href='../../Home/Cart'>View Cart</a> </div>";
+        html += "<div class='view-minicart'> <a href='../../Home/Cart'>Xem giỏ hàng</a> </div>";
         html += "</div>";
         $("#cartne").append(html);
         $("#lengcart").html(lengcart);
@@ -120,7 +120,7 @@ function delCart() {
     for(var i=0;i<shoppingCartItems.length;i++) {
         if(shoppingCartItems[i].id == id) {
             Swal.fire({
-                title: 'Delete Cart Success!',
+                title: 'Xóa sản phẩm thành công!',
                 icon: 'success',
                 confirmButtonText: 'OK'
               });
@@ -176,7 +176,7 @@ function delcartShop(ele) {
     for(var i=0; i<shoppingCartItems.length;i++) {
         if(shoppingCartItems[i].id == id) {
             Swal.fire({
-                title: 'Delete Cart Success!',
+                title: 'Xóa sản phẩm thành công!',
                 icon: 'success',
                 confirmButtonText: 'OK'
               });
@@ -239,11 +239,11 @@ function DisplayCheckOut() {
         });
         charge = $('#province>option:first-child').attr("value");
         var html = "";
-        html += '<tr> <td colspan="3" class="text-right"> <h5>Total</h5> </td> <td class="text-right">';
+        html += '<tr> <td colspan="3" class="text-right"> <h5>Tổng</h5> </td> <td class="text-right">';
         html += '<h5>'+total+'$</h5> </td> </tr>';
-        html += '<tr> <td colspan="3" class="text-right"> <h5>Ship fee</h5> </td> <td class="text-right">';
+        html += '<tr> <td colspan="3" class="text-right"> <h5>Phí ship</h5> </td> <td class="text-right">';
         html += '<h5 id="charges">'+charge+'$</h5></td></tr>';
-        html += '<tr> <td colspan="3" class="text-right" > <h5>SubTotal</h5> </td> <td class="text-right" >';
+        html += '<tr> <td colspan="3" class="text-right" > <h5>Tổng Phí</h5> </td> <td class="text-right" >';
         html += '<h5 class="d-flex"><input type="text" id="thanhtoan" value="'+(total*0.1+charge*0.1)*10+'" class="border-0 text-right text-body font-weight-bold" disabled="true" >$</h5>';
         html += '</td> </tr>';
         $('.page-content-checkout tbody').append(html);
@@ -287,7 +287,7 @@ $(document).ready(function() {
             $.ajax({
                 type:'POST',
                 url:"/Home/CreateCart/",
-                data:{id:shoppingCartItems[i].id,quantity:shoppingCartItems[i].quantity},
+                data:{id:shoppingCartItems[i].id,quantity:shoppingCartItems[i].quantity,price:shoppingCartItems[i].price},
                 success: function(data) {
                     shoppingCartItems = [];
                     sessionStorage["shopping-cart-items"] = JSON.stringify(shoppingCartItems);

@@ -5,5 +5,6 @@ namespace frame.Models
         public string idShip { get; set; }
         public string country { get; set; }
         public float charge { get; set; }
+        public string status { get; set; }
     }
 }

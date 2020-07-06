@@ -5,17 +5,16 @@
 	var myOrder = ViewBag.myOrder;
 	var myOrderDetail = ViewBag.myOrderDetail;
 	var Book = ViewBag.Book;
-	var Discount = ViewBag.Discount;
 }
 <div class="page-header">
     <div class="container">
-        <h1>My Order</h1>
+        <h1>Đơn Hàng Của Tôi</h1>
         <ul class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="~/Home">Home</a>
+                <a href="~/Home">Trang Chủ</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong>My Order</strong>
+                <strong>Đơn Hàng Của Tôi</strong>
             </li>
         </ul>
     </div>
@@ -30,7 +29,7 @@
 		<div class="container py-xl-4 py-lg-2">
 			<!-- tittle heading -->
 			<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
-				<span>My Order</span></h3>
+				<span>Đơn Hàng Của Tôi</span></h3>
 			<!-- //tittle heading -->
 			<div class="row">
 				<!-- product right -->
@@ -42,8 +41,8 @@
                                 height: 45px;
                                 width: 45px;"/>
 								<div class="ml-3">
-									<h3 class="agileits-sear-head mb-1">Account of</h3>
-										<span>@detailinfo</span>
+									<h3 class="agileits-sear-head mb-1">Tài Khoản Của</h3>
+										<span>@detailinfo.nameCustomer</span>
 								</div>
 							</div>
 							
@@ -51,15 +50,15 @@
 								<ul style="list-style-type:none">
 									<li>
 										<i class="fas fa-user"></i>
-										<a href="Information"><span class="span">Account Information</span></a>
+										<a  class="text-body" href="Information"><span class="span">Quản Lý Tài Khoản</span></a>
 									</li>
 									<li>
 										<i class="far fa-address-book"></i>
-										<a href="donhang.html"><span class="span">Order Management</span></a>
+										<a  class="text-body"href="donhang.html"><span class="span">Quản Lý Đơn Hàng</span></a>
 									</li>
 									<li>
 										<i class="fas fa-sign-out-alt"></i>
-										<a href="/Home/Logout"><span class="span">Logout</span></a>
+										<a  class="text-body" href="/Home/Logout"><span class="span">Đăng Xuất</span></a>
 									</li>
 								</ul>
 							</div>
@@ -78,122 +77,150 @@
 										<table class="timetable_sub">
 											<thead>
 												<tr>
-													<th>ID Order</th>
-													<th>Product Information</th>
-													<th>Total</th>
-													<th>Status</th>
-													<th>Manipulation</th>
+													<th>Số HD</th>
+													<th>Ngày đặt</th>
+													<th>Thông tin sản phẩm</th>
+													<th>Tổng tiền</th>
+													<th>Trạng Thái</th>
+													<th class="text-center">Hành Động</th>
 												</tr>
 											</thead>
 											<tbody>
 												@foreach (var item in myOrder)
 												{
-													double tt = 0;
-												<tr class="rem1">
+												double tt = 0;
+												double tongtien = 0;
+												<tr class="rem1" onclick="showdialog(@item.idOrder)">
 													<td class="invert">@item.idOrder</td>
-													<td class="invert-image">
-														<table>
-															<tr>
-																<th>Product Name</th>
-																<th>Image</th>
-																<th>Quantity</th>
-															</tr>
-															@foreach (var o in myOrderDetail)
-															{	var dem=0;
-																if(o.idOrder == item.idOrder) {
-															<tr>
-																@foreach (var b in Book)
+													<td>@item.dateOrder.ToString("dd/MM/yyyy")</td>
+													<td><table class="table_sub">
+														@foreach (var o in myOrderDetail)
+													{
+														if(o.idOrder == item.idOrder) {
+															@foreach (var b in Book)
 															{
-																if(b.idBook == o.idBook) {
-																	if(b.idDiscount == "") {
-																	<td>
-																		<a href="">
-																			<img src="../../images/@b.imgBook" 
-																			width= "67" height="90"
-																			alt="@b.nameBook" class="img-responsive">
-																		</a>
-																	</td>
-																	<td class="invert">@b.nameBook</td>
-																	<td class="invert">
-																		<div class="quantity">
-																			<div class="quantity-select">
-																				<div class="entry value">
-																					<span>@o.quantityBook</span>
-																				</div>
-																			</div>
-																		</div>
-																	</td>
-																	tt += o.quantityBook*b.priceBook;
-																	} else {
-																	foreach(var d in Discount) {
-																	if(d.idDiscount == b.idDiscount) {
-																		dem++; 
-																		<td>
-																			<a href="">
-																				<img src="../../images/@b.imgBook" 
-																				width= "67" height="90"
-																				alt="@b.nameBook" class="img-responsive">
-																			</a>
-																		</td>
-																		<td class="invert">@b.nameBook</td>
-																		<td class="invert">
-																			<div class="quantity">
-																				<div class="quantity-select">
-																					<div class="entry value">
-																						<span>@o.quantityBook</span>
-																					</div>
-																				</div>
-																			</div>
-																		</td>
-																		tt += o.quantityBook*(b.priceBook-b.priceBook*d.numberDiscount/100);
-																		}
-																	
-																	}
-																	if(dem==0) {
-																	<td>
-																		<a href="">
-																			<img src="../../images/@b.imgBook" 
-																			width= "67" height="90"
-																			alt="@b.nameBook" class="img-responsive">
-																		</a>
-																	</td>
-																	<td class="invert">@b.nameBook</td>
-																	<td class="invert">
-																		<div class="quantity">
-																			<div class="quantity-select">
-																				<div class="entry value">
-																					<span>@o.quantityBook</span>
-																				</div>
-																			</div>
-																		</div>
-																	</td>
-																	tt += o.quantityBook*b.priceBook;
-																	}
-																}
-																
-																}
-																
-															}
-															</tr>
-															
+																@* <tr><th></th></tr> *@
+															if(b.idBook == o.idBook) {
+																<tr><td class="invert">@b.nameBook</td></tr>
+																tt += o.quantityBook*o.priceOrder;
 																}
 															
-															}
-															
+
+															}	
+														}
+													}	
 														</table>
-														
 													</td>
 													<td class="invert">$@tt</td>
 													<td class="invert">@item.status</td>
-													<td class="invert">
+													<td class="invert text-center">
+														@if(item.status == "Delivered") {
+															<button type="submit" class="btnSubmit text-center"style="border:none;background: none;" disabled>
+																<i class="fas fa-trash-alt"></i>
+															</button>
+														} else {
 														<form action="/Home/InformationMyself/@item.idOrder" method="POST">
-															<button type="submit" class="btnSubmit">
+															<button type="submit" class="btnSubmit" style="border:none;background: none;">
 																<i class="fas fa-trash-alt"></i>
 															</button>
 														</form>
+														}
 														
 													</td>
 												</tr>
+												<dialog class="show-detailOrder" id="@item.idOrder">
+													<button onclick="closeDialog(@item.idOrder)"><i class="fas fa-times"></i></button>
+													<div class="">
+														<h2>Chi tiết đơn hàng</h2>
+														<div class="address-detail-show">
+															<div class="border-delevery"></div>
+															<div class="address-detail">
+																<h4>Địa Chỉ Nhận Hàng</h4>
+																<div style="font-size: 14px;font-weight: 600;">
+																	@detailinfo.nameCustomer
+																</div>
+																<span>SĐT: @detailinfo.phoneCustomer</span>
+																<span>Địa Chỉ: @detailinfo.addressCustomer - 
+																	@foreach (var x in ViewBag.shippings)
+																	{
+																		if(x.idShip == detailinfo.idShip)
+																		{@x.country}
+																	}
+																</span>
+															</div>
+															<div class="border-delevery"></div>
+														</div>
+														<div class="show-detail-order">
+															<div class="pl-3 mb-2">Trạng thái đơn hàng:
+																<span>@item.status</span>
+															</div>
+															<hr>
+															<div class="row">
+																<div class="col-5">
+																	Sản phẩm
+																</div>
+																<div class="col-2">Giá</div>
+																<div class="col-2">Số lượng</div>
+																<div class="col-3 text-right">Tạm tính</div>
+															</div>
+															<hr>
+															@foreach(var o in myOrderDetail) {
+																<div class="row">
+																	@if(o.idOrder == item.idOrder) {
+																	<div class="col-5">
+																		@foreach(var b in Book) {
+																			if(b.idBook == o.idBook) {
+																				@b.nameBook
+																			}
+																		}
+																	</div>
+																	<div class="col-2">
+																		@o.priceOrder
+																	</div>
+																	<div class="col-2">
+																		@o.quantityBook
+																	</div>
+																	var tamtinh = o.quantityBook*o.priceOrder;
+																	tongtien += tamtinh;
+																	<div class="col-3 text-right">
+																		@tamtinh
+																	</div>
+																	}
+																</div>
+															}
+															<hr>
+															<div class="row">
+																<div class="col-8 text-right">
+																	Tổng tiền hàng: 
+																</div>
+																<div class="col-4 text-right">
+																	@tongtien
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-8 text-right">
+																	Phí vận chuyển: 
+																</div>
+																<div class="col-4 text-right">
+																	@foreach(var s in ViewBag.shippings) {
+																		if(s.idShip == detailinfo.idShip) {
+																			@s.charge
+																			tongtien += s.charge;
+																		}
+																	}
+																</div>
+															</div>
+															<div class="row mb-4">
+																<div class="col-8 text-right">
+																	Tổng cộng: 
+																</div>
+																<div class="col-4 text-right">
+																	@tongtien
+																</div>
+															</div>
+														</div>
+													</div>
+												</dialog>
 												}
 											</tbody>
 										</table>
@@ -212,7 +239,7 @@
 
 <script>
 	$('.btnSubmit').click(function() {
-		var x = confirm("Are you sure you want to delete?");
+		var x = confirm("Bạn có muốn xóa không?");
 		if(x) return true;
 		else return false;
 	});

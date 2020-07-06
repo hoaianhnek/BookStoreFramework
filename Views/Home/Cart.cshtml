@@ -6,13 +6,13 @@
 <div class="content clearfix">
     <div class="page-header page-header-product">
         <div class="container">
-            <h1>Cart</h1>
+            <h1>Giỏ Hàng</h1>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="~/Home">Home</a>
+                    <a href="~/Home">Trang Chủ</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Cart</strong>
+                    <strong>Giỏ Hàng</strong>
                 </li>
             </ul>
         </div>
@@ -20,21 +20,21 @@
     <div class="page-content-cart">
         <div class="container">
             <div class="title">
-                <h5>Cart</h5>
-                ( <span>0</span> Product)
+                <h5>Giỏ Hàng</h5>
+                ( <span>0</span> Sản phẩm)
             </div>
             <div class="content-cart">
                 <div class="d-flex justify-content-end container-cart-product-pay pr-5 pt-5">
-                    <span class="mr-4">SubTotal</span>
+                    <span class="mr-4">Tổng tiền</span>
                     <span class="ml-4">0$</span>
                 </div>
             </div>
             <div class="d-flex justify-content-end pt-3 pr-5">
-                <a class="mr-4 text-decoration-none text-dark" id="next-purchase" href="/Home">Shopping
+                <a class="mr-4 text-decoration-none text-dark" id="next-purchase" href="/Home">Tiếp tục mua hàng
                     <i class="fas fa-cart-plus pr-2"></i>
                 </a>
                 @if(Email != null) {
-                <a id="pay" href="../../Home/CheckOut" class="text-decoration-none">Check Out
+                <a id="pay" href="../../Home/CheckOut" class="text-decoration-none">Thanh Toán
                     <i class="fas fa-chevron-circle-right pr-2"></i>
                 </a>
                 } else {

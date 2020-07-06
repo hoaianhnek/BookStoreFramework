@@ -16,13 +16,13 @@
 
 <div class="page-header">
     <div class="container">
-        <h1>Account Information</h1>
+        <h1>Thông Tin Tài Khoản</h1>
         <ul class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="~/Home">Home</a>
+                <a href="~/Home">Trang Chủ</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong>Account Information</strong>
+                <strong>Thông Tin Tài Khoản</strong>
             </li>
         </ul>
     </div>
@@ -31,7 +31,7 @@
     <div class="container py-xl-4 py-lg-2">
         <!-- tittle heading -->
         <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
-            <span>Account Information</span></h3>
+            <span>Thông Tin Tài Khoản</span></h3>
         <!-- //tittle heading -->
         <div class="row">
             <!-- product right -->
@@ -45,7 +45,7 @@
                             @foreach (var item in detailinfo)
                             {
                             <div class="ml-3">
-                                <h3 class="agileits-sear-head mb-1">Account of</h3>
+                                <h3 class="agileits-sear-head mb-1">Tài Khoản Của</h3>
                                 <span>@item.nameCustomer</span>
                             </div>
                             }
@@ -57,15 +57,15 @@
                             <ul style="list-style-type:none">
                                 <li>
                                     <i class="fas fa-user"></i>
-                                    <a href="Information"><span class="span">Account Information</span></a>
+                                    <a href="Information" class="text-body"><span class="span">Quản Lý Tài Khoản</span></a>
                                 </li>
                                 <li>
                                     <i class="far fa-address-book"></i>
-                                    <a href="InformationMyself"><span class="span">Order Management</span></a>
+                                    <a href="InformationMyself"  class="text-body"><span class="span">Quản Lý Đơn Hàng</span></a>
                                 </li>
                                 <li>
                                     <i class="fas fa-sign-out-alt"></i>
-                                    <a href="/Home/Logout"><span class="span">Logout</span></a>
+                                    <a href="/Home/Logout"  class="text-body"><span class="span">Đăng Xuất</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -89,12 +89,12 @@
                                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
                                         <div class="information-wrapper">
                                             <div class="first-row">
-                                                <label class="input-label">Full Name</label>
+                                                <label class="input-label">Họ và tên</label>
                                                 <div class="controls form-group w-100">
-                                                    <input class="billing-address-name form-control" pattern="^[A-Za-z\s]*" title="Full name should without accents" type="text" name="nameCustomer" maxlength="128" 
+                                                    <input class="billing-address-name form-control" type="text" name="nameCustomer" maxlength="128" 
                                                     placeholder="Truong Thi Hoai Anh" required="" value="@item.nameCustomer">
                                                 </div>
-                                                <label class="input-label">Phone</label>
+                                                <label class="input-label">SĐT</label>
                                                 <div class="w3_agileits_card_number_grids">
                                                     <div class="w3_agileits_card_number_grid_left form-group">
                                                         <div class="controls w-100">
@@ -111,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <label class="input-label">City</label>
+                                                <label class="input-label">Thành Phố</label>
                                                 <div class="controls form-group w-100">
                                                     <select class="option-w3ls" name="idShip">
                                                         @foreach (var c in city)
@@ -127,7 +127,7 @@
                                                             
                                                         }
                                                         @if(item.idShip == "") {
-                                                            <option>Select City</option>
+                                                            <option>Chọn Thành Phố</option>
                                                             @foreach (var list in citylist)
                                                             {
                                                                 <option value="@list.idShip">@list.country</option>
@@ -135,14 +135,14 @@
                                                         }
                                                     </select>
                                                 </div>
-                                                <label class="input-label">Address</label>
+                                                <label class="input-label">Địa Chỉ</label>
                                                 <div class="controls form-group w-100">
                                                     <input type="text" class="form-control" placeholder="Address" 
-                                                    name="addressCustomer" pattern="^[A-Za-z0-9-\s]*" title="Address should without accents" required="" value="@item.addressCustomer">
+                                                    name="addressCustomer" required="" value="@item.addressCustomer">
                                                 </div>
                                                 
                                             </div>
-                                            <button class="submit check_out btn">Update</button>
+                                            <button class="submit check_out btn">Cập Nhật</button>
                                             <input class="billing-address-name form-control d-none" type="text" name="idCustomer" maxlength="128" 
                                                 placeholder="Full Name" required="" value="@item.idCustomer">
                                         </div>

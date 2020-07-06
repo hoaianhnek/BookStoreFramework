@@ -4,7 +4,21 @@
     var Category = ViewBag.Category;
     var book = ViewBag.books;
 }
-<div class="right_col" role="main">
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
+    <div class="right_col" role="main">
     <div class="book-manage">
         <div class="page-title">
             <div class="title_left">
@@ -20,58 +34,61 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <h2>Sách tồn kho </h2>
+                        
+                            @using (Html.BeginForm())
+                            { 
+                            @Html.AntiForgeryToken()
                         <div class="row d-flex justify-content-between">
                             <div class="col-5">
-                            @using (Html.BeginForm())
-                            {
-                            @Html.AntiForgeryToken()
+                                <div class="form-row discount-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="font-weight-bold">Hình thức khuyến mãi</label>
+                                        <select class="discount ml-1" style="height: 30px;">
+                                            <option>--Chọn hình thức--</option>
+                                            <option value="1">Sách theo thể loại</option>
+                                            <option value="2">Sách tồn kho</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label class="font-weight-bold">Tháng</label>
-                                        <select name="month" >
-                                            @for(int i=1;i<13;i++) {
-                                                <option value="@i">@i</option>
+                                        <label class="font-weight-bold">Tên khuyến mãi</label>
+                                        <select class="namediscount ml-5" name="idDiscount"style="height: 30px;">
+                                            <option>--Chọn khuyến mãi--</option>
+                                            @foreach (var item in ViewBag.discounts)
+                                            {
+                                                <option value="@item.idDiscount">@item.nameDiscount</option>
                                             }
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-                                        <label class="font-weight-bold">Năm</label>
-                                        <select name="year" >
-                                            <option value="2020">2020</option>
-                                            <option value="2019">2019</option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="modal-footer">
-                                    <a href="../../Admin/BookManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
-                                    <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                                    <a href="../../Admin/BookManagement" name="submit-cancel" class="btn btn-danger">Hủy</a>
+                                    <input type="submit" name="submit-save" class="btn btn-success" value="Lưu" />
                                 </div>
-                            }
+                            
                             </div>
                             <div class="col-7">
                                 <table class= "table">
-                                    <tr>
-                                        <th>Tên Sách</th>
-                                        <th>Hình ảnh</th>
-                                        <th>Số lượng Sách</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Sách1</td>
-                                        <td><img src="../../images/Book_001.jpg"width="64"
-                                        height="92"/></td>
-                                        <td>10</td>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>Tên Sách</th>
+                                            <th>Hình ảnh</th>
+                                            <th>Số lượng Sách</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
-                        
-                        
+                            }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+}

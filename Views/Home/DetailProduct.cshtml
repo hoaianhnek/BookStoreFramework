@@ -11,13 +11,13 @@
 <div class="content clearfix">
     <div class="page-header page-header-product">
         <div class="container">
-            <h1>Shop</h1>
+            <h1>Cửa Hàng</h1>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="~/Home">Home</a>
+                    <a href="~/Home">Trang Chủ</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Product</strong>
+                    <strong>Sản Phẩm</strong>
                 </li>
             </ul>
         </div>
@@ -53,7 +53,7 @@
                             <div class="book-action">
                                 <button class="see-back">
                                     <i class="fas fa-undo"></i>
-                                    <span>Flip to Back</span>
+                                    <span>Mặt sau</span>
                                 </button>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                     <i class="far fa-star"></i>
                                     <i class="far fa-star"></i>
                                 </div>
-                                <span>(1 customer review)
+                                <span>(1 đánh giá của khách hàng)
                                 </span>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                             data-number = '@item.numberDis'
                                             data-id="@item.idBook"
                                             data-image= '@item.imgBook'>
-                                    Add to Cart
+                                    Thêm vào giỏ hàng
                                 </button>
                             </div>
                             
@@ -104,16 +104,16 @@
                             <div class="product-bookmark">
                                 <a href="#">
                                     <i class="far fa-heart"></i>
-                                    Add to Wishlist
+                                    Thêm vào danh sách yêu thích
                                 </a>
                             </div>
                             <div class="product-detail-info">
                                 <div class="sku-product">
-                                    SKU:
-                                    <span>125002150</span>
+                                    Mã sản phẩm:
+                                    <span>@item.idBook</span>
                                 </div>
                                 <div class="category-product">
-                                    Categories:
+                                    Thể loại:
                                     <a href="#">@item.nameCategory</a>
                                 </div>
                             </div>
@@ -127,14 +127,17 @@
                 <div class="container">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a href="#des" data-toggle = "tab" class="nav-link active">Description</a>
+                            <a href="#des" data-toggle = "tab" class="nav-link active">Mô Tả</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#bookdetail" data-toggle = "tab" class="nav-link">Book Details</a>
+                            <a href="#bookdetail" data-toggle = "tab" class="nav-link">Chi Tiết</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#meetauthor" data-toggle = "tab" class="nav-link">Meet The Author</a>
-                        </li>    
+                            <a href="#meetauthor" data-toggle = "tab" class="nav-link">Tác giả</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#commentCustomer" data-toggle = "tab" class="nav-link">Bình luận</a>
+                        </li>   
                     </ul>
                 </div>
             </div>
@@ -147,19 +150,19 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <th>Pulished Year</th>
+                                    <th>Năm xuất bản</th>
                                     <td><p>@item.publishingYear</p></td>
                                 </tr>
                                 <tr>
-                                    <th>Page Count</th>
+                                    <th>Số trang</th>
                                     <td><p>@item.pageCount</p></td>
                                 </tr>
                                 <tr>
-                                    <th>Author</th>
+                                    <th>Tác giả</th>
                                     <td><p>@item.nameAuthor</p></td>
                                 </tr>
                                 <tr>
-                                    <th>Publisher</th>
+                                    <th>Nhà xuất bản</th>
                                     <td><p>@item.publisherBook</p></td>
                                 </tr>
                             </tbody>
@@ -175,6 +178,41 @@
                                 <p>@item.describeAuthor</p>
                             </div>
                         </div>
+                    </div>
+                    <div id="commentCustomer" class="container tab-pane">
+                        <div class="row" style="padding: 0px 125px ; margin-bottom:50px;">
+                            <textarea rows="2" name="comments" required></textarea>
+                            <input type="hidden" name="idBookComments" value="@item.idBook"> 
+                            @if(ViewBag.Email == null) {
+                                <a href = "~/Home/MyAccount"class="submitComments" onclick="alert('Đăng nhập để bình luận')">Bình Luận</a>
+                                
+                            } else {
+                                <a class="submitComments">Bình Luận</a>
+                            }
+                        </div>
+                        @foreach (var comment in ViewBag.comments)
+                        {
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>
+                                @foreach (var cus in ViewBag.customer)
+                                {
+                                    if(comment.id_User == cus.idUser) {
+                                        <h5>@cus.nameCustomer</h5>
+                                    }
+                                }
+                                <div>@comment.date_Comment.ToString("dd/MM/yyyy HH:mm")</div>
+                            </div>
+                            <div class="col-10 text-left">
+                                <div>@comment.content</div>
+                                <form>
+                                    <textarea rows="2"></textarea>
+                                    <input type="submit" value="Trả lời">
+                                </form>
+                            </div>
+                        </div>
+                        }
+                        
                     </div>
                 </div>
             </div>
@@ -211,7 +249,7 @@
                             <div class="book-action">
                                 <button class="see-back">
                                     <i class="fas fa-undo"></i>
-                                    <span>Flip to Back</span>
+                                    <span>Mặt sau</span>
                                 </button>
                             </div>
                         </div>
@@ -230,7 +268,7 @@
                                     <i class="far fa-star"></i>
                                     <i class="far fa-star"></i>
                                 </div>
-                                <span>(1 customer review)
+                                <span>(1 đánh giá của khách hàng)
                                 </span>
                             </div>
                         </div>
@@ -252,22 +290,22 @@
                                             data-number = '0'
                                             data-id="@item.idBook"
                                             data-image= '@item.imgBook'>
-                                    Add to Cart
+                                    Thêm vào giỏ hàng
                                 </button>
                             </div>
                             <div class="product-bookmark">
                                 <a href="#">
                                     <i class="far fa-heart"></i>
-                                    Add to Wishlist
+                                    Thêm vào danh sách yêu thích
                                 </a>
                             </div>
                             <div class="product-detail-info">
                                 <div class="sku-product">
-                                    SKU:
-                                    <span>125002150</span>
+                                    Mã sản phẩm: 
+                                    <span>@item.idBook</span>
                                 </div>
                                 <div class="category-product">
-                                    Categories:
+                                    Thể loại:
                                     <a href="#">@item.nameCategory</a>
                                 </div>
                             </div>
@@ -281,14 +319,17 @@
                 <div class="container">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a href="#des" data-toggle = "tab" class="nav-link active">Description</a>
+                            <a href="#des" data-toggle = "tab" class="nav-link active">Mô Tả</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#bookdetail" data-toggle = "tab" class="nav-link">Book Details</a>
+                            <a href="#bookdetail" data-toggle = "tab" class="nav-link">Chi Tiết</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#meetauthor" data-toggle = "tab" class="nav-link">Meet The Author</a>
-                        </li>    
+                            <a href="#meetauthor" data-toggle = "tab" class="nav-link">Tác Giả</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="#commentCustomer" data-toggle = "tab" class="nav-link">Bình luận</a>
+                        </li>   
                     </ul>
                 </div>
             </div>
@@ -301,19 +342,19 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <th>Pulished Year</th>
+                                    <th>Năm xuất bản</th>
                                     <td><p>@item.publishingYear</p></td>
                                 </tr>
                                 <tr>
-                                    <th>Page Count</th>
+                                    <th>Số trang</th>
                                     <td><p>@item.pageCount</p></td>
                                 </tr>
                                 <tr>
-                                    <th>Author</th>
+                                    <th>Tác giả</th>
                                     <td><p>@item.nameAuthor</p></td>
                                 </tr>
                                 <tr>
-                                    <th>Publisher</th>
+                                    <th>Nhà xuất bản</th>
                                     <td><p>@item.publisherBook</p></td>
                                 </tr>
                             </tbody>
@@ -330,6 +371,61 @@
                             </div>
                         </div>
                     </div>
+                    <div id="commentCustomer" class="container tab-pane">
+                        <div class="row" style="padding: 0px 125px ; margin-bottom:50px;">
+                            <textarea rows="2" name="comments" required></textarea>
+                            <input type="hidden" name="idBookComments" value="@item.idBook"> 
+                            @if(ViewBag.Email == null) {
+                                <a href = "~/Home/MyAccount"class="submitComments" onclick="alert('Đăng nhập để bình luận')">Bình Luận</a>
+                                
+                            } else {
+                                <a class="submitComments">Bình Luận</a>
+                            }
+                        </div>
+                        @foreach (var comment in ViewBag.comments)
+                        {
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>
+                                @foreach (var cus in ViewBag.customer)
+                                {
+                                    if(comment.id_User == cus.idUser) {
+                                        <h5>@cus.nameCustomer</h5>
+                                    }
+                                }
+                                <div>@comment.date_Comment.ToString("dd/MM/yyyy HH:mm")</div>
+                            </div>
+                            <div class="col-10 text-left">
+                                <div>@comment.content</div>
+                                <div id="@comment.id_Comment">
+                                    <div class="row" style="margin:0px">
+                                        <textarea rows="2" name="reply_Comments" style="margin-right: 204px;margin-bottom: 15px;"required></textarea>
+                                        @if(ViewBag.Email == null) {
+                                            <a href = "~/Home/MyAccount"class="submitReplyComment" onclick="alert('Đăng nhập để bình luận')">Trả lời</a>
+                                            
+                                        } else {
+                                            <a class="submitReplyComment" data-idComment="@comment.id_Comment">Trả lời</a>
+                                        }
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>
+                                            <h5>Ánh</h5>
+                                            <div>010101</div>
+                                        </div>
+                                        <div class="col-10 text-left">
+                                            <div>huhuh</div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        
+                        }
+                        
+                    </div>
                 </div>
             </div>
         </div> 
@@ -338,7 +434,7 @@
             <div class="container">
                 <section class="related-product">
                     <header class="related-header">
-                        <h2>Related Products</h2>
+                        <h2>Sản phẩm liên quan</h2>
                     </header>
                     <div class="content-related-product row">
                         @foreach (var item in ProRelDis)

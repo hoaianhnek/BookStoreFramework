@@ -89,3 +89,60 @@ $(document).ready(function() {
     });
   });
 });
+// show detail order
+// $(document).ready(function() {
+//   $('.timetable_sub> tbody> tr').click(function() {
+    
+//     $('.show-detailOrder .row>div').css("display","block");
+//   });
+// });
+function showdialog(id) {
+  document.getElementById(id).show();
+}
+function closeDialog(id) {
+  document.getElementById(id).close();
+}
+$(document).ready(function() {
+    $(".submitComments").click(function() {
+        var comments = $("textarea[name='comments']").val();
+        var idBook = $("input[name='idBookComments']").val();
+        if(comments == "") {
+            alert("Vui lòng nhập bình luận!");
+        } else {
+            $.ajax({
+                type:"GET",
+                url:"/Home/CreateComment/",
+                data:{idBook:idBook,comments:comments},
+                success: function(data) {
+                    var html = "";
+                    var fomattime = data.date_Comment.substr(0,10).split('-').reverse().join('-')+" "+data.date_Comment.substr(11,5);
+                    html += '<div class="row"> <div class="col-2"> <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>';
+                    html += '<h5>'+data.customer+'</h5><div>'+fomattime+'</div></div><div class="col-10 text-left">';
+                    html += '<div>'+data.content+'</div> <form> <textarea rows="2"></textarea> <input type="submit" value="Trả lời"> </form> </div></div>';
+                    $("#commentCustomer").append(html);
+                    
+                    $("textarea[name='comments']").val("");
+                }
+            });
+        }
+    });
+    $(".submitReplyComment").click(function() { 
+        var reply = $("textarea[name='reply_Comments']").val();
+        var idComment = $(this).attr('data-idComment');
+        $.ajax({
+            type:"GET",
+            url:"/Home/CreateReply/",
+            data:{content:reply,idComment:idComment},
+            success: function(data) {
+                var html = "";
+                var fomattime = data.date_Reply.substr(0,10).split('-').reverse().join('-')+" "+data.date_Reply.substr(11,5);
+                html += '<div class="row"><div class="col-2"><div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>';
+                html += '<h5>'+data.nameCustomer+'</h5><div>'+fomattime+'</div></div><div class="col-10 text-left">';
+                html += '<div>'+data.content+'</div></div></div>';
+                var x = "#"+idComment;
+                $(x).append(html);
+                $("textarea[name='reply_Comments']").val("");
+            }
+        });
+    });
+});

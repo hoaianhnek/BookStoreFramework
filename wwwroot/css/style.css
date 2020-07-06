@@ -473,9 +473,7 @@ h3.agileits-sear-head {
     color: #F45C5D;
     font-size: 21px;
 }
-
 .side-bar {
-    background-color: #F9F9F9;
     height: fit-content;
 }
 /*  //product   */
@@ -554,7 +552,9 @@ p.w3l-nut-middle {
 /*-- //special effect --*/
 
 /*-- checkout --*/
-
+.checkout-right {
+    width: 100%;
+}
 .checkout-right h4 {
     color: #F45C5D;
     font-size: 26px;
@@ -565,29 +565,37 @@ table.timetable_sub {
     width: 100%;
     margin: 0 auto;
 }
-
+.timetable_sub thead {
+    border-bottom: 1px solid aliceblue;
+}
 .timetable_sub th {
-    background: #000;
-    color: #fff;
-    font-size: 16px;
-    border-right: 1px solid #ded2d2;
-    text-align: center;
+    color: #787878;
+    font-size: 15px;
+    text-align: left;
     padding: 5px 3px;
     letter-spacing: 1px;
     font-weight: normal;
 }
-
+.timetable_sub tr {
+    border-bottom: 1px solid aliceblue;
+}
+.timetable_sub> tbody> tr:hover {
+    background-color: rgba(240, 248, 255, 0.623);
+}
+.timetable_sub .table_sub tr {
+    border-bottom: none;
+}
 .timetable_sub td {
-    text-align: center;
+    font-weight: normal;
+    text-align: left;
     padding: 7px;
     font-size: 14px;
     color: #212121;
 }
+.timetable_sub .table_sub {
+    width: 100%;
 
-.timetable_sub td {
-    border: 1px solid #CDCDCD;
 }
-
 td.invert-image a img {
     margin: 0 auto;
 }
@@ -730,6 +738,58 @@ button.submit.check_out:hover {
 }
 
 /*-- //checkout form --*/
-.w-100 {
-    width: 300%!important;
+.border-delevery {
+    margin-bottom: 1.5em;
+    height: .1875rem;
+    width: 100%;
+    background-position-x: -1.875rem;
+    background-size: 7.25rem .1875rem;
+    background-image: repeating-linear-gradient(45deg,#6fa6d6,#6fa6d6 33px,transparent 0,transparent 41px,#f18d9b 0,#f18d9b 74px,transparent 0,transparent 82px);
+}
+.show-detailOrder  {
+    width: 80%;
+    margin: 0 auto;
+    border: none;
+    box-shadow: 1px 1px 3px 0px #0000004f;
+}
+.show-detailOrder> button {
+    color:red;
+    border: none;
+    background: none;
+    margin-left: 97%;
+    transition: all 0.3s;
+}
+.show-detailOrder> button:hover {
+    color: #f14f357a;
+}
+.show-detailOrder .address-detail-show span {
+    display: block;
+    font-size: 13px;
+}
+.show-detailOrder h2 {
+    font-family: roboto;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.show-detailOrder .address-detail-show .address-detail {
+    margin-bottom: 1.5em;
+    margin-left: 1.5em;
+}
+.show-detailOrder .address-detail-show .address-detail> h4 {
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 1.3em;
+    font-family: roboto;
+    font-weight: 500;
+}
+.show-detail-order> div  {
+    margin: 0 10px;
+    font-size: 15px;
+    text-align: left;
+}
+.show-detail-order> div.row> div {
+    padding: none;
 }

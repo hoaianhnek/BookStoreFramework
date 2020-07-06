@@ -7,13 +7,13 @@
 <div class="content clearfix">
     <div class="page-header">
         <div class="container">
-            <h1>My Account</h1>
+            <h1>Đăng Nhập</h1>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="~/Home">Home</a>
+                    <a href="~/Home">Trang Chủ</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>My Account</strong>
+                    <strong>Đăng Nhập</strong>
                 </li>
             </ul>
         </div>
@@ -24,20 +24,20 @@
             <div class="page-content-wrapper row">
                 
                 <div class="col-6">
-                    <h2>Login</h2>
+                    <h2>Đăng Nhập</h2>
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken();
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div>
-                        <label for="username">Username or email address
+                        <label for="username">Email
                             <span>*</span>
                         </label>
                         <input type="email" name="email" id="username" placeholder="a@gmail.com">
                         @Html.ValidationMessageFor(model => model.email,"",new {@class = "text-danger"})
                     </div>
                     <div>
-                        <label for="username">Password
+                        <label for="username">Mật khẩu
                             <span>*</span>
                         </label>
                         <input type="password" name="password" id="passwordlg" placeholder="1234">
@@ -45,31 +45,29 @@
                     </div>
                     <div>
                         <input type="submit" value="login"class="submit-login" name="submit">
-                        <label>
-                            <input type="checkbox" style="margin-right: 5px;">Remember me
-                        </label>
                     </div>
                     }
                     
                 </div>
                 
                 <div class="col-6">
-                    <h2>Register</h2>
+                    <h2>Đăng Ký</h2>
                     
                     @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken();
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div>
-                            <label for="email">Email address
+                            <label for="email">Email
                                 <span>*</span>
                             </label>
                             <input type="email" name="email" id="email" onchange="ValidateEmail()" placeholder="a@gmail.com">
                             @Html.ValidationMessageFor(model => model.email,"",new {@class = "text-danger"})
                             <div id="errorEmail" class = "text-danger"></div>
+                            <div id="successEmail" class = "text-success"></div>
                         </div>
                         <div>
-                            <label for="password">Password
+                            <label for="password">Mật Khẩu
                                 <span>*</span>
                             </label>
                             <input type="password" name="password" id="password" placeholder="1234">
@@ -88,16 +86,18 @@
 </div>
 <script type="text/javascript">
     function ValidateEmail() {
-        var email1 = $("#email").val();
+        var email1 = $("#email-customer").val();
         $.ajax({
             method:"POST",
             url:"../../../Home/ValidateEmailId/",
             data: {email:email1}
         }).done(function(msg) {
             if(msg == 1) {
+                $("#successEmail").html("");
                 $("#errorEmail").html("Error: Email đã tồn tại");
             } else {
-                $("#errorEmail").html("Error: Email hợp lệ");
+                $("#errorEmail").html("");
+                $("#successEmail").html("Email hợp lệ");
             }
         })
     }

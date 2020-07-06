@@ -8,10 +8,10 @@
 <div class="content clearfix">
     <div class="page-header page-header-product">
         <div class="container">
-            <h1>Shop</h1>
+            <h1>Cửa Hàng</h1>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="~/Home">Home</a>
+                    <a href="~/Home">Trang Chủ</a>
                 </li>
                 <li class="breadcrumb-item active">
                     @foreach(var item in NameCategory) {
@@ -29,12 +29,11 @@
             <div class="agileinfo-ads-display col-lg-12">
                 <div class="wrapper">
                     <!-- first section -->
+                    @if(BookDis.Count != 0) {
                     <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
                         <h3 class="heading-tittle text-center font-italic">
-                            Discount Book
-                        </h3>
-                        
-                        <div class="row">
+                            Sách Khuyến Mãi
+                        </h3><div class="row">
                             @foreach(var item in BookDis) {
                             <div class="col-md-3 product-men mt-5">
                                 <div class="men-pro-item simpleCart_shelfItem">
@@ -44,7 +43,7 @@
                                         <div class="men-cart-pro">
                                             <div class="inner-men-cart-pro">
                                                 <a href="../../Home/DetailProduct/@item.idBook" 
-                                                class="link-product-add-cart">Quick View</a>
+                                                class="link-product-add-cart">Xem</a>
                                             </div>
                                         </div>
                                         <span class="product-new-top">-@item.numberDiscount%</span>
@@ -65,20 +64,19 @@
                                             data-price = '@item.priceBook' 
                                             data-number = '@item.numberDiscount'
                                             data-image= '@item.imgBook'
-                                            id="@item.idBook">Add to cart</a>
+                                            id="@item.idBook">Thêm vào giỏ hàng</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            }
-                            
-                            
+                            }                            
                         </div>
                     </div>
+                    }
                     <!-- //first section -->
                     <!-- second section -->
                     <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
-                        <h3 class="heading-tittle text-center font-italic">Books by Category</h3>
+                        <h3 class="heading-tittle text-center font-italic">Sách theo thể loại</h3>
                         <div class="row">
                             @foreach(var item in BookNotDis) {
                             <div class="col-md-3 product-men mt-5">
@@ -88,7 +86,7 @@
                                         widtd= '194px' height='300px'>
                                         <div class="men-cart-pro">
                                             <div class="inner-men-cart-pro">
-                                                <a href="../../Home/DetailProduct/@item.idBook" class="link-product-add-cart">Quick View</a>
+                                                <a href="../../Home/DetailProduct/@item.idBook" class="link-product-add-cart">Xem</a>
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +105,7 @@
                                             data-price = '@item.priceBook' 
                                             data-number = '0'
                                             data-image= '@item.imgBook'
-                                            id="@item.idBook">Add to cart</a>
+                                            id="@item.idBook">Thêm vào giỏ hàng</a>
                                         </div>
                                     </div>
                                 </div>

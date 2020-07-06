@@ -1,0 +1,71 @@
+@model frame.Models.Shipping
+ 
+@{
+    ViewBag.Title = "Add Shipping";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var id = ViewBag.id;
+}
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else { 
+<div class="right_col" role="main">
+    <div class="EditCategory">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>QUẢN LÝ VẬN CHUYỂN</h4>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6  " style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Thêm Shipping</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-row"> 
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Mã</label>
+                                <input type="text" class="form-control" value="@id" disabled>
+                                <input type="hidden" value="@id" name="id" />
+                            </div> 
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Thành phố/ Tỉnh</label>
+                                <input type="text" class="form-control" name="country" required="" placeholder="Nhập thành phố">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold">Phí</label>
+                                <input type="text" title="Charge should without accents" class="form-control" name="charge" required="" placeholder="Nhập phí">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="modal-footer">
+                            <a href="../../Admin/ShippingManagement" name="submit-cancel" class="btn btn-danger">Hủy</a>
+                            <input type="submit" name="submit-save" class="btn btn-success" value="Lưu" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

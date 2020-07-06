@@ -3,11 +3,25 @@
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
     var Customer = ViewBag.customer;
 }
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {   
 <div class="right_col" role="main">
     <div class="EditCategory">
         <div class="page-title">
             <div class="title_left">
-                <h4>CUSTOMER MANAGEMENT</h4>
+                <h4>QUẢN LÝ KHÁCH HÀNG</h4>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -15,7 +29,7 @@
             <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Edit Customer</h2>
+                        <h2>Sửa Khách Hàng</h2>
                         <div class="clearfix"></div>
                     </div>
                     @using (Html.BeginForm())
@@ -24,28 +38,28 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-row"> 
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">ID</label>
+                                <label class="font-weight-bold">Mã</label>
                                 <input type="text" class="form-control" value="@Customer.idCustomer" disabled>
                                 <input type="hidden" value="@Customer.idCustomer" name="idCustomer" />
                             </div> 
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Name</label>
-                                <input type="text" class="form-control"pattern="^[A-Za-z0-9-\s]*" title="Name should without accents" value="@Customer.nameCustomer" name="nameCustomer" required="" placeholder="Nhập tên khách hàng">
+                                <label class="font-weight-bold">Tên</label>
+                                <input type="text" class="form-control" value="@Customer.nameCustomer" name="nameCustomer" required="" placeholder="Nhập tên khách hàng">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Phone</label>
+                                <label class="font-weight-bold">SĐT</label>
                                 <input type="text" class="form-control" value="@Customer.phoneCustomer" name="phoneCustomer" required="" placeholder="Nhập sdt">
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Province/ City</label>
+                                <label class="font-weight-bold">Tỉnh/ Thành Phố</label>
                                 @* <input type="tel" class="form-control" name="phoneSupplier" required="" placeholder="Nhập SĐT NCC"> *@
                                 <select class="form-control m-bot15" name="idShip">
                                     @foreach (var item in ViewBag.shipping)
                                     {
                                         @if(Customer.idShip == item.idShip) {
-                                            <option value="@item.idShip">@item.country</option>
+                                            <option value="@item.idShip" selected>@item.country</option>
                                         }
                                         else {
                                             <option value="@item.idShip">@item.country</option>
@@ -57,8 +71,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Address</label>
-                                <input type="text" class="form-control"value="@Customer.addressCustomer" pattern="^[A-Za-z0-9-\s]*" title="Address should without accents"name="addressCustomer" required="" placeholder="Nhập địa chỉ">
+                                <label class="font-weight-bold">Địa chỉ</label>
+                                <input type="text" class="form-control"value="@Customer.addressCustomer" name="addressCustomer" required="" placeholder="Nhập địa chỉ">
                                 
                             </div>
                         </div>
@@ -74,7 +88,7 @@
                                 }
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">Password</label>
+                                <label class="font-weight-bold">Mật khẩu</label>
                                 @foreach (var item in ViewBag.user)
                                 {
                                     if(item.idUser == Customer.idUser) {
@@ -85,8 +99,8 @@
                         </div>
                         <br>
                         <div class="modal-footer">
-                            <a href="../../Admin/CustomerManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
-                            <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                            <a href="../../Admin/CustomerManagement" name="submit-cancel" class="btn btn-danger">Hủy</a>
+                            <input type="submit" name="submit-save" class="btn btn-success" value="Lưu" />
                         </div>
                     }
                 </div>
@@ -94,3 +108,5 @@
         </div>
     </div>
 </div>
+}
+

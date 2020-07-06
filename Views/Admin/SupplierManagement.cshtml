@@ -3,16 +3,30 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
 }
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h4>SUPPLIER MANAGEMENT</h4>
+                <h4>QUẢN LÝ NHÀ CUNG CẤP</h4>
             </div>
             <div class="title_right">
                 <div class="col-md-5 col-sm-5 form-group pull-right top_search">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchSupplier"placeholder="Search for...">
+                        <input type="text" class="form-control" id="searchSupplier"placeholder="Tên NCC...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -25,11 +39,11 @@
             <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Supplier</h2>
+                        <h2>Nhà Cung Cấp</h2>
                         <div class="clearfix"></div>
                     </div>
                     <p>
-                    @Html.ActionLink("Create New", "CreateSupplier")
+                    @Html.ActionLink("Tạo Mới", "CreateSupplier")
                     </p>
                     @if(TempData["StatusUpdate"] != null) {
                     <div class="alert alert-success alert-dismissible">
@@ -53,11 +67,11 @@
                         <table class= "table">
                             <thead>
                                 <tr>
-                                    <th>ID Supplier</th>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Phone</th>
-                                    <th>Manipulation</th>
+                                    <th>Mã NCC</th>
+                                    <th>Tên</th>
+                                    <th>Địa Chỉ</th>
+                                    <th>SĐT</th>
+                                    <th>Hành Động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,9 +111,11 @@
         </div>
     </div>
 </div>
+}
+
 <script>
 	$('.btnSubmit').click(function() {
-		var x = confirm("Are you sure you want to delete?");
+		var x = confirm("Bạn thật sự muốn xóa NCC?");
 		if(x) return true;
 		else return false;
 	});

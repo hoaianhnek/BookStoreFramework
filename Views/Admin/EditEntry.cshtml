@@ -3,11 +3,25 @@
     Layout = "~/Views/SharedAdmin/_Layout.cshtml";
     var entry = ViewBag.entry;
 }
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
 <div class="right_col" role="main">
     <div class="EditCategory">
         <div class="page-title">
             <div class="title_left">
-                <h4>ENTRY MANAGEMENT</h4>
+                <h4>QUẢN LÝ PHIẾU NHẬP</h4>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -15,7 +29,7 @@
             <div class="col-md-6 col-sm-6  " style="height:100vh">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Edit Entry</h2>
+                        <h2>Sửa Phiếu Nhập</h2>
                         <div class="clearfix"></div>
                     </div>
                     @using (Html.BeginForm())
@@ -24,12 +38,12 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-row">
                             <div class="form-group col-md-2">
-                                <label class="font-weight-bold">ID</label>
+                                <label class="font-weight-bold">Số PN</label>
                                 <input type="text" class="form-control" value="@entry.idEntry" disabled>
                                 <input type="hidden" value="@entry.idEntry" name="idEntry"/>
                             </div> 
                             <div class="form-group col-md-5">
-                                <label class="font-weight-bold">Name</label>
+                                <label class="font-weight-bold">Tên NCC</label>
                                 <select class="form-control m-bot15" name="idSupplier">
                                     @foreach (var item in  ViewBag.suppliers)
                                     {
@@ -43,7 +57,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-5">
-                                <label class="font-weight-bold">Date</label>
+                                <label class="font-weight-bold">Ngày lập</label>
                                 <input type="date" class="form-control" name="dateEntry" value='@entry.dateEntry.ToString("yyyy-MM-dd")' required>
                                 <div class="text-danger">@TempData["errorDate"]</div>
                             </div>
@@ -52,9 +66,9 @@
                             <div class="form-group col-md-4">
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label class="font-weight-bold">Name Book</label>
+                                        <label class="font-weight-bold">Tên sách</label>
                                         <select class="form-control m-bot15 optionBook">
-                                            <option value="">--Choose a name Book--</option>
+                                            <option value="">--Chọn sách--</option>
                                             @foreach(var item in ViewBag.books) {
                                             <option value="@item.idBook">@item.nameBook</option>
                                             }
@@ -63,30 +77,31 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label class="font-weight-bold">Quantity</label>
-                                        <input type="number" class="form-control quantity" placeholder="Enter quantity">
+                                        <label class="font-weight-bold">Số lượng</label>
+                                        <input type="number" class="form-control quantity" placeholder="Nhập số lượng">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="font-weight-bold">Price</label>
-                                        <input type="number" class="form-control priceBook" placeholder="Enter price">
+                                        <label class="font-weight-bold">Giá</label>
+                                        <input type="number" class="form-control priceBook" placeholder="Nhập giá">
                                     </div>
                                 </div>
                                 <br>
                                 <div class="modal-footer">
-                                    <a href="../../Admin/EntryManagement" name="submit-cancel" class="btn btn-danger">Cancel</a>
-                                    <input type="submit" name="submit-save" class="btn btn-success" value="Save" />
+                                    <a href="../../Admin/EntryManagement" name="submit-cancel" class="btn btn-danger">Hủy</a>
+                                    <input type="submit" name="submit-save" class="btn btn-success" value="Lưu" />
                                 </div>
                             </div>
                             <div class="form-group col-md-1 pl-5">
-                                <a class="btn bg-success mt-5 text-light btnAddEntry" style="cursor: pointer;">Add</a>
+                                <a class="btn bg-success mt-5 text-light btnAddEntry" style="cursor: pointer;">Thêm sách</a>
                             </div>
                             <div class="form-group col-md-7 pl-5" style="height:240px;overflow-y:scroll">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
+                                            <th>Tên sách</th>
+                                            <th>Số lượng</th>
+                                            <th>Giá</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -119,3 +134,4 @@
         </div>
     </div>
 </div>
+}
