@@ -1420,5 +1420,115 @@ namespace frame.Controllers
             return Redirect("/Admin/AccountAdmin");
         }
         #endregion Account
+
+        #region Inventory Reports
+        public IActionResult Inventory(){
+            BookStoreContext context = new BookStoreContext();
+            var year = context.GetAllEntry().Select(y=>y.dateEntry.Year).Distinct();
+            var month = context.GetAllEntry().Select(m=>m.dateEntry.Month).Distinct();
+
+            ViewBag.year = year;
+            ViewBag.month = month;
+            return View();
+        }
+
+        private float headInventory = 0;
+        public string InventoryReports(int month, int year) {
+            BookStoreContext context = new BookStoreContext();
+            var years = context.GetAllEntry().Select(y=>y.dateEntry.Year).Distinct();
+            var months = context.GetAllEntry().Select(m=>m.dateEntry.Month).Distinct();
+            var books = context.GetAllBook().Where(b=>b.status == "true");
+            var entries = context.GetAllEntry().Where(e=>e.status == "Delivered");
+            var orders = context.GetAllOrder().Where(o=>o.status == "Delivered");
+            var detailentries = context.GetAllDetailEntry();
+            var detailorders = context.GetAllOrderDetail();
+           
+
+            var headEntry = (from e in entries
+                                     join m in detailentries on e.idEntry equals m.idEntry
+                                     where e.dateEntry.Year < year
+                                     group new{
+                                         m
+                                     } by new {
+                                         m.quantityEntry
+                                     } into sl_headEntry
+                                     select new{
+                                         idBook = sl_headEntry.Select(X=>X.m.idBook),
+                                         quantityEntryOld = sl_headEntry.Sum(X=>X.m.quantityEntry)
+                                     }).Union (from e in entries
+                                                    join m in detailentries on e.idEntry equals m.idEntry
+                                                    where e.dateEntry.Month < month && e.dateEntry.Year == year
+                                                    group new{
+                                                        e,m
+                                                    } by new {
+                                                        m.quantityEntry
+                                                    } into sl_headEntry
+                                                    select new{
+                                                        idBook = sl_headEntry.Select(X=>X.m.idBook),
+                                                        quantityEntryOld = sl_headEntry.Sum(X=>X.m.quantityEntry)
+                                                    });
+            var headOrder = (from o in orders
+                                     join d in detailorders on o.idOrder equals d.idOrder
+                                     where o.dateOrder.Year < year
+                                     group new {
+                                         d
+                                     } by new {
+                                         d.quantityBook
+                                     } into sl_headOrder
+                                     select new{
+                                         idBook = sl_headOrder.Select(X=>X.d.idBook),
+                                         quantityOrderOld = sl_headOrder.Sum(X=>X.d.quantityBook)
+                                     }).Union (from o in orders
+                                                    join d in detailorders on o.idOrder equals d.idOrder
+                                                    where o.dateOrder.Month < month && o.dateOrder.Year == year
+                                                    group new {
+                                                        o,d
+                                                    } by new {
+                                                        d.quantityBook
+                                                    } into sl_headOrder
+                                                    select new{
+                                                        idBook = sl_headOrder.Select(X=>X.d.idBook),
+                                                        quantityOrderOld = sl_headOrder.Sum(X=>X.d.quantityBook)
+                                                    });
+            
+            foreach(var slE in headEntry){
+                foreach(var slO in headOrder){
+                    if(slE.idBook == slO.idBook){
+                        headInventory += slE.quantityEntryOld - slO.quantityOrderOld;
+                    }
+                }
+            }
+
+            
+            var inventory = from b in books
+                                 join d in detailorders on b.idBook equals d.idBook
+                                 join m in detailentries on b.idBook equals m.idBook
+                                 join e in entries on m.idEntry equals e.idEntry               
+                                 join o in orders on d.idOrder equals o.idOrder
+                                 where o.dateOrder.Month == month && o.dateOrder.Year == year
+                                 group new{
+                                     b,e,m,d,o
+                                 } by new{
+                                     o.dateOrder.Month, o.dateOrder.Year, b.idBook
+                                 } into quanInventory
+                                 select new {
+                                    month = quanInventory.Key.Month,
+                                    idBook = quanInventory.Key.idBook,
+                                    nameBook = quanInventory.Select(X=>X.b.nameBook).FirstOrDefault(),
+                                    oldInventory = headInventory,
+                                    quantityEntry = quanInventory.Select(X=>X.m.quantityEntry).FirstOrDefault(),
+                                    quantityOrder = quanInventory.Sum(X=>X.d.quantityBook),
+                                    newInventory = headInventory + quanInventory.Select(X=>X.m.quantityEntry).FirstOrDefault() - quanInventory.Sum(X=>X.d.quantityBook)
+                                };
+            // ViewBag.books = books;
+            // ViewBag.entry = entries;
+            // ViewBag.detailentry = detailentries;
+            // ViewBag.detailorder = detailorders;
+            // ViewBag.year = year;
+            // ViewBag.month = month;
+            return JsonConvert.SerializeObject(inventory);
+            // return View();
+        }
+        #endregion Inventory Reports
     }
 }
