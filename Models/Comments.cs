@@ -8,5 +8,6 @@ namespace frame.Models
         public string id_Book { get; set; }
         public DateTime date_Comment { get; set; }
         public string content { get; set; }
+        public string status { get; set; }
     }
 }

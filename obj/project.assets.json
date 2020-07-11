@@ -5095,7 +5095,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hoaia\\.nuget\\packages\\": {}
+    "C:\\Users\\hoaia\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -5106,6 +5107,9 @@
       "packagesPath": "C:\\Users\\hoaia\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\hoaia\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
@@ -5184,7 +5188,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
       }
     }
   },

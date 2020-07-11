@@ -1,0 +1,241 @@
+@{
+    ViewData["Title"] = "Quản lý Bình Luận";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+}
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h4>QUẢN LÝ BÌNH LUẬN</h4>
+            </div>
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchCategory" placeholder="Tên thể loại...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="display: flex">
+            <div class="col-md-6 col-sm-6" style="height:100vh">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Bình luận</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    @if(TempData["StatusUpdate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusUpdate"]
+                    </div>
+                    }
+                    @if(TempData["StatusCreate"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusCreate"]
+                    </div>
+                    }
+                    @if(TempData["StatusDelete"] != null) {
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss = "alert">&times;</button>
+                        @TempData["StatusDelete"]
+                    </div>
+                    }
+                    <div class="x_content">
+                        <table class= "table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Mã bình luận
+                                    </th>
+                                    <th>
+                                        Tên khách hàng
+                                    </th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Ngày</th>
+                                    <th>Nội dung</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody style="cursor:pointer">
+                                @foreach (var item in ViewBag.comments)
+                                {
+                                    if(item.status == "Đã trả lời") {
+                                    <tr onclick="showdialog(@item.id_Comment)">
+                                        <td>
+                                            @item.id_Comment
+                                        </td>
+                                        @foreach (var cus in ViewBag.customers)
+                                        {
+                                            if(cus.idUser == item.id_User) {
+                                                <td>
+                                                    @cus.nameCustomer
+                                                </td>
+                                            }
+                                        }
+                                        @foreach (var books in ViewBag.books)
+                                        {
+                                            if(books.idBook == item.id_Book) {
+                                                <td>@books.nameBook</td>
+                                            }
+                                        }
+                                        <td>@item.date_Comment</td>
+                                        <td>@item.content</td>
+                                        <td class="@item.id_Comment">@item.status</td>
+                                    </tr>
+                                    <dialog class="show-ReplyComment" id="@item.id_Comment">
+                                        <button onclick="closeDialog(@item.id_Comment)"><i class="fa fa-times"></i></button>
+                                        <div>
+                                            <h2>Trả lời bình luận</h2>
+                                            <div class="information-product">
+                                                <div class="information-detail-child">
+                                                    <h4>Thông tin</h4>
+                                                    <div>Tên khách hàng: 
+                                                        @foreach (var cus in ViewBag.customers)
+                                                        {
+                                                            if(cus.idUser == item.id_User) {
+                                                                @cus.nameCustomer
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div>Tên sản phẩm:
+                                                        @foreach (var books in ViewBag.books)
+                                                        {
+                                                            if(books.idBook == item.id_Book) {
+                                                                @books.nameBook
+                                                            }
+                                                        }    
+                                                    </div>
+                                                    <div>Ngày bình luận: @item.date_Comment</div>
+                                                    <div>Nội dung: @item.content</div>
+                                                </div>
+                                                <div class="reply-show">
+                                                    <h2>Nội dung trả lời</h2>
+                                                    @foreach (var reply in ViewBag.replys)
+                                                    {
+                                                        if(reply.id_Comment == item.id_Comment) {
+                                                            foreach(var user in ViewBag.users) {
+                                                                if(user.idUser == reply.id_User) {
+                                                                    if(user.role == "employee" || user.role=="Admin") {
+                                                                        @foreach (var employees in ViewBag.employees)
+                                                                        {
+                                                                            if(employees.idUser == user.idUser) {
+                                                                                <div>Nhân viên trả lời: @employees.nameEmployee</div>
+                                                                            }   
+                                                                        }
+                                                                        <div>Ngày trả lời: @reply.date_Reply</div>
+                                                                        <div>Nội dung: @reply.content</div>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </dialog>
+                                    } else {
+                                    <tr onclick="showdialogStatus(@item.id_Comment)">
+                                        <td>
+                                            @item.id_Comment
+                                        </td>
+                                        @foreach (var cus in ViewBag.customers)
+                                        {
+                                            if(cus.idUser == item.id_User) {
+                                                <td>
+                                                    @cus.nameCustomer
+                                                </td>
+                                            }
+                                        }
+                                        @foreach (var books in ViewBag.books)
+                                        {
+                                            if(books.idBook == item.id_Book) {
+                                                <td>@books.nameBook</td>
+                                            }
+                                        }
+                                        <td>@item.date_Comment</td>
+                                        <td>@item.content</td>
+                                        <td class="@item.id_Comment">@item.status</td>
+                                    </tr>
+                                    <dialog class="show-ReplyComment" id="@item.id_Comment">
+                                        <button onclick="closeDialog(@item.id_Comment)"><i class="fa fa-times"></i></button>
+                                        <div>
+                                            <h2>Trả lời bình luận</h2>
+                                            <div class="information-product">
+                                                <div class="information-detail-child">
+                                                    <h4>Thông tin</h4>
+                                                    <div>Tên khách hàng: 
+                                                        @foreach (var cus in ViewBag.customers)
+                                                        {
+                                                            if(cus.idUser == item.id_User) {
+                                                                @cus.nameCustomer
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div>Tên sản phẩm:
+                                                        @foreach (var books in ViewBag.books)
+                                                        {
+                                                            if(books.idBook == item.id_Book) {
+                                                                @books.nameBook
+                                                            }
+                                                        }    
+                                                    </div>
+                                                    <div>Ngày bình luận: @item.date_Comment</div>
+                                                    <div>Nội dung: @item.content</div>
+                                                </div>
+                                                <div class="reply-show">
+                                                    <input type="text" name="reply-show" placeholder="Nhập nội dung trả lời...">
+                                                    <button type="submit" class="reply-showbtn" data-id="@item.id_Comment">Trả lời</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </dialog>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<script>
+    function showdialog(id) {
+        document.getElementById(id).show();
+    }
+    function showdialogStatus(id) {
+        document.getElementById(id).show();
+        $.ajax({
+            type:"GET",
+            url:"/Admin/updateStatusComment/",
+            data: {id:id},
+            success:function(data) {
+                $('.'+data+'').text('Đã xem');
+            }
+        });
+    }
+    function closeDialog(id) {
+        document.getElementById(id).close();
+    }
+</script>

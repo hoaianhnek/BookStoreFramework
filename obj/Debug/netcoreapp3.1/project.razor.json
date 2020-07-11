@@ -20551,6 +20551,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\CommentsManagament.cshtml",
+      "TargetPath": "Views\\Admin\\CommentsManagament.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\SharedAdmin\\_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views\\SharedAdmin\\_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
@@ -20563,6 +20568,11 @@
     {
       "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\OrderManagement.cshtml",
       "TargetPath": "Views\\Admin\\OrderManagement.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hoaia\\OneDrive\\Máy tính\\Git\\frame\\Views\\Admin\\Inventory.cshtml",
+      "TargetPath": "Views\\Admin\\Inventory.cshtml",
       "FileKind": "mvc"
     },
     {

@@ -205,14 +205,67 @@
                             </div>
                             <div class="col-10 text-left">
                                 <div>@comment.content</div>
-                                <form>
-                                    <textarea rows="2"></textarea>
-                                    <input type="submit" value="Trả lời">
-                                </form>
+                                <div id="@comment.id_Comment">
+                                    <div class="row" style="margin:0px">
+                                        <textarea rows="2" name="reply+@comment.id_Comment" style="margin-right: 204px;margin-bottom: 15px;"required></textarea>
+                                        @if(ViewBag.Email == null) {
+                                            <a href = "~/Home/MyAccount"class="submitReplyComment" onclick="alert('Đăng nhập để bình luận')">Trả lời</a>
+                                            
+                                        } else {
+                                            <a class="submitReplyComment" data-idComment="@comment.id_Comment">Trả lời</a>
+                                        }
+                                    </div>
+                                    @foreach(var r in ViewBag.reply) {
+                                        if(r.id_Comment == comment.id_Comment) {
+                                            foreach (var user in ViewBag.users)
+                                            {
+                                                if(user.idUser == r.id_User && user.role=="Admin") {
+                                                <div class="row Reply-comment">
+                                                    <div class="col-2">
+                                                        <div class="icon-commentCus mb-2"><img src="~/images/admin1.jpg"></div>
+                                                        <h5>Nhân Viên</h5>
+                                                        <div>@r.date_Reply.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                    <div class="col-10 text-left mt-2">
+                                                        <div>@r.content</div>
+                                                    </div>
+                                                </div>
+                                                } else if(user.idUser == r.id_User && user.role=="employee") {
+                                                <div class="row Reply-comment">
+                                                    <div class="col-2">
+                                                        <div class="icon-commentCus mb-2"><img src="~/images/admin1.jpg"></div>
+                                                        <h5>Nhân Viên</h5>
+                                                        <div>@r.date_Reply.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                    <div class="col-10 text-left mt-2">
+                                                        <div>@r.content</div>
+                                                    </div>
+                                                </div>
+                                                } else if(user.idUser == r.id_User && user.role=="customer"){
+                                                <div class="row Reply-comment">
+                                                    <div class="col-2">
+                                                        <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>
+                                                        @foreach (var cus in ViewBag.customer)
+                                                        {
+                                                            if(cus.idUser == user.idUser) {
+                                                                <h5>@cus.nameCustomer</h5>
+                                                            }   
+                                                        }
+                                                        <div>@r.date_Reply.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                    <div class="col-10 text-left mt-2">
+                                                        <div>@r.content</div>
+                                                    </div>
+                                                </div>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </div>
                             </div>
                         </div>
+                        <hr>
                         }
-                        
                     </div>
                 </div>
             </div>
@@ -399,7 +452,7 @@
                                 <div>@comment.content</div>
                                 <div id="@comment.id_Comment">
                                     <div class="row" style="margin:0px">
-                                        <textarea rows="2" name="reply_Comments" style="margin-right: 204px;margin-bottom: 15px;"required></textarea>
+                                        <textarea rows="2" name="reply+@comment.id_Comment" style="margin-right: 204px;margin-bottom: 15px;"required></textarea>
                                         @if(ViewBag.Email == null) {
                                             <a href = "~/Home/MyAccount"class="submitReplyComment" onclick="alert('Đăng nhập để bình luận')">Trả lời</a>
                                             
@@ -407,22 +460,57 @@
                                             <a class="submitReplyComment" data-idComment="@comment.id_Comment">Trả lời</a>
                                         }
                                     </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>
-                                            <h5>Ánh</h5>
-                                            <div>010101</div>
-                                        </div>
-                                        <div class="col-10 text-left">
-                                            <div>huhuh</div>
-                                        </div>
-                                    </div>
+                                    @foreach(var r in ViewBag.reply) {
+                                        if(r.id_Comment == comment.id_Comment) {
+                                            foreach (var user in ViewBag.users)
+                                            {
+                                                if(user.idUser == r.id_User && user.role=="Admin") {
+                                                <div class="row Reply-comment">
+                                                    <div class="col-2">
+                                                        <div class="icon-commentCus mb-2"><img src="~/images/admin1.jpg"></div>
+                                                        <h5>Nhân Viên</h5>
+                                                        <div>@r.date_Reply.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                    <div class="col-10 text-left mt-2">
+                                                        <div>@r.content</div>
+                                                    </div>
+                                                </div>
+                                                } else if(user.idUser == r.id_User && user.role=="employee") {
+                                                <div class="row Reply-comment">
+                                                    <div class="col-2">
+                                                        <div class="icon-commentCus mb-2"><img src="~/images/admin1.jpg"></div>
+                                                        <h5>Nhân Viên</h5>
+                                                        <div>@r.date_Reply.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                    <div class="col-10 text-left mt-2">
+                                                        <div>@r.content</div>
+                                                    </div>
+                                                </div>
+                                                } else if(user.idUser == r.id_User && user.role=="customer"){
+                                                <div class="row Reply-comment">
+                                                    <div class="col-2">
+                                                        <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>
+                                                        @foreach (var cus in ViewBag.customer)
+                                                        {
+                                                            if(cus.idUser == user.idUser) {
+                                                                <h5>@cus.nameCustomer</h5>
+                                                            }   
+                                                        }
+                                                        <div>@r.date_Reply.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                    <div class="col-10 text-left mt-2">
+                                                        <div>@r.content</div>
+                                                    </div>
+                                                </div>
+                                                }
+                                            }
+                                        }
+                                    }
                                 </div>
                                
                             </div>
                         </div>
-                        
+                        <hr>
                         }
                         
                     </div>

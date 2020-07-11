@@ -1,0 +1,126 @@
+@model IEnumerable<frame.Models.Book>
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/SharedAdmin/_Layout.cshtml";
+    var month = ViewBag.month;
+    var year = ViewBag.year;
+    int dem=0;
+    int count = 0;
+}
+@{
+    var sessionName = new Byte[20];
+    bool ok = Context.Session.TryGetValue("login", out sessionName);
+    string result = "";
+    User users = null;
+    if (ok)
+    {
+        result = System.Text.Encoding.UTF8.GetString(sessionName);
+        users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+    }
+}
+@if(users == null) {
+    <h5 class="text-danger mt-5 d-flex justify-content-center">Bạn không có quyền vào trang này. Vui lòng <a class="text-light ml-1"href="../../Admin/AccountAdmin"> đăng nhập</a></h5>
+} else {  
+<div class="right_col" role="main" style="margin-left:14.4rem;;background-color:#F4F6F9;margin-top: -10px;">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <h1 class="m-0 text-dark">BÁO CÁO TỒN KHO</h1>
+            </div>
+            @using(Html.BeginForm()){
+                @Html.AntiForgeryToken()
+                <div class="row mb-3">
+                    <label class="mr-2 nb-4">Năm</label>
+                    <select name="year" id="chooseYear">
+                        <option value="">--Chọn Năm--</option>
+                        @foreach (var item in ViewBag.year)
+                        {
+                            <option value="@item">@item</option> 
+                        }
+                    </select>
+                </div>
+                <div class="row mb-3">
+                    <label class="mr-2 nb-4">Tháng</label>
+                    <select name="month" id="chooseMonth">
+                        <option value="">--Chọn Tháng--</option>
+                        @for(var i=1;i<13;i++) {
+                            
+                            <option value="@i">Tháng @i</option> 
+                        }
+                        
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-primary btn-sm" value="Thống kê "/>
+            }
+            <div id="show-inventory">
+                <table class="table table-striped" style="text-align: center;width:64.5rem;border-bottom:1px;">
+                    <tHead>
+                        <tr>
+                            <th>Mã sách</th>
+                            <th>Tên sách</th>
+                            <th>Số lượng nhập</th>
+                            <th>Số lượng bán</th>
+                            <th>Số lượng tồn</th>
+                        </tr>
+                    </tHead>
+                    <tBody>
+                        @if(ViewBag.books!=null) {
+                        foreach (var item in ViewBag.books)
+                            {
+                            if(ViewBag.slBan != null) {
+                                foreach(var ban in ViewBag.slBan) {
+                                    if(ban.id == item.idBook) {
+                                    dem=1;
+                                    <tr>
+                                        <td>@ban.id</td>
+                                        <td>@item.nameBook</td>
+                                        @if(ViewBag.slNhap != null) {
+                                            foreach(var nhap in ViewBag.slNhap) {
+                                                if(nhap.id == item.idBook) {
+                                                    count=1;
+                                                    <td>@nhap.sl</td>
+                                                }
+                                            }
+                                        }
+                                        @if(count == 0) {
+                                            <td>0</td>
+                                        }
+                                        <td>@ban.sl</td>
+                                        <td>@item.amountBook</td>
+                                    </tr>
+                                    count = 0;
+                                    }
+                                }
+                            }
+                            if(dem == 0)
+                            {
+                                <tr>
+                                    <td>@item.idBook</td>
+                                    <td>@item.nameBook</td> 
+                                    @if(ViewBag.slNhap != null) {
+                                        foreach(var nhap in ViewBag.slNhap) {
+                                            if(nhap.id == item.idBook) {
+                                                count=1;
+                                                <td>@nhap.sl</td>
+                                            }
+                                        }
+                                    }
+                                    @if(count == 0) {
+                                        <td>0</td>
+                                    }
+                                    <td>0</td>
+                                    <td>@item.amountBook</td>
+                                </tr>
+                                count = 0;
+                            }
+                            dem = 0;
+                        } 
+                        }
+                    </tBody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+}

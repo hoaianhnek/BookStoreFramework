@@ -1,0 +1,64 @@
+.show-ReplyComment {
+    width: 80%;
+    border: none;
+    box-shadow: 1px 1px 4px 1px #0000004f;
+    margin-top: 5px;
+}
+.show-ReplyComment> button {
+    color: red;
+    border: none;
+    background: none;
+    margin-left: 97%;
+    transition: all 0.3s;
+    font-size: 16px;
+    outline: none;
+}
+.show-ReplyComment h2 {
+    font-family: roboto;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2em;
+}
+.show-ReplyComment .information-detail-child {
+    margin-bottom: 1.5em;
+    margin-left: 1.5em;
+}
+.show-ReplyComment .information-detail-child> h4 {
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 2em;
+    font-family: roboto;
+    font-weight: 500;
+}
+.show-ReplyComment .information-detail-child> div {
+    font-size: 13px;
+    line-height: 25px;
+}
+.show-ReplyComment .reply-show {
+    margin-bottom: 1.5em;
+    margin-left: 1.5em;
+}
+.show-ReplyComment .reply-show button {
+    margin-left: 10px;
+    background: #6fafe6;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: roboto;
+    font-size: 14px;
+    outline: none;
+}
+.show-ReplyComment .reply-show input {
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #007bff3d;
+    width: 63%;
+    padding: 8px 10px;
+    font-size: 14px;
+}

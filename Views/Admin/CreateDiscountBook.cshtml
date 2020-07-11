@@ -42,24 +42,32 @@
                             <div class="col-5">
                                 <div class="form-row discount-row">
                                     <div class="form-group col-md-12">
-                                        <label class="font-weight-bold">Hình thức khuyến mãi</label>
-                                        <select class="discount ml-1" style="height: 30px;">
-                                            <option>--Chọn hình thức--</option>
-                                            <option value="1">Sách theo thể loại</option>
-                                            <option value="2">Sách tồn kho</option>
-                                        </select>
+                                        <div class="row">
+                                            <label class="font-weight-bold text-danger col-6">Hình thức khuyến mãi</label>
+                                            <div class="col-6">
+                                                <select class="discount" style="height: 30px;">
+                                                    <option>--Chọn hình thức--</option>
+                                                    <option value="1">Sách theo thể loại</option>
+                                                    <option value="2">Sách tồn kho</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label class="font-weight-bold">Tên khuyến mãi</label>
-                                        <select class="namediscount ml-5" name="idDiscount"style="height: 30px;">
-                                            <option>--Chọn khuyến mãi--</option>
-                                            @foreach (var item in ViewBag.discounts)
-                                            {
-                                                <option value="@item.idDiscount">@item.nameDiscount</option>
-                                            }
-                                        </select>
+                                        <div class="row">
+                                            <label class="font-weight-bold text-danger col-6">Tên khuyến mãi</label>
+                                            <div class="col-6">
+                                                <select class="namediscount" name="idDiscount"style="height: 30px;">
+                                                    <option>--Chọn khuyến mãi--</option>
+                                                    @foreach (var item in ViewBag.discounts)
+                                                    {
+                                                        <option value="@item.idDiscount">@item.nameDiscount</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

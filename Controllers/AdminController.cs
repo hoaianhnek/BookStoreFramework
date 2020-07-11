@@ -624,18 +624,20 @@ namespace frame.Controllers
             BookStoreContext context = new BookStoreContext();
             var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var customer = context.GetAllCustomer();
-            var orders = context.GetAllOrder();
+            var orders = context.GetAllOrder().OrderByDescending(c=>c.dateOrder);
             var orderdetails = context.GetAllOrderDetail();
             var shippings = context.GetAllShipping();
             var books = context.GetAllBook();
             var discounts = context.GetAllDiscount().Where(d=>d.status=="true" && DateTime.Compare(d.dateStart,DateTime.Parse(daynow))  < 0
                         && DateTime.Compare(DateTime.Parse(daynow),d.dateEnd) < 0);
+            var statusOrder = orders.GroupBy(o=>o.status).Select(o=>o.Key);
             ViewBag.orders = orders;
             ViewBag.customers = customer;
             ViewBag.orderdetails = orderdetails;
             ViewBag.shippings = shippings;
             ViewBag.books = books;
             ViewBag.discounts = discounts;
+            ViewBag.statusOrder = statusOrder;
             return View();
         }
         
@@ -665,7 +667,7 @@ namespace frame.Controllers
                 foreach(var b in books) {
                     if(b.idBook == d.id) {
                         context.UpdateQuantity(b.idBook,d.quantity);
-                        context.UpdateStatusOrder(d.idOrder,"Delivered");
+                        context.UpdateStatusOrder(d.idOrder,"Đang giao hàng");
                     }
                 }
             }
@@ -862,13 +864,82 @@ namespace frame.Controllers
             foreach( var item in listbook) {
                 foreach(var b in Books) {
                     if(item.id == b.idBook && item.quantity > b.amountBook) {
-                        context.UpdateStatusOrder(item.idOrder,"Cancelled");
+                        context.UpdateStatusOrder(item.idOrder,"Đã hủy đơn");
                         return "0";
                     }
                 }
             }
             return "1";
 
+        }
+        
+        public IActionResult SearchStatus(string status) {
+            BookStoreContext context = new BookStoreContext();
+            var orders = context.GetAllOrder().Where(c=>c.status == status).OrderByDescending(c=>c.dateOrder);
+            var customers = context.GetAllCustomer();
+            var shippings = context.GetAllShipping();
+            var orderdetails = context.GetAllOrderDetail();
+            var books = context.GetAllBook();
+            var html ="";
+            double tongtien = 0;
+            foreach(var item in orders) {
+                html += "<tr><td scope='row'>"+item.idOrder+"</td><td><span class='text-ellipsis'>";
+                foreach(var cus in customers) {
+                    if(cus.idCustomer == item.idCustomer) {
+                        html += cus.nameCustomer;
+                    }
+                }
+                html+="</span></td><td><span class='text-ellipsis'>"+item.dateOrder.ToString("dd/MM/yyyy")+"</span></td>";
+                html+="<td><span class='text-ellipsis'>";
+                foreach(var cus in customers) {
+                    if(cus.idCustomer == item.idCustomer) {
+                        html += cus.addressCustomer+"<span> - </span>";
+                        foreach (var s in shippings)
+                        {
+                            if(s.idShip == cus.idShip) {
+                                html+=s.country;
+                            }
+                        }
+                    }
+                }
+                html+="</span></td><td><table width='auto' border='0'><tr><td>Tên sách</td><td>Số lượng</td><td>Giá</td></tr>";
+                foreach (var od in orderdetails)
+                {
+                    if(od.idOrder == item.idOrder) {
+                        html+=" <tr><td>";
+                        foreach (var b in books)
+                        {
+                            if(b.idBook==od.idBook) {
+                                html+=b.nameBook;
+                            }
+                        }
+                        html+="</td><td>"+od.quantityBook+"</td><td>"+od.priceOrder+"</td></tr>";
+                        tongtien += od.priceOrder * od.quantityBook;
+                    }
+                }
+                html+="</table></td><td>";
+                foreach (var cus in customers)
+                {
+                    if(cus.idCustomer == item.idCustomer) {
+                        foreach (var s in shippings)
+                        {
+                            if(s.idShip == cus.idShip) {
+                                html+="<span>"+s.charge+"$</span> ";
+                                tongtien += s.charge;
+                            }
+                        }
+                    }
+                }
+                html+="</td><td>"+tongtien+"</td><td>"+item.status+"</td>";
+                if(item.status == "Đang giao hàng" || item.status == "Đã hủy đơn") {
+                    html+="<td><a class='btn float-right Invoicedis' disabled>Hóa Đơn</a></td>";
+                } else {
+                    html+="<td><a class='btn float-right Invoice' data-id='"+item.idOrder+"'>Hóa Đơn</a></td>";
+                }
+                html+="</tr> ";
+                tongtien=0;
+            }
+            return new JsonResult(html);
         }
         #endregion order
 
@@ -1038,7 +1109,7 @@ namespace frame.Controllers
         #region entry
         public IActionResult EntryManagement() {
             BookStoreContext context = new BookStoreContext();
-            var entrys = context.GetAllEntry();
+            var entrys = context.GetAllEntry().OrderByDescending(c=>c.dateEntry);
             var suppliers = context.GetAllSupplier();
             var detail = context.GetAllDetailEntry();
             var books = context.GetAllBook();
@@ -1187,7 +1258,7 @@ namespace frame.Controllers
                 foreach(var b in book) {
                     if(b.idBook == d.idBook) {
                         context.UpdateQuantityCong(b.idBook,d.quantity,d.price);
-                        context.UpdateStatusEntry(d.idEntry,"Delivered");
+                        context.UpdateStatusEntry(d.idEntry,"Đã giao hàng");
                     }
                 }
             }
@@ -1343,7 +1414,7 @@ namespace frame.Controllers
         public IActionResult SalesReport() {
             BookStoreContext context = new BookStoreContext();
             var year = context.GetAllOrder().Select(y=>y.dateOrder.Year).Distinct();
-            var orders = context.GetAllOrder().Where(o=>o.status == "Delivered");
+            var orders = context.GetAllOrder().Where(o=>o.status == "Đang giao hàng");
             var detailorders = context.GetAllOrderDetail();
             var detail = from o in orders join d in detailorders on o.idOrder equals d.idOrder
                         group d by //new {
@@ -1361,7 +1432,7 @@ namespace frame.Controllers
         }
         public IActionResult ReportFilter( int year) {
             BookStoreContext context = new BookStoreContext();
-            var orders = context.GetAllOrder().Where(o=>o.dateOrder.Year == year && o.status == "Delivered");
+            var orders = context.GetAllOrder().Where(o=>o.dateOrder.Year == year && o.status == "Đang giao hàng");
             var detailorders = context.GetAllOrderDetail();
             var detail = from o in orders join d in detailorders on o.idOrder equals d.idOrder
                         orderby o.dateOrder.Month
@@ -1373,12 +1444,6 @@ namespace frame.Controllers
 
             return new JsonResult(detail);
         }
-        // [HttpPost]
-        // public IActionResult SalesReport(int year) {
-        //     BookStoreContext context = new BookStoreContext();
-        //     var y = context.GetAllOrder();
-
-        // }
         #endregion report
 
         #region Account
@@ -1420,5 +1485,95 @@ namespace frame.Controllers
             return Redirect("/Admin/AccountAdmin");
         }
         #endregion Account
+    
+        #region Comments
+        public IActionResult CommentsManagament() {
+            BookStoreContext context = new BookStoreContext();
+            var comments = context.GetAllComment().OrderByDescending(c=>c.date_Comment);
+            var customers = context.GetAllCustomer();
+            var books = context.GetAllBook();
+            var replys = context.GetAllReply();
+            var users = context.GetAllUser();
+            var employees = context.GetAllEmployee();
+            ViewBag.comments = comments;
+            ViewBag.customers = customers;
+            ViewBag.books = books;
+            ViewBag.replys = replys;
+            ViewBag.users = users;
+            ViewBag.employees = employees;
+            return View();
+        }
+        public IActionResult updateStatusComment(int id) {
+            BookStoreContext context = new  BookStoreContext();
+            context.UpdateStatusComment(id,"Đã xem");
+            return new JsonResult(id);
+        }
+
+        public IActionResult ReplyCommentAdmin(int id, string content ) {
+            BookStoreContext context = new BookStoreContext();
+            var sessionName = new Byte[20];
+            bool ok = HttpContext.Session.TryGetValue("login",out sessionName);
+            string result = "";
+            User users = null;
+            if (ok)
+            {
+                result = System.Text.Encoding.UTF8.GetString(sessionName);
+                users = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(result);
+            }
+            Reply reply = new Reply();
+            reply.id_Comment = id;
+            reply.content = content;
+            reply.id_User = users.idUser;
+            context.AddReply(reply);
+            context.UpdateStatusComment(id,"Đã trả lời");
+            return new JsonResult(id);
+        }
+        #endregion Comments
+
+        #region InventoryReports
+        public IActionResult Inventory(){
+            BookStoreContext context = new BookStoreContext();
+            var year = context.GetAllEntry().OrderByDescending(y=>y.dateEntry.Year).Select(y=>y.dateEntry.Year).Distinct();
+
+            ViewBag.year = year;
+            ViewBag.slBan = null;
+            ViewBag.slNhap = null;
+            ViewBag.books = null;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Inventory(int month, int year) {
+            BookStoreContext context = new BookStoreContext();
+            var Year = context.GetAllEntry().OrderByDescending(y=>y.dateEntry.Year).Select(y=>y.dateEntry.Year).Distinct();
+            var books = context.GetAllBook().Where(b=>b.status == "true").OrderBy(c=>c.amountBook);
+            var entries = context.GetAllEntry().Where(e=>e.status == "Đã giao hàng");
+            var orders = context.GetAllOrder().Where(o=>o.status == "Đang giao hàng");
+            var detailentries = context.GetAllDetailEntry();
+            var detailorders = context.GetAllOrderDetail();
+
+            var slNhap = from d in detailentries
+                        join e in entries on d.idEntry equals e.idEntry
+                        where e.dateEntry.Year == year && e.dateEntry.Month == month
+                        group d by d.idBook into Nhap
+                        select new FourRel{
+                            id = Nhap.Key,
+                            sl = Nhap.Sum(n=>n.quantityEntry)
+                        };
+            var slBan = from d in detailorders
+                        join o in orders on d.idOrder equals o.idOrder
+                        where o.dateOrder.Year == year && o.dateOrder.Month == month
+                        group d by d.idBook into Ban
+                        select new FourRel{
+                            id = Ban.Key,
+                            sl = Ban.Sum(b=>b.quantityBook)
+                        };
+            ViewBag.books = books;
+            ViewBag.year = Year;
+            ViewBag.slBan = slBan;
+            ViewBag.slNhap = slNhap;
+            return View();
+        }
+        #endregion InventoryReports
     }
 }

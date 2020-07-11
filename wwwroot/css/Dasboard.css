@@ -65,3 +65,46 @@ section.content {
 .content a {
     color: white;
 }
+/* Report */
+.content-header> div.container-fluid> div.row {
+    margin: 0;
+    justify-content: center;
+}
+.content-header> div.container-fluid> div.row> h1 {
+    font-weight: 700;
+    font-family: roboto;
+    color: #ff00008f !important;
+    font-size: 2.3rem;
+}
+.content-header> div.container-fluid> div.row> label {
+    margin: 5px 0px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #5a4141;
+}
+.content-header> div.container-fluid> div.row> select {
+    width: 105px;
+    color: cadetblue;
+    border-radius: 6px;
+    border-color: #d2cece;
+    background: #e3f0fb;
+}
+.content-header> div.container-fluid> form> div.row {
+    justify-content: center;
+}
+.content-header> div.container-fluid> form> div.row> label{
+    color: #dc3545!important;
+    margin-bottom: 0 !important;
+    font-size: 16px;
+    font-weight: 700;
+}
+.content-header> div.container-fluid> form> div.row> select {
+    font-size: 14px;
+    font-family: roboto;
+    background: aliceblue;
+    border-radius: 5px;
+}
+#show-inventory {
+    height: 50em;
+    overflow-y: auto;
+}

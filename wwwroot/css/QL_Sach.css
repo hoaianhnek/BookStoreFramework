@@ -38,3 +38,7 @@
     overflow-y: scroll;
     text-overflow: ellipsis;
 }
+.book-manage select {
+    background: whitesmoke;
+    border-radius: 6px;
+}

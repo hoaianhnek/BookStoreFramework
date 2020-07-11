@@ -114,7 +114,7 @@
 													<td class="invert">$@tt</td>
 													<td class="invert">@item.status</td>
 													<td class="invert text-center">
-														@if(item.status == "Delivered") {
+														@if(item.status == "Đang giao hàng") {
 															<button type="submit" class="btnSubmit text-center"style="border:none;background: none;" disabled>
 																<i class="fas fa-trash-alt"></i>
 															</button>
@@ -129,7 +129,7 @@
 													</td>
 												</tr>
 												<dialog class="show-detailOrder" id="@item.idOrder">
-													<button onclick="closeDialog(@item.idOrder)"><i class="fas fa-times"></i></button>
+													<button onclick="closeDialog(@item.idOrder)"><i class="fa fa-times"></i></button>
 													<div class="">
 														<h2>Chi tiết đơn hàng</h2>
 														<div class="address-detail-show">

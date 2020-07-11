@@ -229,3 +229,5 @@ C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\SharedAdmin\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateShipping.cshtml.g.cs
 C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditShipping.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CommentsManagament.cshtml.g.cs
+C:\Users\hoaia\OneDrive\Máy tính\Git\frame\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Inventory.cshtml.g.cs

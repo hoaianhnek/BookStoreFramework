@@ -2,7 +2,8 @@
   "runtimeOptions": {
     "additionalProbingPaths": [
       "C:\\Users\\hoaia\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\hoaia\\.nuget\\packages"
+      "C:\\Users\\hoaia\\.nuget\\packages",
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ]
   }
 }

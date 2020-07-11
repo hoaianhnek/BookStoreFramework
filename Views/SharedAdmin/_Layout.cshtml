@@ -13,7 +13,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>SkyBook - @ViewData["title"]</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <!--chart-->
@@ -47,7 +47,7 @@
     <link href="~/css/DeleteAuthor.css" rel="stylesheet">
     <link href="~/css/DetailsAuthor.css" rel="stylesheet">
     <link href="~/css/Dasboard.css" rel="stylesheet">
-    
+    <link href="~/css/QL_BinhLuan.css" rel="stylesheet">
 </head>
 @if(users == null) {
 <body>
@@ -106,21 +106,15 @@ else {
                                         <li><a href="~/Admin/CustomerManagement">Quản lý Khách hàng</a></li>
                                         <li><a href="~/Admin/DiscountManagement">Quản lý Khuyến mãi</a></li>
                                         <li><a href="~/Admin/ShippingManagement">Quản lý Vận chuyển</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-bar-chart-o"></i>Báo Cáo<span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="chartjs.html">Báo cáo Tồn kho</a></li>
-                                        <li><a href="~/Admin/SalesReport">Báo cáo Doanh thu</a></li>
+                                        <li><a href="~/Admin/CommentsManagament">Quản lý Bình luận</a></li>
                                     </ul>
                                 </li>
                                 @if(users.role.Equals("Admin")) {
                                 <li>
-                                    <a><i class="fa fa-user"></i>Account<span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-bar-chart-o"></i>Báo Cáo<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="/Admin/AccountAdminManagement">User Management</a></li>
-                                        <li><a href="tables_dynamic.html">Thoát</a></li>
+                                        <li><a href="~/Admin/Inventory">Báo cáo Tồn kho</a></li>
+                                        <li><a href="~/Admin/SalesReport">Báo cáo Doanh thu</a></li>
                                     </ul>
                                 </li>
                                 }

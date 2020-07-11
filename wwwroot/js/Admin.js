@@ -140,6 +140,19 @@ $(document).ready(function() {
             }
         });
     });
+    //status order
+    $("#statusOrder").change(function() {
+        var status = $(this).val();
+        $.ajax( {
+            type:'GET',
+            url:'/Admin/SearchStatus/',
+            data: {status:status},
+            success: function(data) {
+                $('tbody').html('');
+                $('tbody').append(data);
+            }
+        });
+    });
 });
 //Invoice 
 $(document).ready(function() {
@@ -250,13 +263,14 @@ $(document).ready(function() {
                     $('tbody').append(html);
                 } else {
                     $('tbody').html("");
-                    html = "";
-                    html += "<label class='category font-weight-bold ml-1'>Chọn Thể Loại</label>"
-                    html += "<select class='category ml-5 mb-2' style='height: 30px;'><option>--Chọn thể loại--</option>";
+                    html = "<div class='form-group col-md-12'>";
+                    html += "<div class='row'><label class='text-danger category font-weight-bold col-6'>Chọn Thể Loại</label>";
+                    html += "<div class='col-6'>";
+                    html += "<select class='category' style='height: 30px;'><option>--Chọn thể loại--</option>";
                     for(var i=0;i<data.length;i++) {
                         html+="<option value="+data[i].idCategory+">"+data[i].nameCategory+"</option>";
                     }
-                    html += "</select>";
+                    html += "</select></div></div></div>";
                     $(".x_content .col-5 .discount-row").append(html);
                 }
             }
@@ -283,5 +297,23 @@ $(document).on('change','select.category',function() {
             }
             $('tbody').append(html);
         }
+    });
+});
+//comments
+$(document).ready(function() {
+    $('.reply-showbtn').click(function() {
+        var id_Comment = $(this).attr('data-id');
+        var content = $("input[name='reply-show']").val();
+        $.ajax( {
+            type:'GET',
+            url:'/Admin/ReplyCommentAdmin/',
+            data:  {id:id_Comment,content:content},
+            success: function(data) {
+                alert("Trả lời thành công")
+                $('.'+data+'').text('Đã trả lời');
+                closeDialog(data);
+            }
+
+        });
     });
 });

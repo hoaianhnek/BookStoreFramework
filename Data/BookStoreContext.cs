@@ -100,29 +100,34 @@ namespace frame.Data
             if(book.imgBook == null) {
                 if(book.imgBackBook==null) {
                     sql= "update book set name_Book=N'"+book.nameBook+"',"+
-                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
-                    +"id_Category=N'"+book.idCategory+",publishing_Year="+book.publishingYear+","
-                    +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
-                    " Where id_Book=N'"+book.idBook+"'";
+                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"+
+                    "id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","+
+                    "page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
+                    "Where id_Book=N'"+book.idBook+"'";
                 } else {
                     sql= "update book set name_Book=N'"+book.nameBook+"',"+
-                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
-                    +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
-                    +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"',"+
+                    "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"+
+                    "id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","+
+                    "page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"',"+
                     "imgback_Book=N'"+book.imgBackBook+"' Where id_Book=N'"+book.idBook+"'";
                 }
             } else {
                 if(book.imgBackBook==null) {
                     sql= "update book set name_Book=N'"+book.nameBook+"',img_Book=N'"+book.imgBook+"',"+
-                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
-                +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
-                +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
-                " Where id_Book=N'"+book.idBook+"'";
+                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"+
+                "id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","+
+                "page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
+                "Where id_Book=N'"+book.idBook+"'";
+                //     sql= "update book set name_Book=N'"+book.nameBook+"',img_Book=N'"+book.imgBook+"',"+
+                // "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
+                // +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
+                // +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"'"+
+                // " Where id_Book=N'"+book.idBook+"'";
                 }else {
                     sql= "update book set name_Book=N'"+book.nameBook+"',img_Book=N'"+book.imgBook+"',"+
-                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"
-                +"id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","
-                +"page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"',"+
+                "describe_Book=N'"+book.desBook+"',summary_Book=N'"+book.summaryBook+"',"+
+                "id_Category=N'"+book.idCategory+"',publishing_Year="+book.publishingYear+","+
+                "page_Count="+book.pageCount+",publisher_Book=N'"+book.publisherBook+"',id_Author=N'"+book.idAuthor+"',"+
                 "imgback_Book=N'"+book.imgBackBook+"' Where id_Book=N'"+book.idBook+"'";
                 }
                 
@@ -130,7 +135,7 @@ namespace frame.Data
             MySqlConnection conn = GetConnection();
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             try {
-               conn.Open();
+                conn.Open();
                 cmd.ExecuteNonQuery();           
                 cmd.Dispose();
                 conn.Close(); 
@@ -591,7 +596,7 @@ namespace frame.Data
             try {
                 var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand("insert into `order`(id_Customer,date_Order,status) values (@idCustomer,@dateOrder,'Processing')",cnn);
+                MySqlCommand cmd = new MySqlCommand("insert into `order`(id_Customer,date_Order,status) values (@idCustomer,@dateOrder,'Đang xử lý')",cnn);
                 var idCus = new MySqlParameter("idCustomer",idCustomer);
                 var dateOrder = new MySqlParameter("dateOrder",DateTime.Parse(daynow));
                 cmd.Parameters.Add(idCus);
@@ -1062,7 +1067,7 @@ namespace frame.Data
             MySqlConnection cnn = GetConnection();
             try {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand("insert into entry values (N'"+entry.idEntry+"',N'"+entry.dateEntry.ToString("yyyy-MM-dd HH:mm:ss")+"',N'"+entry.idSupplier+"',N'Processing')",cnn);
+                MySqlCommand cmd = new MySqlCommand("insert into entry values (N'"+entry.idEntry+"',N'"+entry.dateEntry.ToString("yyyy-MM-dd HH:mm:ss")+"',N'"+entry.idSupplier+"',N'Đang xử lý')",cnn);
                 cmd.ExecuteNonQuery();
                 cnn.Close();
             } catch(Exception e) {
@@ -1149,7 +1154,8 @@ namespace frame.Data
                             id_User = int.Parse(reader["id_User"].ToString()),
                             id_Book = reader["id_Book"].ToString(),
                             date_Comment = DateTime.Parse(reader["date_Comment"].ToString()),
-                            content = reader["Content"].ToString()
+                            content = reader["Content"].ToString(),
+                            status = reader["status"].ToString()
                         });
                     }
                 }
@@ -1164,7 +1170,19 @@ namespace frame.Data
         public void AddComment(Comments comments)
         {
             var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            string sql = "INSERT INTO Comments(id_User,id_Book,date_Comment,Content) VALUES ("+comments.id_User+",N'" + comments.id_Book + "',N'"+daynow+"',N'"+comments.content+"')";
+            string sql = "INSERT INTO Comments(id_User,id_Book,date_Comment,Content,status) VALUES ("+comments.id_User+",N'" + comments.id_Book + "',N'"+daynow+"',N'"+comments.content+"',N'Chưa xem')";
+            MySqlConnection conn = GetConnection();
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();           
+            cmd.Dispose();
+            conn.Close();
+        }
+
+        public void UpdateStatusComment(int id,string status)
+        {
+           
+            string sql = "update comments set status = N'"+status+"' where id_Comment = "+id+"";
             MySqlConnection conn = GetConnection();
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             conn.Open();
@@ -1179,7 +1197,7 @@ namespace frame.Data
         public void AddReply(Reply reply)
         {
             var daynow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            string sql = "INSERT INTO reply_comment(id_Comment,content,date_Reply) VALUES ("+reply.id_Comment+",N'" + reply.content + "',N'"+daynow+"')";
+            string sql = "INSERT INTO reply_comment(id_Comment,content,date_Reply,id_User) VALUES ("+reply.id_Comment+",N'" + reply.content + "',N'"+daynow+"',"+reply.id_User+")";
             MySqlConnection conn = GetConnection();
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             conn.Open();
@@ -1203,7 +1221,8 @@ namespace frame.Data
                             id_Comment= int.Parse(reader["id_Comment"].ToString()),
                             id_Reply = int.Parse(reader["id_Reply"].ToString()),
                             date_Reply = DateTime.Parse(reader["date_Reply"].ToString()),
-                            content = reader["content"].ToString()
+                            content = reader["content"].ToString(),
+                            id_User = int.Parse(reader["id_User"].ToString())
                         });
                     }
                 }

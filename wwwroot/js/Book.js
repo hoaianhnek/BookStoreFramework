@@ -118,7 +118,8 @@ $(document).ready(function() {
                     var fomattime = data.date_Comment.substr(0,10).split('-').reverse().join('-')+" "+data.date_Comment.substr(11,5);
                     html += '<div class="row"> <div class="col-2"> <div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>';
                     html += '<h5>'+data.customer+'</h5><div>'+fomattime+'</div></div><div class="col-10 text-left">';
-                    html += '<div>'+data.content+'</div> <form> <textarea rows="2"></textarea> <input type="submit" value="Trả lời"> </form> </div></div>';
+                    html += '<div>'+data.content+'</div> <div id="'+data.idComment+'"><div class="row" style="margin:0px"><textarea rows="2" name="reply+'+data.id_Comment+'" style="margin-right: 204px;margin-bottom: 15px;"required></textarea>';
+                    html +='<a class="submitReplyComment" data-idComment="'+comment.id_Comment+'">Trả lời</a>';
                     $("#commentCustomer").append(html);
                     
                     $("textarea[name='comments']").val("");
@@ -127,8 +128,9 @@ $(document).ready(function() {
         }
     });
     $(".submitReplyComment").click(function() { 
-        var reply = $("textarea[name='reply_Comments']").val();
         var idComment = $(this).attr('data-idComment');
+        var y = "reply+"+idComment;
+        var reply = $("textarea[name='"+y+"']").val();
         $.ajax({
             type:"GET",
             url:"/Home/CreateReply/",
@@ -136,12 +138,12 @@ $(document).ready(function() {
             success: function(data) {
                 var html = "";
                 var fomattime = data.date_Reply.substr(0,10).split('-').reverse().join('-')+" "+data.date_Reply.substr(11,5);
-                html += '<div class="row"><div class="col-2"><div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>';
-                html += '<h5>'+data.nameCustomer+'</h5><div>'+fomattime+'</div></div><div class="col-10 text-left">';
+                html += '<div class="row Reply-comment"><div class="col-2"><div class="icon-commentCus mb-2"><i class="far fa-user"></i></div>';
+                html += '<h5>'+data.nameCustomer+'</h5><div>'+fomattime+'</div></div><div class="col-10 text-left mt-2">';
                 html += '<div>'+data.content+'</div></div></div>';
                 var x = "#"+idComment;
                 $(x).append(html);
-                $("textarea[name='reply_Comments']").val("");
+                $("textarea[name='reply']").val("");
             }
         });
     });

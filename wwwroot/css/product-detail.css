@@ -381,6 +381,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.icon-commentCus> img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
 .icon-commentCus + h5 {
     font-size: 16px;
     font-family: Roboto;
@@ -397,7 +402,7 @@
 
 #commentCustomer> .row> div.col-10> div:first-child{
     font-family: roboto;
-    font-size: 16px;
+    font-size: 18px;
     color: #4f4f4f;
     line-height: 20px;
     margin-bottom: 10px;
@@ -434,6 +439,19 @@
     border: none;
     border-radius: 3px;
     color: white;
+}
+.Reply-comment {
+    margin-top: 20px;   
+}
+.Reply-comment .icon-commentCus {
+    width: 55px;
+    height: 55px;
+}
+.Reply-comment .icon-commentCus> i {
+    font-size: 26px;
+}
+.Reply-comment> div.col-10> div {
+    font-size: 14px;
 }
 /* related product */
 .related-header {

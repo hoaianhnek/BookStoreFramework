@@ -191,13 +191,14 @@ namespace frame.Controllers
        
         public IActionResult CreateReply(int idComment, string content) {
             BookStoreContext context = new BookStoreContext();
+            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
+            var idUser = context.GetAllUser().Where(c=>c.email == email).Select(c=>c.idUser).FirstOrDefault();
             var Reply = new Reply();
             Reply.id_Comment = idComment;
+            Reply.id_User = idUser;
             Reply.content = content;
             context.AddReply(Reply);
             var reply = context.GetAllReply().LastOrDefault();
-            var email = SessionHelper.GetObjectFromJson<string>(HttpContext.Session,"email");
-            var idUser = context.GetAllUser().Where(c=>c.email == email).Select(c=>c.idUser).FirstOrDefault();
             var customer = context.GetAllCustomer().Where(c=>c.idUser == idUser).Select(c=>c.nameCustomer);
             var data = new {
                 date_Reply = reply.date_Reply,
@@ -330,8 +331,9 @@ namespace frame.Controllers
                 }
             }
             var reply = context.GetAllReply();
-            var customer = context.GetAllCustomer();
+            var customer = context.GetAllCustomer().Where(c=>c.status=="true");
             var commets = context.GetAllComment().Where(c=>c.id_Book == id);
+            var users = context.GetAllUser();
             ViewBag.reply =reply;
             ViewBag.customer = customer;
             ViewBag.comments = commets;
@@ -340,6 +342,7 @@ namespace frame.Controllers
             ViewBag.DetailBook = detailBook;
             ViewBag.DetailBookNotDis = detailBookNotDis;
             ViewBag.Category = categories;
+            ViewBag.users = users;
             return View();
         }
         

@@ -26,10 +26,18 @@
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
+                        <select style="
+                                font-size: 21px;
+                                font-family: roboto;
+                                background: aliceblue;
+                                border-radius: 5px;padding: 0 10px;
+                            " id="statusOrder">
+                            <option>--Chọn trạng thái giao hàng--</option>
+                            @foreach (var item in ViewBag.statusOrder)
+                            {
+                            <option value="@item">@item</option>
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
@@ -54,7 +62,7 @@
                                     <th>Phí ship</th>
                                     <th>Tổng tiền</th>
                                     <th>Trạng thái</th>
-                                    <th scope="col">Hành động</th>
+                                    <th scope="col" style="width:120px">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,7 +138,7 @@
                                     <td>@tongtien$</td>
                                     <td>@item.status</td>
                                     @* //disabled="true" *@
-                                    @if(item.status == "Delivered" || item.status == "Cancelled") {
+                                    @if(item.status == "Đang giao hàng" || item.status == "Đã hủy đơn") {
                                         <td><a class="btn float-right Invoicedis" disabled>Hóa Đơn</a></td>
                                     } else {
                                         <td><a class="btn float-right Invoice" data-id="@item.idOrder">Hóa Đơn</a></td>
